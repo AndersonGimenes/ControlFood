@@ -5,6 +5,5 @@ namespace ControlFood.UseCase.Interface.UseCase
 {
     public interface ICadastroFuncionarioUseCase : ICadastroBaseUseCase<Funcionario>
     {
-        Funcionario BuscarPorIdentificacao(Funcionario funcionario);
     }
 }

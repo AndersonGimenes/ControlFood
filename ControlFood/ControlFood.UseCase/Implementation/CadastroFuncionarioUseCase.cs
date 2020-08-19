@@ -7,18 +7,9 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroFuncionarioUseCase : CadastroBaseUseCase<Funcionario>, ICadastroFuncionarioUseCase
     {
-        private readonly IGenericRepository<Funcionario> _genericRepository;
-
         public CadastroFuncionarioUseCase(IGenericRepository<Funcionario> genericRepository)
             : base(genericRepository)
         {
-            _genericRepository = genericRepository;
         }
-
-        public Funcionario BuscarPorIdentificacao(Funcionario funcionario)
-        {
-            return _genericRepository.BuscarPorId(funcionario.IdentificadorUnico);
-        }
-
     }
 }

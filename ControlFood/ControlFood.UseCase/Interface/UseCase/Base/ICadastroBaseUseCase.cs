@@ -4,5 +4,6 @@
     {
         T Inserir(T entidade);
         void Atualizar(T entidade);
+        T BuscarPorIdentificacao(T entidade, string propertyName);
     }
 }

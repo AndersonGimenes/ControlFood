@@ -5,6 +5,5 @@ namespace ControlFood.UseCase.Interface.UseCase
 {
     public interface ICadastroClienteUseCase : ICadastroBaseUseCase<Cliente>
     {
-        Cliente BuscarPorIdentificacao(Cliente cliente);
     }
 }

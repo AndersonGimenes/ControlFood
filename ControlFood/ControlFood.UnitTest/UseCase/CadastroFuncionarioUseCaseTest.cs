@@ -61,7 +61,7 @@ namespace ControlFood.UnitTest.UseCase
                 .Setup(x => x.BuscarPorId(It.IsAny<int>()))
                 .Returns(MockFuncionarioBuscar(funcionarioRequest.IdentificadorUnico));
 
-            var retorno = _cadastroFuncionario.BuscarPorIdentificacao(funcionarioRequest);
+            var retorno = _cadastroFuncionario.BuscarPorIdentificacao(funcionarioRequest, nameof(funcionarioRequest.IdentificadorUnico));
 
             Assert.True(retorno != null);
             Assert.Equal(funcionarioRequest.IdentificadorUnico, retorno.IdentificadorUnico);

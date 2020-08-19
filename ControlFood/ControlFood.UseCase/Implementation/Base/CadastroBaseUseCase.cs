@@ -20,5 +20,20 @@ namespace ControlFood.UseCase.Implementation.Base
         {
             return _genericRepository.Inserir(entidade);
         }
+
+        public T BuscarPorIdentificacao(T entidade, string propertyName)
+        {
+            var propriedades = entidade.GetType().GetProperties();
+
+            foreach(var prop in propriedades)
+            {
+                if (prop.Name.Equals(propertyName))
+                {
+                    return _genericRepository.BuscarPorId((int)prop.GetValue(entidade));
+                }                    
+            }
+
+            return default;
+        }
     }
 }

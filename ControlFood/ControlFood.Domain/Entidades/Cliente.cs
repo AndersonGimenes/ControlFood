@@ -1,6 +1,6 @@
 ﻿namespace ControlFood.Domain.Entidades
 {
-    class Cliente : Pessoa
+    public class Cliente : Pessoa
     {
 
     }

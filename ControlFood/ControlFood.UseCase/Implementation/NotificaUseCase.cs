@@ -1,4 +1,6 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.Domain.Enuns;
+using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using System;
 
@@ -6,11 +8,18 @@ namespace ControlFood.UseCase.Implementation
 {
     public class NotificaUseCase : INotificaUseCase
     {
+        private readonly IGenericRepository<Pedido> _genericRepository;
+
+        public NotificaUseCase(IGenericRepository<Pedido> genericRepository)
+        {
+            _genericRepository = genericRepository;
+        }
         public void NotificarPedidoPreparo(Pedido pedido)
         {
-            // implementar regra para emfileirar pedido
-            // criar metodo notificar por monitor ou impresso
-            throw new NotImplementedException();
+            pedido.StatusPedido = StatusPedido.EmPreparo;
+            _genericRepository.Atualizar(pedido);
+
+            // delegar uma formar de imprimir ou enfileirar pedido em tela
         }
 
         public void NotificarPedidoPronto(Pedido pedido)

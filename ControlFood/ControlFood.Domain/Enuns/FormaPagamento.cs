@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ControlFood.Domain.Enuns
+﻿namespace ControlFood.Domain.Enuns
 {
     public enum FormaPagamento
     {

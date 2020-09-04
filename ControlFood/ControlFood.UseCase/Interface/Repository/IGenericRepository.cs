@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ControlFood.UseCase.Interface.Repository
+﻿namespace ControlFood.UseCase.Interface.Repository
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {

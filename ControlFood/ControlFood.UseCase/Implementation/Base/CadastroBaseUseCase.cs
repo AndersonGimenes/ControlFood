@@ -25,12 +25,10 @@ namespace ControlFood.UseCase.Implementation.Base
         {
             var propriedades = entidade.GetType().GetProperties();
 
-            foreach(var prop in propriedades)
+            foreach (var prop in propriedades)
             {
                 if (prop.Name.Equals(propertyName))
-                {
                     return _genericRepository.BuscarPorId((int)prop.GetValue(entidade));
-                }                    
             }
 
             return default;

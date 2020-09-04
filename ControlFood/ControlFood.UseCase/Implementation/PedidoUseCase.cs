@@ -4,7 +4,6 @@ using ControlFood.Domain.Enuns;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
-using System;
 using System.Linq;
 
 namespace ControlFood.UseCase.Implementation
@@ -22,8 +21,7 @@ namespace ControlFood.UseCase.Implementation
 
         public Pedido RealizarPedido(Pedido pedido)
         {
-            this.ConferirValorPedidoVersusItens(pedido);
-            
+            // validar pedido (validação sera na classe Pedido)
             _genericRepository.Inserir(pedido);
 
             _notificaUseCase.NotificarPedidoPreparo(pedido);
@@ -33,6 +31,10 @@ namespace ControlFood.UseCase.Implementation
 
         public Pedido RealizarPagamento(Pedido pedido, FormaPagamento formaPagamento)
         {
+            var pedidoDto = _genericRepository.BuscarPorId(pedido.IdentificadorUnico);
+            if (pedidoDto is null)
+                throw new PedidoIncorretoUseCaseException(string.Format(Mensagem.Validacao.PedidoInexistente, pedido.IdentificadorUnico));
+            
             pedido.PedidoPago = true;
             pedido.FormaPagamento = formaPagamento;
             
@@ -40,15 +42,5 @@ namespace ControlFood.UseCase.Implementation
 
             return pedido;
         }
-
-        private void ConferirValorPedidoVersusItens(Pedido pedido)
-        {
-            var valorTotalItem = pedido.Items.Sum(x => x.Valor);
-
-            if (pedido.Valor != valorTotalItem)
-                throw new PedidoIncorretoUseCaseException(string.Format(Mensagem.Validacao.ValorIncorreto, valorTotalItem, pedido.Valor));
-        }
-
-        
     }
 }

@@ -25,16 +25,6 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void SeValorDoPedidoNaoConferirComASomaDosItensDeveLancarUmaExeccao()
-        {
-            var pedido = this.MockPedido();
-            pedido.Valor = 10;
-
-            var ex = Assert.Throws<PedidoIncorretoUseCaseException>(() => _pedidoUseCase.RealizarPedido(pedido));
-            Assert.Equal("Valor incorreto: valor dos itens 15, valor do pedido 10.", ex.Message);
-        }
-
-        [Fact]
         public void DeveInserirUmPedidoComSucesso()
         {
             var pedido = this.MockPedido();
@@ -49,7 +39,7 @@ namespace ControlFood.UnitTest.UseCase
 
             _pedidoUseCase.RealizarPedido(pedido);
 
-            Assert.Equal(1, pedido.Numero);
+            Assert.Equal(1, pedido.IdentificadorUnico);
             Assert.Equal(StatusPedido.EmPreparo, pedido.StatusPedido);
 
         }
@@ -58,6 +48,11 @@ namespace ControlFood.UnitTest.UseCase
         public void DeveAtualizarOPedidoParaPagoEPassarUmaFormaDePagamento()
         {
             var pedido = MockPedido();
+            pedido.IdentificadorUnico = 10;
+
+            _mockGenericRepository
+                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
+                .Returns(pedido);
 
             _pedidoUseCase.RealizarPagamento(pedido, FormaPagamento.Debito);
 
@@ -65,9 +60,24 @@ namespace ControlFood.UnitTest.UseCase
             Assert.Equal(FormaPagamento.Debito, pedido.FormaPagamento);
         }
 
+        [Fact]
+        public void NaoDeveRealizarPagamentoParaPedidoInexistenteEDeveLancarUmPedidoIncorretoException()
+        {
+            var pedido = MockPedido();
+            pedido.IdentificadorUnico = 10;
+
+            _mockGenericRepository
+                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
+                .Returns((Pedido)null);
+
+            var ex = Assert.Throws<PedidoIncorretoUseCaseException>(() => _pedidoUseCase.RealizarPagamento(pedido, FormaPagamento.Debito));
+            Assert.Equal("O pedido numero 10 não confere no sistema, por favor verifique o numero do pedido", ex.Message);
+        }
+
+
         private Pedido InserirNumeroPedido(Pedido pedido)
         {
-            pedido.Numero = 1;
+            pedido.IdentificadorUnico = 1;
             return pedido;
         }
 
@@ -78,11 +88,11 @@ namespace ControlFood.UnitTest.UseCase
                 Valor = 15.00M,
             };
 
-            pedido.Items = new List<Item>
+            pedido.Items = new List<Produto>
             {
-                new Item { Nome = "X-Bacon", Valor = 5 },
-                new Item { Nome = "X-Egg", Valor = 5 },
-                new Item { Nome = "Coca-cola 2L", Valor = 5 }
+                new Produto { Nome = "X-Bacon", ValorVenda = 5 },
+                new Produto { Nome = "X-Egg", ValorVenda = 5 },
+                new Produto { Nome = "Coca-cola 2L", ValorVenda = 5 }
             };
 
             return pedido;

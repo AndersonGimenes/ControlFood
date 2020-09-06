@@ -30,43 +30,51 @@ namespace ControlFood.UnitTest.UseCase
                 StatusPedido = StatusPedido.SemStatus,
                 Desconto = 0
             };
-            pedido.Items = new List<Produto>();
-            pedido.Items = ItensMock();
+            ItensMock(pedido);
 
             _notificaUseCase.NotificarPedidoPreparo(pedido);
 
             Assert.Equal(StatusPedido.EmPreparo, pedido.StatusPedido);
         }
 
-        private List<Produto> ItensMock()
+        private void ItensMock(Pedido pedido)
         {
-            var itens = new List<Produto>();
-
             var xEgg = new Produto { Nome = "X-Egg", ValorVenda = 10 };
-            xEgg.Categoria = new Categoria { ProdutoCategoria = ProdutoCategoria.Alimento, ProdutoSubCategoria = ProdutoSubCategoria.Lanche };
-            itens.Add(xEgg);
+            xEgg.Categoria.Tipo = "Alimento";
+            xEgg.Categoria.SubCategoria.Tipo = "Lanche";
+            xEgg.Categoria.SubCategoria.IndicadorItemCozinha = true;
+            pedido.Itens.Add(xEgg);
 
             var hotdog = new Produto { Nome = "Hot Morte", ValorVenda = 12 };
-            hotdog.Categoria = new Categoria { ProdutoCategoria = ProdutoCategoria.Alimento, ProdutoSubCategoria = ProdutoSubCategoria.HotDog };
-            itens.Add(hotdog);
+            hotdog.Categoria.Tipo = "Alimento";
+            hotdog.Categoria.SubCategoria.Tipo = "Cachorro quente";
+            hotdog.Categoria.SubCategoria.IndicadorItemCozinha = true;
+            pedido.Itens.Add(hotdog);
 
             var pastel = new Produto { Nome = "Pastel de carne", ValorVenda = 8 };
-            pastel.Categoria = new Categoria { ProdutoCategoria = ProdutoCategoria.Alimento, ProdutoSubCategoria = ProdutoSubCategoria.Pastel };
-            itens.Add(pastel);
+            pastel.Categoria.Tipo = "Alimento";
+            pastel.Categoria.SubCategoria.Tipo = "Pastel";
+            pastel.Categoria.SubCategoria.IndicadorItemCozinha = true;
+            pedido.Itens.Add(pastel);
 
             var cocaCola = new Produto { Nome = "Coca cola 600ml", ValorVenda = 8 };
-            cocaCola.Categoria = new Categoria { ProdutoCategoria = ProdutoCategoria.Bebida, ProdutoSubCategoria = ProdutoSubCategoria.Refrigerante };
-            itens.Add(cocaCola);
+            cocaCola.Categoria.Tipo = "Bebida";
+            cocaCola.Categoria.SubCategoria.Tipo = "Coca cola 350ml";
+            cocaCola.Categoria.SubCategoria.IndicadorItemBar = true;
+            pedido.Itens.Add(cocaCola);
 
             var cerveja = new Produto { Nome = "Skol 350ml", ValorVenda = 5 };
-            cerveja.Categoria = new Categoria { ProdutoCategoria = ProdutoCategoria.Bebida, ProdutoSubCategoria = ProdutoSubCategoria.Cerveja };
-            itens.Add(cerveja);
+            cerveja.Categoria.Tipo = "Bebida";
+            cerveja.Categoria.SubCategoria.Tipo = "Cerveja";
+            cerveja.Categoria.SubCategoria.IndicadorItemBar = true;
+            pedido.Itens.Add(cerveja);
             
             var suco = new Produto { Nome = "Suco de Laranja 300ml", ValorVenda = 7 };
-            suco.Categoria = new Categoria { ProdutoCategoria = ProdutoCategoria.Bebida, ProdutoSubCategoria = ProdutoSubCategoria.Suco };
-            itens.Add(suco);
+            suco.Categoria.Tipo = "Bebida";
+            suco.Categoria.SubCategoria.Tipo = "Suco";
+            suco.Categoria.SubCategoria.IndicadorItemCozinha = true;
+            pedido.Itens.Add(suco);
 
-            return itens;    
         }
 
     }

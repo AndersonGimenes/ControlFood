@@ -46,15 +46,13 @@ namespace ControlFood.UseCase.Implementation
             var pedidoCozinha = new List<Produto>();
             var pedidoBar = new List<Produto>();
             
-            pedido.Items.ForEach(item =>
+            pedido.Itens.ForEach(item =>
             {
-                if (ProdutoCategoria.Alimento.Equals(item.Categoria.ProdutoCategoria) ||
-                    ProdutoCategoria.Bebida.Equals(item.Categoria.ProdutoCategoria) &&
-                    ProdutoSubCategoria.Suco.Equals(item.Categoria.ProdutoSubCategoria))
-                {
-                    pedidoCozinha.Add(item);
-                }
-                else
+            if (item.Categoria.SubCategoria.IndicadorItemCozinha)
+            {
+                pedidoCozinha.Add(item);
+            }
+            else if (item.Categoria.SubCategoria.IndicadorItemBar)
                 {
                     pedidoBar.Add(item);
                 }

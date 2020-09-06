@@ -4,6 +4,10 @@ namespace ControlFood.Domain.Entidades
 {
     public abstract class Pessoa
     {
+        public Pessoa()
+        {
+            this.Endereco = new Endereco();
+        }
         public int IdentificadorUnico { get; set; }
         public string Nome { get; set; }
         public string Cpf { get; set; }

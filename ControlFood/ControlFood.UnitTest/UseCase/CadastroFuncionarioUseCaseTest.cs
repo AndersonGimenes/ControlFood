@@ -43,9 +43,10 @@ namespace ControlFood.UnitTest.UseCase
 
             _mockGeneciRepository
                 .Setup(x => x.Atualizar(It.IsAny<Funcionario>()))
-                .Callback(() => {
-                        funcionarioBase = MockClienteAtualizar(funcionarioRequest);
-                    });
+                .Callback(() =>
+                {
+                    funcionarioBase = MockClienteAtualizar(funcionarioRequest);
+                });
 
             _cadastroFuncionario.Atualizar(funcionarioRequest);
 
@@ -92,7 +93,7 @@ namespace ControlFood.UnitTest.UseCase
 
             if (id == funcionario.IdentificadorUnico)
                 return funcionario;
-            
+
             return default;
         }
 
@@ -109,15 +110,12 @@ namespace ControlFood.UnitTest.UseCase
                 Cargo = "Garçon"
             };
 
-            funcionario.Endereco = new Endereco
-            {
-                Logradouro = "Rua hum",
-                Numero = 2,
-                Bairro = "Maria bonita",
-                Cep = "13010020",
-                Cidade = "São José",
-                Estado = "SP"
-            };
+            funcionario.Endereco.Logradouro = "Rua hum";
+            funcionario.Endereco.Numero = 2;
+            funcionario.Endereco.Bairro = "Maria bonita";
+            funcionario.Endereco.Cep = "13010020";
+            funcionario.Endereco.Cidade = "São José";
+            funcionario.Endereco.Estado = "SP";
 
             return funcionario;
         }

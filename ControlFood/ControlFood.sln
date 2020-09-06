@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.DependencyInjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.Repository", "ControlFood.Repository\ControlFood.Repository.csproj", "{1DDF30F4-944F-4421-A59E-42596FEA20E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlFood.UnitTest", "ControlFood.UnitTest\ControlFood.UnitTest.csproj", "{9D36A2B0-BA7A-45B7-BFF3-A149FB479178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.UnitTest", "ControlFood.UnitTest\ControlFood.UnitTest.csproj", "{9D36A2B0-BA7A-45B7-BFF3-A149FB479178}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

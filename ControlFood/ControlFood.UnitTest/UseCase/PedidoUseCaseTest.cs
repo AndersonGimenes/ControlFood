@@ -88,13 +88,10 @@ namespace ControlFood.UnitTest.UseCase
                 Valor = 15.00M,
             };
 
-            pedido.Items = new List<Produto>
-            {
-                new Produto { Nome = "X-Bacon", ValorVenda = 5 },
-                new Produto { Nome = "X-Egg", ValorVenda = 5 },
-                new Produto { Nome = "Coca-cola 2L", ValorVenda = 5 }
-            };
-
+            pedido.Itens.Add(new Produto { Nome = "X-Bacon", ValorVenda = 5 });
+            pedido.Itens.Add(new Produto { Nome = "X-Egg", ValorVenda = 5 });
+            pedido.Itens.Add(new Produto { Nome = "Coca-cola 2L", ValorVenda = 5 });
+            
             return pedido;
         }
     }

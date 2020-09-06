@@ -4,6 +4,10 @@ namespace ControlFood.Domain.Entidades
 {
     public class Produto
     {
+        public Produto()
+        {
+            this.Categoria = new Categoria();
+        }
         public int IdentificadorUnico { get; set; }
         public string Codigo { get; set; }
         public string Nome { get; set; }

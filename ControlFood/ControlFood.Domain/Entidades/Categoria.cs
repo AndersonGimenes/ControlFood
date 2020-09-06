@@ -1,11 +1,13 @@
-﻿using ControlFood.Domain.Enuns;
-
-namespace ControlFood.Domain.Entidades
+﻿namespace ControlFood.Domain.Entidades
 {
     public class Categoria
     {
-        public ProdutoCategoria ProdutoCategoria { get; set; }
-        public ProdutoSubCategoria ProdutoSubCategoria { get; set; }
+        public Categoria()
+        {
+            this.SubCategoria = new SubCategoria();
+        }
+        public string Tipo { get; set; }
 
+        public SubCategoria SubCategoria { get; set; }
     }
 }

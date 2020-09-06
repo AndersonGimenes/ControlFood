@@ -108,16 +108,13 @@ namespace ControlFood.UnitTest.UseCase
                 TelefoneResidencial = "1932323232"
             };
 
-            cliente.Endereco = new Endereco
-            {
-                Logradouro = "Rua hum",
-                Numero = 2,
-                Bairro = "Maria bonita",
-                Cep = "13010020",
-                Cidade = "São José",
-                Estado = "SP"
-            };
-
+            cliente.Endereco.Logradouro = "Rua hum";
+            cliente.Endereco.Numero = 2;
+            cliente.Endereco.Bairro = "Maria bonita";
+            cliente.Endereco.Cep = "13010020";
+            cliente.Endereco.Cidade = "São José";
+            cliente.Endereco.Estado = "SP";
+            
             return cliente;
         }
 

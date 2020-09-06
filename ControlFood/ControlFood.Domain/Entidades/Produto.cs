@@ -9,7 +9,7 @@ namespace ControlFood.Domain.Entidades
             this.Categoria = new Categoria();
         }
         public int IdentificadorUnico { get; set; }
-        public string Codigo { get; set; }
+        public string CodigoInterno { get; set; }
         public string Nome { get; set; }
         public decimal ValorCompra { get; set; }
         public decimal ValorVenda { get; set; }

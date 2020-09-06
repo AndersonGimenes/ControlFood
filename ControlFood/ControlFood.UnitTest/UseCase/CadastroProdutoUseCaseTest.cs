@@ -101,7 +101,7 @@ namespace ControlFood.UnitTest.UseCase
             return new Produto
             {
                 Nome = "Coca-cola",
-                Codigo = "0001",
+                CodigoInterno = "0001",
                 Validade = new DateTime(2021, 06, 15),
                 ValorCompra = 2,
                 ValorVenda = 4

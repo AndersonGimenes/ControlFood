@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.UnitTest", "Con
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{97974099-3DF4-44D7-A24D-49B7B415249D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlFood.UI", "ControlFood.UI\ControlFood.UI.csproj", "{3FA2E72A-7773-4B79-B572-0AAA16D2171A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.UI", "ControlFood.UI\ControlFood.UI.csproj", "{3FA2E72A-7773-4B79-B572-0AAA16D2171A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

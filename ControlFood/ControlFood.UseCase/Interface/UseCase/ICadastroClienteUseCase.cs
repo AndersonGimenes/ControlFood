@@ -3,7 +3,7 @@ using ControlFood.UseCase.Interface.UseCase.Base;
 
 namespace ControlFood.UseCase.Interface.UseCase
 {
-    public interface ICadastroClienteUseCase : ICadastroBaseUseCase<Cliente>
+    public interface ICadastroClienteUseCase : IGenericCadastroUseCase<Cliente>
     {
     }
 }

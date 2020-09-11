@@ -7,6 +7,7 @@ namespace ControlFood.Domain.Entidades
         public Produto()
         {
             this.Categoria = new Categoria();
+            this.SubCategoria = new SubCategoria();
         }
         public int IdentificadorUnico { get; set; }
         public string CodigoInterno { get; set; }
@@ -15,5 +16,6 @@ namespace ControlFood.Domain.Entidades
         public decimal ValorVenda { get; set; }
         public DateTime Validade { get; set; }
         public Categoria Categoria { get; set; }
+        public SubCategoria SubCategoria { get; set; }
     }
 }

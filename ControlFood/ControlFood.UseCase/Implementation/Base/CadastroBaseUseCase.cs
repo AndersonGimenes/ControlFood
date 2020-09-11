@@ -1,9 +1,9 @@
 ﻿using ControlFood.UseCase.Interface.Repository;
-using ControlFood.UseCase.Interface.UseCase.Base;
+using System.Collections.Generic;
 
 namespace ControlFood.UseCase.Implementation.Base
 {
-    public abstract class CadastroBaseUseCase<T> : ICadastroBaseUseCase<T> where T : class
+    public abstract class CadastroBaseUseCase<T> where T : class
     {
         private readonly IGenericRepository<T> _genericRepository;
 
@@ -11,14 +11,12 @@ namespace ControlFood.UseCase.Implementation.Base
         {
             _genericRepository = genericRepository;
         }
+
+        public T Inserir(T entidade) => _genericRepository.Inserir(entidade);
+
         public void Atualizar(T entidade)
         {
             _genericRepository.Atualizar(entidade);
-        }
-
-        public T Inserir(T entidade)
-        {
-            return _genericRepository.Inserir(entidade);
         }
 
         public T BuscarPorIdentificacao(T entidade, string propertyName)
@@ -33,5 +31,8 @@ namespace ControlFood.UseCase.Implementation.Base
 
             return default;
         }
+
+        public List<T> BuscarTodos() => _genericRepository.BuscarTodos();
+        
     }
 }

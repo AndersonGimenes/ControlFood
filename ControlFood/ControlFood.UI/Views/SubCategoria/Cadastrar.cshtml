@@ -1,0 +1,76 @@
+﻿@model SubCategoria
+
+@if (ViewBag.categorias.Count > 0)
+{
+<form method="post">
+
+    @if (ViewBag.SubCategorias.Count > 0)
+    {
+        <label>Sub-categorias cadastradas</label>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Sub-Categoria</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var subCategoria in ViewBag.SubCategorias)
+                {
+                    <tr>
+                        <td>@subCategoria.Tipo</td>
+                        <td>@subCategoria.Categoria.Tipo</td>
+                        <td><button type="button" class="btn btn-primary">Editar</button></td>
+                        <td><button type="button" class="btn btn-danger">Deletar</button></td>
+                        <input type="hidden" value="@subCategoria.IdentificadorUnico" />
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <div class="form-group">
+        <label>Selecione a categoria</label>
+        <select class="form-control" asp-for="@Model.Categoria.IdentificadorUnico">
+            @foreach (var categoria in ViewBag.Categorias)
+            {
+                <option value="@categoria.IdentificadorUnico">@categoria.Tipo</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Cadastrar nova sub-categoria</label>
+        <input type="text" class="form-control" asp-for="@Model.Tipo">
+    </div>
+
+    <fieldset class="form-group">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="@Model.Indicador" value="0" checked>
+                    <label class="form-check-label">
+                        Item separado pela cozinha
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" asp-for="@Model.Indicador" value="1">
+                    <label class="form-check-label">
+                        Item separado pelo bar
+                    </label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-success">Cadastrar</button>
+</form>
+}
+else
+{
+    <div class="alert alert-warning text-center">
+        Para cadastrar uma sub-categoria deve existir ao menos uma categoria
+    </div>
+}

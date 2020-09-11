@@ -48,11 +48,11 @@ namespace ControlFood.UseCase.Implementation
             
             pedido.Itens.ForEach(item =>
             {
-            if (item.Categoria.SubCategoria.IndicadorItemCozinha)
+            if (item.SubCategoria.IndicadorItemCozinha)
             {
                 pedidoCozinha.Add(item);
             }
-            else if (item.Categoria.SubCategoria.IndicadorItemBar)
+            else if (item.SubCategoria.IndicadorItemBar)
                 {
                     pedidoBar.Add(item);
                 }

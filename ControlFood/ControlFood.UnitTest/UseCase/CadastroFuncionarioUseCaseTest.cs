@@ -20,7 +20,7 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void DeveInserirUmClienteNoSistemaComSucesso()
+        public void DeveInserirUmFuncionarioNoSistemaComSucesso()
         {
             var funcionario = MockNovoFuncionario();
 
@@ -34,7 +34,7 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void DeveAtualizarOsDadosDoClienteNoSistemaComSucesso()
+        public void DeveAtualizarOsDadosDoFuncionarioNoSistemaComSucesso()
         {
             var funcionarioRequest = MockNovoFuncionario();
             funcionarioRequest.TelefoneCelular = "19111111111";
@@ -45,7 +45,7 @@ namespace ControlFood.UnitTest.UseCase
                 .Setup(x => x.Atualizar(It.IsAny<Funcionario>()))
                 .Callback(() =>
                 {
-                    funcionarioBase = MockClienteAtualizar(funcionarioRequest);
+                    funcionarioBase = MockFuncionarioAtualizar(funcionarioRequest);
                 });
 
             _cadastroFuncionario.Atualizar(funcionarioRequest);
@@ -54,7 +54,7 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void DeveBuscarOsDadosDoClienteNoSistemaComSucesso()
+        public void DeveBuscarOsDadosDoFuncionarioNoSistemaComSucesso()
         {
             Funcionario funcionarioRequest = MockFuncionarioPersistido();
 
@@ -75,7 +75,7 @@ namespace ControlFood.UnitTest.UseCase
             return funcionario;
         }
 
-        private Funcionario MockClienteAtualizar(Funcionario funcionarioRequest)
+        private Funcionario MockFuncionarioAtualizar(Funcionario funcionarioRequest)
         {
             var funcionarioBase = MockFuncionarioPersistido();
 

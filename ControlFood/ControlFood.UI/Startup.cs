@@ -26,6 +26,14 @@ namespace ControlFood.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Injeção de dependencia
+            // Use Case
+            services.AddTransient<ICadastroCategoriaUseCase, CadastroCategoriaUseCase>();
+            services.AddTransient<ICadastroSubCategoriaUseCase, CadastroSubCategoriaUseCase>();
+            // Repository
+            services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+            services.AddTransient<ISubCategoriaRepository, SubCategoriaRepository>();
+
             services.AddControllersWithViews();
 
             services.AddMemoryCache();
@@ -33,12 +41,6 @@ namespace ControlFood.UI
             // Configuração banco de dados
             services.AddDbContext<ControlFoodContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("ControlFood")));
-
-            // Injeção de dependencia
-            // Use Case
-            services.AddTransient<ICadastroCategoriaUseCase, CadastroCategoriaUseCase>();
-            // Repository
-            services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 
             // Auto Mapper configuração
             var cfg = new MapperConfiguration(x =>

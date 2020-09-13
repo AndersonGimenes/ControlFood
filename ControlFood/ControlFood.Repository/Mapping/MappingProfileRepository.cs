@@ -7,8 +7,11 @@ namespace ControlFood.Repository.Mapping
     {
         public MappingProfileRepository()
         {
-            CreateMap<Dominio.Categoria, Entidades.Categoria>();
-            CreateMap<Entidades.Categoria, Dominio.Categoria>();
+            CreateMap<Dominio.Categoria, Entidades.Categoria>()
+                .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.IdentificadorUnico));
+
+            CreateMap<Entidades.Categoria, Dominio.Categoria>()
+                .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id));
         }
     }
 }

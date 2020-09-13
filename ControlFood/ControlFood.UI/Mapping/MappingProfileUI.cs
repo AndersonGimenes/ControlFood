@@ -8,6 +8,7 @@ namespace ControlFood.UI.Mapping
         public MappingProfileUI()
         {
             CreateMap<Models.Categoria, Dominio.Categoria>();
+            CreateMap<Dominio.Categoria, Models.Categoria>();
         }
     }
 }

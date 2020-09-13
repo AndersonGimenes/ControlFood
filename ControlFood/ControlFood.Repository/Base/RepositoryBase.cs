@@ -15,7 +15,12 @@ namespace ControlFood.Repository.Base
 
         public TEntity Atualizar(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            var objetoPersistencia = this.MapearDominioParaRepository(entity);
+
+            _context.Add(objetoPersistencia);
+            _context.SaveChanges();
+
+            return MapearRepositoryParaDominio(objetoPersistencia);
         }
 
         public TEntity BuscarPorId(int id)
@@ -25,7 +30,10 @@ namespace ControlFood.Repository.Base
 
         public void Deletar(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            var objetoPersistencia = this.MapearDominioParaRepository(entity);
+
+            _context.Remove(objetoPersistencia);
+            _context.SaveChanges();
         }
 
         public TEntity Inserir(TEntity entity)

@@ -33,6 +33,11 @@ namespace ControlFood.UseCase.Implementation.Base
         }
 
         public List<T> BuscarTodos() => _genericRepository.BuscarTodos();
-        
+
+        public void Deletar(T entidade)
+        {
+            _genericRepository.Deletar(entidade);
+        }
+
     }
 }

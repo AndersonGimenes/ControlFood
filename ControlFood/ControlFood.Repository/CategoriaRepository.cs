@@ -6,6 +6,7 @@ using ControlFood.UseCase.Interface.Repository;
 using System.Collections.Generic;
 using ControlFood.Domain.Entidades;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControlFood.Repository
 {
@@ -23,7 +24,9 @@ namespace ControlFood.Repository
 
         public override List<Dominio.Categoria> BuscarTodos()
         {
-            var categoriasPersistidas = _context.Categoria.ToList();
+            var categoriasPersistidas = _context.Categoria
+                                            .AsNoTracking()
+                                            .ToList();
 
             return _mapper.Map<List<Dominio.Categoria>>(categoriasPersistidas);
         }

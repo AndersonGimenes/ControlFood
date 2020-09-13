@@ -1,6 +1,4 @@
-﻿using ControlFood.Domain.Validation;
-
-namespace ControlFood.Domain.Entidades
+﻿namespace ControlFood.Domain.Entidades
 {
     public class Categoria
     {
@@ -8,10 +6,5 @@ namespace ControlFood.Domain.Entidades
 
         public string Tipo { get; set; }
 
-        public void IsValid()
-        {
-            var validate = new CategoriaValidation();
-            validate.Validacao(this);
-        }
     }
 }

@@ -8,5 +8,7 @@ namespace ControlFood.UseCase.Interface.UseCase.Base
         void Atualizar(T entidade);
         T BuscarPorIdentificacao(T entidade, string propertyName);
         List<T> BuscarTodos();
+        void Deletar(T entidade);
+
     }
 }

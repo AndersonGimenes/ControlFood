@@ -5,19 +5,21 @@ using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
 {
     public class CadastroCategoriaUseCaseTest
     {
-        private readonly Mock<ICategoriaRepository> _mockGeneciRepository;
+        private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
         private readonly ICadastroCategoriaUseCase _cadastroCategoria;
+        private List<Categoria> categoriasPersistidasDepois;
 
         public CadastroCategoriaUseCaseTest()
         {
-            _mockGeneciRepository = new Mock<ICategoriaRepository>();
-            _cadastroCategoria = new CadastroCategoriaUseCase(_mockGeneciRepository.Object);
+            _mockCategoriaRepository = new Mock<ICategoriaRepository>();
+            _cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object);
         }
 
         [Fact]
@@ -25,7 +27,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             var categoria = new Categoria { Tipo = "Alimento" };
 
-            _mockGeneciRepository
+            _mockCategoriaRepository
                 .Setup(x => x.Inserir(It.IsAny<Categoria>()))
                 .Returns(AdicionarIdentificador(categoria));
 
@@ -40,7 +42,7 @@ namespace ControlFood.UnitTest.UseCase
             var categoriaRequest = new Categoria { Tipo = "Suprimento", IdentificadorUnico = 1 };
             Categoria categoriaBase = default;
 
-            _mockGeneciRepository
+            _mockCategoriaRepository
                 .Setup(x => x.Atualizar(It.IsAny<Categoria>()))
                 .Callback(() => {
                     categoriaBase = MockClienteAtualizar(categoriaRequest);
@@ -56,7 +58,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             Categoria categoriaRequest = new Categoria { IdentificadorUnico = 1 };
 
-            _mockGeneciRepository
+            _mockCategoriaRepository
                 .Setup(x => x.BuscarPorId(It.IsAny<int>()))
                 .Returns(MockCategoriaBuscar(categoriaRequest.IdentificadorUnico));
 
@@ -69,7 +71,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveBuscarTodasAsCategoriasCadastradas()
         {
-            _mockGeneciRepository
+            _mockCategoriaRepository
                 .Setup(x => x.BuscarTodos())
                 .Returns(MockListaCategorias());
 
@@ -77,6 +79,48 @@ namespace ControlFood.UnitTest.UseCase
 
             Assert.True(retorno != null);
             Assert.True(retorno.Count > 0);
+        }
+
+        [Fact]
+        public void DeveDeletarUmaCategoriaExistente()
+        {
+            var categoria = new Categoria { Tipo = "Bebida", IdentificadorUnico = 2 };
+            var categoriasPersistidasAntes = MockListaCategorias();
+            
+            _mockCategoriaRepository
+                .Setup(x => x.Deletar(It.IsAny<Categoria>()))
+                .Callback(() => categoriasPersistidasDepois = DeletarCategoriaExistente(categoria));
+
+            _cadastroCategoria.Deletar(categoria);
+
+            Assert.True(categoriasPersistidasAntes.Count > categoriasPersistidasDepois.Count);
+            
+        }
+
+        [Fact]
+        public void DeveLancarUmaExceptionCasoACategoriaSejaDuplicada()
+        {
+            var categoriaRequest = new Categoria { Tipo = "Alimento", IdentificadorUnico = 0 };
+
+            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.VerificarDuplicidade(categoriaRequest, MockListaCategorias()));
+            Assert.Equal("A categoria Alimento ja existe no sistema", ex.Message);
+
+        }
+
+        #region [ METODOS PRIVADOS ]
+        private List<Categoria> DeletarCategoriaExistente(Categoria categoria)
+        {
+            var categorias = MockListaCategorias();
+
+            var existeCategoria = categorias.Any(c => c.IdentificadorUnico == categoria.IdentificadorUnico);
+            var indice = categorias.FindIndex(c => c.IdentificadorUnico == categoria.IdentificadorUnico);
+
+            if (existeCategoria)
+            {
+                categorias.RemoveAt(indice);
+            }
+
+            return categorias;
         }
 
         private List<Categoria> MockListaCategorias()
@@ -116,5 +160,6 @@ namespace ControlFood.UnitTest.UseCase
 
             return categoriaBase;
         }
+        #endregion
     }
 }

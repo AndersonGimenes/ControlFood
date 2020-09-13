@@ -1,7 +1,5 @@
 using AutoMapper;
-using ControlFood.Domain.Entidades;
 using ControlFood.Repository;
-using ControlFood.Repository.Base;
 using ControlFood.Repository.Context;
 using ControlFood.Repository.Mapping;
 using ControlFood.UI.Mapping;
@@ -30,6 +28,8 @@ namespace ControlFood.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddMemoryCache();
 
             // Configuração banco de dados
             services.AddDbContext<ControlFoodContext>(options =>

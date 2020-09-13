@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Dominio = ControlFood.Domain.Entidades;
 using ControlFood.Repository.Base;
 using ControlFood.Repository.Context;
 using ControlFood.UseCase.Interface.Repository;
-using System.Collections.Generic;
-using ControlFood.Domain.Entidades;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Repository
 {

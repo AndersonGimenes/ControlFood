@@ -69,17 +69,26 @@ namespace ControlFood.UI.Controllers
 
         }
 
+
         [HttpPost]
         public IActionResult Deletar(Categoria categoria)
         {
-            var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
+            try
+            {
+                var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
 
-            _cadastroCategoriaUseCase.Deletar(categoriaDominio);
-            VerificarNovaCategoria(categoria);
+                _cadastroCategoriaUseCase.Deletar(categoriaDominio);
+                VerificarNovaCategoria(categoria);
 
-            return RedirectToAction("Cadastrar");
+                return RedirectToAction("Cadastrar");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        #region[ METODOS PRIVADOS ]
         private List<Models.Categoria> CacheCategorias()
         {
             List<Models.Categoria> categorias;
@@ -101,5 +110,7 @@ namespace ControlFood.UI.Controllers
             if (categoria != null)
                 _cache.Remove("ListaCategoriasCache");
         }
+
+        #endregion
     }
 }

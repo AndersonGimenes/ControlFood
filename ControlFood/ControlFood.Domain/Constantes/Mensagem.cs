@@ -7,6 +7,10 @@
             public static string PedidoInexistente = "O pedido numero {0} não confere no sistema, por favor verifique o numero do pedido";
 
             public static string CategoriaDuplicada = "A categoria {0} ja existe no sistema";
+
+            public static string SubCategoriaDuplicada = "A sub-categoria {0} ja existe no sistema";
+
+            public static string CategoriaNaoVinculadaASubCategoria = "Sub-categoria precisa estar vinculada a uma categoria";
         }    
     }
 }

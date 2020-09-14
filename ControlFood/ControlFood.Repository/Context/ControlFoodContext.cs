@@ -39,12 +39,12 @@ namespace ControlFood.Repository.Context
             subCategoria
                 .Property(x => x.IndicadorItemCozinha)
                 .HasColumnType("boolean")
-                .HasDefaultValueSql("0");
+                .HasDefaultValue(false);
 
             subCategoria
                 .Property(x => x.IndicadorItemBar)
                 .HasColumnType("boolean")
-                .HasDefaultValueSql("0");
+                .HasDefaultValue(false);
 
             subCategoria
                 .HasOne(x => x.Categoria)

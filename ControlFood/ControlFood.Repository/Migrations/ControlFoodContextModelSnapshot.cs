@@ -48,12 +48,12 @@ namespace ControlFood.Repository.Migrations
                     b.Property<bool>("IndicadorItemBar")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValueSql("0");
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("IndicadorItemCozinha")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValueSql("0");
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Tipo")
                         .IsRequired()

@@ -1,32 +1,37 @@
-﻿using ControlFood.Domain.Entidades;
+﻿using AutoMapper;
 using ControlFood.Repository.Base;
 using ControlFood.Repository.Context;
 using ControlFood.UseCase.Interface.Repository;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
+using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Repository
 {
-    public class SubCategoriaRepository :  RepositoryBase<SubCategoria>, ISubCategoriaRepository
+    public class SubCategoriaRepository :  RepositoryBase<Dominio.SubCategoria>, ISubCategoriaRepository
     {
-        public SubCategoriaRepository(ControlFoodContext context)
+        private readonly ControlFoodContext _context;
+        private readonly IMapper _mapper;
+
+        public SubCategoriaRepository(ControlFoodContext context, IMapper mapper)
             : base(context)
         {
-                
+            _context = context;
+            _mapper = mapper;
         }
 
-        public override List<SubCategoria> BuscarTodos()
+        public override List<Dominio.SubCategoria> BuscarTodos()
         {
-            throw new System.NotImplementedException();
+            var subCategoriasPersistidas = _context.SubCategoria
+                                                .AsNoTracking()
+                                                .ToList();
+
+            return _mapper.Map<List<Dominio.SubCategoria>>(subCategoriasPersistidas);
         }
 
-        protected override object MapearDominioParaRepository(SubCategoria entity)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override object MapearDominioParaRepository(Dominio.SubCategoria subCategoriaDominio) => _mapper.Map<Entidades.SubCategoria>(subCategoriaDominio);
 
-        protected override SubCategoria MapearRepositoryParaDominio(object objeto)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override Dominio.SubCategoria MapearRepositoryParaDominio(object subCategoriaPersistida) => _mapper.Map<Dominio.SubCategoria>(subCategoriaPersistida);
     }
 }

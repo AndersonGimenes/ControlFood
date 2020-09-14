@@ -37,6 +37,16 @@ namespace ControlFood.Repository.Context
                 .IsRequired();
 
             subCategoria
+                .Property(x => x.IndicadorItemCozinha)
+                .HasColumnType("boolean")
+                .HasDefaultValueSql("0");
+
+            subCategoria
+                .Property(x => x.IndicadorItemBar)
+                .HasColumnType("boolean")
+                .HasDefaultValueSql("0");
+
+            subCategoria
                 .HasOne(x => x.Categoria)
                 .WithMany(x => x.SubCategorias)
                 .HasForeignKey(x => x.CategoriaId)

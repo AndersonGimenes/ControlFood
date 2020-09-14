@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ControlFood.Repository.Migrations
 {
     [DbContext(typeof(ControlFoodContext))]
-    [Migration("20200914014522_inicial")]
+    [Migration("20200914021335_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,16 @@ namespace ControlFood.Repository.Migrations
 
                     b.Property<int>("CategoriaId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IndicadorItemBar")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValueSql("0");
+
+                    b.Property<bool>("IndicadorItemCozinha")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValueSql("0");
 
                     b.Property<string>("Tipo")
                         .IsRequired()

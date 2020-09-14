@@ -27,6 +27,8 @@ namespace ControlFood.Repository.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Tipo = table.Column<string>(type: "Varchar(200)", nullable: false),
+                    IndicadorItemCozinha = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "0"),
+                    IndicadorItemBar = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "0"),
                     CategoriaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

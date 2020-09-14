@@ -45,6 +45,16 @@ namespace ControlFood.Repository.Migrations
                     b.Property<int>("CategoriaId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IndicadorItemBar")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValueSql("0");
+
+                    b.Property<bool>("IndicadorItemCozinha")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValueSql("0");
+
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasColumnType("Varchar(200)");

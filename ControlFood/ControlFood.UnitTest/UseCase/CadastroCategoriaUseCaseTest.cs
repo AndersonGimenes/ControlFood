@@ -77,7 +77,7 @@ namespace ControlFood.UnitTest.UseCase
 
             var retorno = _cadastroCategoria.BuscarTodos();
 
-            Assert.True(retorno != null);
+            Assert.NotNull(retorno);
             Assert.True(retorno.Count > 0);
         }
 

@@ -17,11 +17,8 @@ namespace ControlFood.UseCase.Implementation
 
         public void VerificarDuplicidade(Categoria categoriaDominio, List<Categoria> categorias)
         {
-            string mensagemErro = string.Empty;
-
             if (categorias.Any(c => c.Tipo == categoriaDominio.Tipo))
                 throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.CategoriaDuplicada, categoriaDominio.Tipo));
-                
         }
     }
 }

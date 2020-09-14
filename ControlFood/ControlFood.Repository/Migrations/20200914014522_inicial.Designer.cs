@@ -9,8 +9,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ControlFood.Repository.Migrations
 {
     [DbContext(typeof(ControlFoodContext))]
-    [Migration("20200910041835_MigracaoInicial")]
-    partial class MigracaoInicial
+    [Migration("20200914014522_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,38 @@ namespace ControlFood.Repository.Migrations
                         .HasName("Categoria_Id");
 
                     b.ToTable("Categoria");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Entidades.SubCategoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("Varchar(200)");
+
+                    b.HasKey("Id")
+                        .HasName("SubCategoria_Id");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.ToTable("SubCategoria");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Entidades.SubCategoria", b =>
+                {
+                    b.HasOne("ControlFood.Repository.Entidades.Categoria", "Categoria")
+                        .WithMany("SubCategorias")
+                        .HasForeignKey("CategoriaId")
+                        .HasConstraintName("SubCategoria_Categoria")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

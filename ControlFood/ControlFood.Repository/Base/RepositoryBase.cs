@@ -1,4 +1,5 @@
 ﻿using ControlFood.Repository.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace ControlFood.Repository.Base
@@ -31,7 +32,7 @@ namespace ControlFood.Repository.Base
         public void Deletar(TEntity entity)
         {
             var objetoPersistencia = this.MapearDominioParaRepository(entity);
-
+            
             _context.Remove(objetoPersistencia);
             _context.SaveChanges();
         }

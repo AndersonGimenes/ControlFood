@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using ControlFood.UI.Helpers;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
 using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.UI.Controllers
@@ -15,19 +15,21 @@ namespace ControlFood.UI.Controllers
         private readonly IMapper _mapper;
         private readonly ICadastroCategoriaUseCase _cadastroCategoriaUseCase;
         private readonly IMemoryCache _cache;
+        private readonly ICategoriaHelper _categoriaHelper;
 
-        public CategoriaController(ICadastroCategoriaUseCase cadastroCategoriaUseCase, IMapper mapper, IMemoryCache cache)
+        public CategoriaController(ICadastroCategoriaUseCase cadastroCategoriaUseCase, IMapper mapper, IMemoryCache cache, ICategoriaHelper categoriaHelper)
         {
             _mapper = mapper;
             _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
             _cache = cache;
+            _categoriaHelper = categoriaHelper;
         }
 
         [HttpGet]
         public IActionResult Cadastrar()
         {
 
-            ViewBag.Categorias = CacheCategorias();
+            ViewBag.Categorias = _categoriaHelper.CacheCategorias();
 
             return View();
         }
@@ -46,19 +48,19 @@ namespace ControlFood.UI.Controllers
                     _cadastroCategoriaUseCase.Inserir(categoriaDominio);
                     VerificarNovaCategoria(categoria);
 
-                    ViewBag.Categorias = CacheCategorias();
+                    ViewBag.Categorias = _categoriaHelper.CacheCategorias();
                     return View();
                 }
                 else
                 {
-                    ViewBag.Categorias = CacheCategorias();
+                    ViewBag.Categorias = _categoriaHelper.CacheCategorias();
                     return View();
                 }
             }
             catch (CategoriaIncorretaUseCaseException ex)
             {
                 ViewData["mensagemErro"] = ex.Message;
-                ViewBag.Categorias = CacheCategorias();
+                ViewBag.Categorias = _categoriaHelper.CacheCategorias();
                 return View();
 
             }
@@ -66,9 +68,7 @@ namespace ControlFood.UI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
-
 
         [HttpPost]
         public IActionResult Deletar(Categoria categoria)
@@ -89,22 +89,6 @@ namespace ControlFood.UI.Controllers
         }
 
         #region[ METODOS PRIVADOS ]
-        private List<Models.Categoria> CacheCategorias()
-        {
-            List<Models.Categoria> categorias;
-
-            if (!_cache.TryGetValue("ListaCategoriasCache", out categorias))
-            {
-                categorias = _mapper.Map<List<Models.Categoria>>(_cadastroCategoriaUseCase.BuscarTodos());
-
-                _cache.Set("ListaCategoriasCache", categorias);
-
-                return categorias;
-            }
-
-            return _cache.Get("ListaCategoriasCache") as List<Models.Categoria>;
-        }
-
         private void VerificarNovaCategoria(Categoria categoria)
         {
             if (categoria != null)

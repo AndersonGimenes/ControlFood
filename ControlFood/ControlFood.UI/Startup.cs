@@ -2,6 +2,7 @@ using AutoMapper;
 using ControlFood.Repository;
 using ControlFood.Repository.Context;
 using ControlFood.Repository.Mapping;
+using ControlFood.UI.Helpers;
 using ControlFood.UI.Mapping;
 using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
@@ -33,6 +34,8 @@ namespace ControlFood.UI
             // Repository
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<ISubCategoriaRepository, SubCategoriaRepository>();
+            // UI
+            services.AddScoped<ICategoriaHelper, CategoriaHelper>();
 
             services.AddControllersWithViews();
 

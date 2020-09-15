@@ -1,24 +1,37 @@
 ﻿using AutoMapper;
+using ControlFood.UI.Helpers;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
+using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.UI.Controllers
 {
     public class SubCategoriaController : Controller
     {
-        public SubCategoriaController(ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase, IMapper mapper, IMemoryCache cache)
-        {
+        private readonly ICadastroSubCategoriaUseCase _cadastroSubCategoriaUseCase;
+        private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
+        private readonly ICategoriaHelper _categoriaHelper;
+        private readonly ICadastroCategoriaUseCase _cadastroCategoriaUseCase;
 
+        public SubCategoriaController(ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase, ICadastroCategoriaUseCase cadastroCategoriaUseCase, IMapper mapper, IMemoryCache cache, ICategoriaHelper categoriaHelper)
+        {
+            _cadastroSubCategoriaUseCase = cadastroSubCategoriaUseCase;
+            _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
+            _mapper = mapper;
+            _cache = cache;
+            _categoriaHelper = categoriaHelper;
         }
 
         [HttpGet]
         public IActionResult Cadastrar()
-        
         {
-            //ViewBag.Categorias = ListaCategoriaTesteMock();
-            //ViewBag.SubCategorias = ListasubCategoriaTesteMock(null);
+
+            ViewBag.Categorias = _categoriaHelper.CacheCategorias();
+            ViewBag.SubCategorias = _mapper.Map<List<Dominio.SubCategoria>>(_cadastroSubCategoriaUseCase.BuscarTodos());
 
             return View();
         }
@@ -26,11 +39,14 @@ namespace ControlFood.UI.Controllers
         [HttpPost]
         public IActionResult Cadastrar(SubCategoria subCategoria)
         {
-            //ViewBag.Categorias = ListaCategoriaTesteMock();
-            //ViewBag.SubCategorias = ListasubCategoriaTesteMock(subCategoria);
+            var subCategoriaDominio = _mapper.Map<Dominio.SubCategoria>(subCategoria);
 
-            //subCategoria.Categoria.Tipo = "Sobremesa";
-            return View(subCategoria);
+            _cadastroSubCategoriaUseCase.Inserir(subCategoriaDominio);
+
+            ViewBag.Categorias = _categoriaHelper.CacheCategorias();
+            ViewBag.SubCategorias = _cadastroSubCategoriaUseCase.BuscarTodos();
+
+            return View();
         }
              
     }

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Dominio = ControlFood.Domain.Entidades;
 using ControlFood.Repository.Base;
 using ControlFood.Repository.Context;
 using ControlFood.UseCase.Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Repository
 {
@@ -24,10 +24,11 @@ namespace ControlFood.Repository
         public override List<Dominio.SubCategoria> BuscarTodos()
         {
             var subCategoriasPersistidas = _context.SubCategoria
+                                                .Include(x => x.Categoria)                             
                                                 .AsNoTracking()
                                                 .ToList();
 
-            return _mapper.Map<List<Dominio.SubCategoria>>(subCategoriasPersistidas);
+           return _mapper.Map<List<Dominio.SubCategoria>>(subCategoriasPersistidas);
         }
 
         protected override object MapearDominioParaRepository(Dominio.SubCategoria subCategoriaDominio) => _mapper.Map<Entidades.SubCategoria>(subCategoriaDominio);

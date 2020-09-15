@@ -15,6 +15,14 @@ namespace ControlFood.Repository.Mapping
 
             CreateMap<Entidades.SubCategoria, Dominio.SubCategoria>()
                 .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id));
+
+            CreateMap<Dominio.SubCategoria, Entidades.SubCategoria>()
+                .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.IdentificadorUnico))
+                .ForMember(dest => dest.CategoriaId, opts => opts.MapFrom(x => x.Categoria.IdentificadorUnico))
+                .ForMember(dest => dest.Categoria, opts => opts.MapFrom(x => SetarNulo()));
         }
+
+        // Seta nulo para não gravar Categoria por triger quando inserir uma subcategoria
+        private Entidades.Categoria SetarNulo() => null;
     }
 }

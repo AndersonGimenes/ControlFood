@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ControlFood.UI.Helpers;
+using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +21,9 @@ namespace ControlFood.UI.Controllers
         {
             _cadastroSubCategoriaUseCase = cadastroSubCategoriaUseCase;
             _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
-            _mapper = mapper;
-            _cache = cache;
             _categoriaHelper = categoriaHelper;
+            _mapper = mapper;
+            _cache = cache;           
         }
 
         [HttpGet]

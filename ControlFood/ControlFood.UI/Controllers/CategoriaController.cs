@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ControlFood.UI.Helpers;
+using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Interface.UseCase;

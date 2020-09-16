@@ -1,23 +1,22 @@
-﻿using AutoMapper;
-using ControlFood.UseCase.Interface.UseCase.Base;
+﻿using ControlFood.UseCase.Interface.UseCase.Base;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 
-namespace ControlFood.UI.Helpers.Implementation
+namespace ControlFood.UI.Helpers.Implementation.Base
 {
-    public abstract class BaseHelper<T> where T : class
+    public abstract class CacheBaseHelper<T> where T : class
     {
         private readonly IMemoryCache _cache;
         private readonly IGenericCadastroUseCase<T> _genericCadastroUseCase;
 
-        public BaseHelper(IMemoryCache cache, IGenericCadastroUseCase<T> genericCadastroUseCase)
+        public CacheBaseHelper(IMemoryCache cache, IGenericCadastroUseCase<T> genericCadastroUseCase)
         {
             _cache = cache;
             _genericCadastroUseCase = genericCadastroUseCase;
         }
 
-        protected List<T> CacheCategorias(string cacheName)
+        protected List<T> ListaGenericaCache(string cacheName)
         {
             List<T> listaRetorno;
 

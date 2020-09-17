@@ -5,6 +5,6 @@ namespace ControlFood.UI.Helpers.Interface
 {
     public interface ISubcategoriaHelper
     {
-        List<SubCategoria> CacheSubCategorias();
+        List<SubCategoria> CacheSubCategorias(bool renovaCache = false);
     }
 }

@@ -6,6 +6,5 @@ namespace ControlFood.UseCase.Interface.UseCase
 {
     public interface ICadastroCategoriaUseCase : IGenericCadastroUseCase<Categoria>
     {
-        void VerificarDuplicidade(Categoria categoriaDominio, List<Categoria> categorias);
     }
 }

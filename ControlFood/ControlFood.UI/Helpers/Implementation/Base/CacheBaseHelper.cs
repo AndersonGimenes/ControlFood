@@ -16,22 +16,23 @@ namespace ControlFood.UI.Helpers.Implementation.Base
             _genericCadastroUseCase = genericCadastroUseCase;
         }
 
-        protected List<T> ListaGenericaCache(string cacheName)
+        protected List<T> ListaGenericaCache(string cacheName, bool renovaCache)
         {
-            List<T> listaRetorno;
-
-            if (!_cache.TryGetValue(cacheName, out listaRetorno))
+            if (renovaCache || !_cache.TryGetValue(cacheName, out _))
             {
-                var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                var listaRetorno = _genericCadastroUseCase.BuscarTodos();
 
-                listaRetorno = _genericCadastroUseCase.BuscarTodos();
-
-                _cache.Set(cacheName, listaRetorno, cacheEntryOptions);
-
-                return listaRetorno;
+                this.SetarListaCache(cacheName, listaRetorno);
             }
 
             return _cache.Get(cacheName) as List<T>;
+        }
+
+        private void SetarListaCache(string cacheName, List<T> listaGenerica)
+        {
+            var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+
+            _cache.Set(cacheName, listaGenerica, cacheEntryOptions);
         }
     }
 }

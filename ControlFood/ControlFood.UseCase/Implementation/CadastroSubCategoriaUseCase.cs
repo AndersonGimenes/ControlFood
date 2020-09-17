@@ -11,20 +11,32 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroSubCategoriaUseCase : CadastroBaseUseCase<SubCategoria>,  ICadastroSubCategoriaUseCase
     {
+        private ISubCategoriaRepository _subCategoriaRepository;
+        
         public CadastroSubCategoriaUseCase(ISubCategoriaRepository subCategoriaRepository)
             : base(subCategoriaRepository)
         {
-                
+            _subCategoriaRepository = subCategoriaRepository;
         }
 
-        public void VerificarCategoriaVinculada(SubCategoria subCategoria, List<Categoria> categorias)
+        public override SubCategoria Inserir(SubCategoria subCategoria)
         {
-            var existeCategoriaVinculada = categorias.Any(c => c.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico && c.Tipo == subCategoria.Categoria.Tipo);
+            var subCategorias = base.BuscarTodos();
+
+            this.VerificarCategoriaVinculada(subCategoria, subCategorias);
+            this.VerificarDuplicidade(subCategoria, subCategorias);
+
+            return base.Inserir(subCategoria);
+        }
+
+        private void VerificarCategoriaVinculada(SubCategoria subCategoria, List<SubCategoria> subCategorias)
+        {
+            var existeCategoriaVinculada = subCategorias.Any(c => c.Categoria.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico);
             if (!existeCategoriaVinculada)
                 throw new SubCategoriaIncorretaUseCaseException(Mensagem.Validacao.CategoriaNaoVinculadaASubCategoria);
         }
 
-        public void VerificarDuplicidade(SubCategoria subCategoria, List<SubCategoria> subCategorias)
+        private void VerificarDuplicidade(SubCategoria subCategoria, List<SubCategoria> subCategorias)
         {
             if (subCategorias.Any(s => s.Tipo == subCategoria.Tipo))
                 throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoriaDuplicada, subCategoria.Tipo));

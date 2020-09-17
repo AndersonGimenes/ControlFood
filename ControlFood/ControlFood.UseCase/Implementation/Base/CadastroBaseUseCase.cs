@@ -1,4 +1,5 @@
 ﻿using ControlFood.UseCase.Interface.Repository;
+using System;
 using System.Collections.Generic;
 
 namespace ControlFood.UseCase.Implementation.Base
@@ -12,7 +13,7 @@ namespace ControlFood.UseCase.Implementation.Base
             _genericRepository = genericRepository;
         }
 
-        public T Inserir(T entidade) => _genericRepository.Inserir(entidade);
+        public virtual T Inserir(T entidade) => _genericRepository.Inserir(entidade);
 
         public void Atualizar(T entidade)
         {

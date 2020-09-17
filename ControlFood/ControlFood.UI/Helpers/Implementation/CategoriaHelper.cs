@@ -21,7 +21,7 @@ namespace ControlFood.UI.Helpers.Implementation
             _mapper = mapper;
         }
 
-        public List<Categoria> CacheCategorias() => _mapper.Map<List<Categoria>>(base.ListaGenericaCache(CACHE_NAME));
+        public List<Categoria> CacheCategorias(bool renovaCache = false) => _mapper.Map<List<Categoria>>(base.ListaGenericaCache(CACHE_NAME, renovaCache));
         
     }
 }

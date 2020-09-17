@@ -51,7 +51,7 @@ namespace ControlFood.UI.Controllers
             _cadastroSubCategoriaUseCase.Inserir(subCategoriaDominio);
 
             ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-            ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
+            ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
 
             return View();
         }

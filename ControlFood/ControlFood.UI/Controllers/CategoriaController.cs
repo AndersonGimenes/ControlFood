@@ -44,12 +44,9 @@ namespace ControlFood.UI.Controllers
                 {
                     var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
 
-                    _cadastroCategoriaUseCase.VerificarDuplicidade(categoriaDominio, _cadastroCategoriaUseCase.BuscarTodos());
-
                     _cadastroCategoriaUseCase.Inserir(categoriaDominio);
-                    VerificarNovaCategoria(categoria);
-
-                    ViewBag.Categorias = _categoriaHelper.CacheCategorias();
+                    
+                    ViewBag.Categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
                     return View();
                 }
                 else
@@ -79,8 +76,8 @@ namespace ControlFood.UI.Controllers
                 var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
 
                 _cadastroCategoriaUseCase.Deletar(categoriaDominio);
-                VerificarNovaCategoria(categoria);
-
+                _categoriaHelper.CacheCategorias(renovaCache: true);
+                
                 return RedirectToAction("Cadastrar");
             }
             catch(Exception ex)
@@ -88,14 +85,5 @@ namespace ControlFood.UI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        #region[ METODOS PRIVADOS ]
-        private void VerificarNovaCategoria(Categoria categoria)
-        {
-            if (categoria != null)
-                _cache.Remove("ListaCategoriasCache");
-        }
-
-        #endregion
     }
 }

@@ -20,12 +20,16 @@ namespace ControlFood.UnitTest.UseCase
         {
             _mockCategoriaRepository = new Mock<ICategoriaRepository>();
             _cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object);
+
+            _mockCategoriaRepository
+               .Setup(x => x.BuscarTodos())
+               .Returns(MockListaCategorias());
         }
 
         [Fact]
         public void DeveInserirUmaCategoriaNoSistemaComSucesso()
         {
-            var categoria = new Categoria { Tipo = "Alimento" };
+            var categoria = new Categoria { Tipo = "Fritas" };
 
             _mockCategoriaRepository
                 .Setup(x => x.Inserir(It.IsAny<Categoria>()))
@@ -71,10 +75,6 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveBuscarTodasAsCategoriasCadastradas()
         {
-            _mockCategoriaRepository
-                .Setup(x => x.BuscarTodos())
-                .Returns(MockListaCategorias());
-
             var retorno = _cadastroCategoria.BuscarTodos();
 
             Assert.NotNull(retorno);
@@ -102,7 +102,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             var categoriaRequest = new Categoria { Tipo = "Alimento", IdentificadorUnico = 0 };
 
-            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.VerificarDuplicidade(categoriaRequest, MockListaCategorias()));
+            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Inserir(categoriaRequest));
             Assert.Equal("A categoria Alimento ja existe no sistema", ex.Message);
 
         }

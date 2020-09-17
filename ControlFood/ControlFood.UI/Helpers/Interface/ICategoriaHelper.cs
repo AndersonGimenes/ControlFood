@@ -4,6 +4,6 @@ namespace ControlFood.UI.Helpers.Interface
 {
     public interface ICategoriaHelper
     {
-        List<Models.Categoria> CacheCategorias();
+        List<Models.Categoria> CacheCategorias(bool renovaCache = false);
     }
 }

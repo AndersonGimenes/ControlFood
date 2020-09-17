@@ -20,18 +20,22 @@ namespace ControlFood.UnitTest.UseCase
         {
             _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
             _CadastroSubCategoriaUseCase = new CadastroSubCategoriaUseCase(_mockSubCategoriaRepository.Object);
+
+            _mockSubCategoriaRepository
+                .Setup(x => x.BuscarTodos())
+                .Returns(MockSubCategoriasPersistidas());
         }
 
         [Fact]
         public void DeveInserirUmaSubCategoriaComSucessoQuandoHouverUmaCategoriaVinculada()
         {
             // passar o objeto subcategoria vinculada a uma categoria
-            var subCategoria = MockSubCategoria("Lanche", 1);
+            var subCategoria = MockSubCategoria("Porção", 1);
 
             _mockSubCategoriaRepository
                 .Setup(x => x.Inserir(It.IsAny<SubCategoria>()))
                 .Returns(AtualizarSubCategoria(subCategoria));
-
+            
             _CadastroSubCategoriaUseCase.Inserir(subCategoria);
 
             Assert.Equal(1, subCategoria.IdentificadorUnico);
@@ -43,27 +47,23 @@ namespace ControlFood.UnitTest.UseCase
             var subCategoria = MockSubCategoria("Lanche", 1);
             var subCategoriasPersistidas = MockSubCategoriasPersistidas();
 
-            var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() =>_CadastroSubCategoriaUseCase.VerificarDuplicidade(subCategoria, subCategoriasPersistidas));
+            var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() =>_CadastroSubCategoriaUseCase.Inserir(subCategoria));
             Assert.Equal("A sub-categoria Lanche ja existe no sistema", ex.Message);
         }
 
         [Fact]
         public void DeveLancarUmaExceptionCasoASubCategoriaNaoEstejaVinculadaAUmaCategoria()
         {
-            var subCategoria = MockSubCategoria("Lanche", 2);
+            var subCategoria = MockSubCategoria("Fritas", 2);
             var categoriasPersistidas = MockCategoriasPersistidas();
 
-            var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _CadastroSubCategoriaUseCase.VerificarCategoriaVinculada(subCategoria, categoriasPersistidas));
+            var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _CadastroSubCategoriaUseCase.Inserir(subCategoria));
             Assert.Equal("Sub-categoria precisa estar vinculada a uma categoria", ex.Message);
         }
 
         [Fact]
         public void DeveBuscarTodasAsSubCategoriasPersistidas()
         {
-            _mockSubCategoriaRepository
-                .Setup(x => x.BuscarTodos())
-                .Returns(MockSubCategoriasPersistidas());
-
             var categorias = _CadastroSubCategoriaUseCase.BuscarTodos();
 
             Assert.NotNull(categorias);
@@ -107,6 +107,7 @@ namespace ControlFood.UnitTest.UseCase
             subCategoria.IdentificadorUnico = 1;
             return subCategoria;
         }
+
         private SubCategoria MockSubCategoria(string tipo, int idCategoria)
         {
             var subCategoria = new SubCategoria
@@ -133,6 +134,8 @@ namespace ControlFood.UnitTest.UseCase
                 new Categoria { Tipo = "Bebida", IdentificadorUnico = 2}
             };
         
+
+
 
         #endregion
     }

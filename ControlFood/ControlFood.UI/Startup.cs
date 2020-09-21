@@ -2,13 +2,14 @@ using AutoMapper;
 using ControlFood.Repository;
 using ControlFood.Repository.Context;
 using ControlFood.Repository.Mapping;
-using ControlFood.UI.Helpers;
 using ControlFood.UI.Helpers.Implementation;
 using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Mapping;
+using ControlFood.UI.Validation;
 using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,10 @@ namespace ControlFood.UI
 
             var mapper = cfg.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoriaValidation>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SubCategoriaValidation>());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ControlFoodContext context)

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ControlFood.UI.Helpers;
 using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Exceptions;
@@ -68,7 +67,7 @@ namespace ControlFood.UI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         public IActionResult Deletar(Categoria categoria)
         {
             try
@@ -77,8 +76,8 @@ namespace ControlFood.UI.Controllers
 
                 _cadastroCategoriaUseCase.Deletar(categoriaDominio);
                 _categoriaHelper.CacheCategorias(renovaCache: true);
-                
-                return RedirectToAction("Cadastrar");
+
+                return NoContent();
             }
             catch(Exception ex)
             {

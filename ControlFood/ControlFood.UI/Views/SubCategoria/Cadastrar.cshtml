@@ -23,7 +23,7 @@
                         <td>@subCategoria.Tipo</td>
                         <td>@subCategoria.Categoria.Tipo</td>
                         <td><button type="button" class="btn btn-primary">Editar</button></td>
-                        <td><button type="button" class="btn btn-danger">Deletar</button></td>
+                        <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
                         <input type="hidden" value="@subCategoria.IdentificadorUnico" />
                     </tr>
                 }
@@ -42,7 +42,21 @@
     </div>
 
     <div class="form-group">
-        <label>Cadastrar nova sub-categoria</label>
+        <div>   
+            <label>Cadastrar nova sub-categoria</label>
+            @{
+                var mensagem = ViewData["mensagemErro"] as string;
+                if (!string.IsNullOrEmpty(mensagem))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @mensagem
+                    </div>
+                }
+            }
+        </div>
+        <div>
+            <span asp-validation-for="@Model.Tipo" class="text-danger"></span>
+        </div>
         <input type="text" class="form-control" name="Tipo">
     </div>
 
@@ -64,7 +78,6 @@
             </div>
         </div>
     </fieldset>
-
     <button type="submit" class="btn btn-success">Cadastrar</button>
 </form>
 }
@@ -73,4 +86,8 @@ else
     <div class="alert alert-warning text-center">
         Para cadastrar uma sub-categoria deve existir ao menos uma categoria
     </div>
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/subCategoria/subCategoria.js"></script>
 }

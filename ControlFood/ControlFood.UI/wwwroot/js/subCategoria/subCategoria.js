@@ -1,9 +1,9 @@
 ﻿$(document).ready(function () {
-    var categoria = new Categoria();
-    categoria.deletar();
+    var subCategoria = new SubCategoria();
+    subCategoria.deletar();
 });
 
-class Categoria {
+class SubCategoria {
 
     deletar = function () {
         $(".btn-deletar").click(function(){
@@ -11,7 +11,7 @@ class Categoria {
             var elementoTr = this.parentNode.parentNode;
 
             $.ajax({
-                url: "/Categoria/Deletar",
+                url: "/SubCategoria/Deletar",
                 type: 'DELETE',
                 data: {
                     IdentificadorUnico: _obterId(elementoTr),
@@ -22,7 +22,7 @@ class Categoria {
                     $("#Tipo").val('');
                 },
                 error: function (XMLHttpRequest) {
-                    alert('Erro: ' + XMLHttpRequest.responseText )
+                    alert('Erro: ' + XMLHttpRequest.responseText)
                     console.log(XMLHttpRequest.responseText);
                     
                 }

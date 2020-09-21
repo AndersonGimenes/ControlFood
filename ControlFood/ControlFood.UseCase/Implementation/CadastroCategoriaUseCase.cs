@@ -10,9 +10,12 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroCategoriaUseCase : CadastroBaseUseCase<Categoria>, ICadastroCategoriaUseCase
     {
-        public CadastroCategoriaUseCase(ICategoriaRepository categoriaRepository)
+        private readonly ISubCategoriaRepository _subCategoriaRepository;
+
+        public CadastroCategoriaUseCase(ICategoriaRepository categoriaRepository, ISubCategoriaRepository subCategoriaRepository)
            : base(categoriaRepository)
         {
+            _subCategoriaRepository = subCategoriaRepository;
         }
 
         public override Categoria Inserir(Categoria categoria)
@@ -22,10 +25,24 @@ namespace ControlFood.UseCase.Implementation
             return base.Inserir(categoria);
         }
 
-        private void VerificarDuplicidade(Categoria categoriaDominio, List<Categoria> categorias)
+        public override void Deletar(Categoria categoria)
         {
-            if (categorias.Any(c => c.Tipo == categoriaDominio.Tipo))
-                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.CategoriaDuplicada, categoriaDominio.Tipo));
+            var subCategorias = _subCategoriaRepository.BuscarTodos();
+            this.VerificarSubCategoriaVinculada(categoria, subCategorias);
+
+            base.Deletar(categoria);
+        }
+
+        private void VerificarSubCategoriaVinculada(Categoria categoria, List<SubCategoria> subCategorias)
+        {
+            if (subCategorias.Any(x => x.Categoria.IdentificadorUnico == categoria.IdentificadorUnico))
+                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.CategoriaVinculadaASubCategoria, categoria.Tipo));
+        }
+
+        private void VerificarDuplicidade(Categoria categoria, List<Categoria> categorias)
+        {
+            if (categorias.Any(c => c.Tipo == categoria.Tipo))
+                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.CategoriaDuplicada, categoria.Tipo));
         }
     }
 }

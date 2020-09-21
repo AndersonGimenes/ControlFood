@@ -1,4 +1,5 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.UnitTest.UseCase.Helpers;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
@@ -13,28 +14,36 @@ namespace ControlFood.UnitTest.UseCase
     public class CadastroSubCategoriaUseCaseTest
     {
         private readonly Mock<ISubCategoriaRepository> _mockSubCategoriaRepository;
+        private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
         private readonly ICadastroSubCategoriaUseCase _CadastroSubCategoriaUseCase;
         private List<SubCategoria> subCategoriasPersistidasDepois;
 
         public CadastroSubCategoriaUseCaseTest()
         {
             _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
-            _CadastroSubCategoriaUseCase = new CadastroSubCategoriaUseCase(_mockSubCategoriaRepository.Object);
+            _mockCategoriaRepository = new Mock<ICategoriaRepository>();
+            _CadastroSubCategoriaUseCase = new CadastroSubCategoriaUseCase(_mockSubCategoriaRepository.Object, _mockCategoriaRepository.Object);
 
             _mockSubCategoriaRepository
                 .Setup(x => x.BuscarTodos())
-                .Returns(MockSubCategoriasPersistidas());
+                .Returns(HelperMock.MockListaSubCategoriasPersistidas());
+
+            _mockCategoriaRepository
+                .Setup(x => x.BuscarTodos())
+                .Returns(HelperMock.MockListaCategoriasPersistidas());
         }
 
         [Fact]
         public void DeveInserirUmaSubCategoriaComSucessoQuandoHouverUmaCategoriaVinculada()
         {
-            // passar o objeto subcategoria vinculada a uma categoria
-            var subCategoria = MockSubCategoria("Porção", 1);
+            var subCategoria = HelperMock.MockSubCategoria("Porção", 1);
 
             _mockSubCategoriaRepository
                 .Setup(x => x.Inserir(It.IsAny<SubCategoria>()))
-                .Returns(AtualizarSubCategoria(subCategoria));
+                .Returns(() => {
+                    subCategoria.IdentificadorUnico = 1;
+                    return subCategoria;
+                });
             
             _CadastroSubCategoriaUseCase.Inserir(subCategoria);
 
@@ -44,9 +53,8 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveLancarUmaExceptionCasoASubCategoriaSejaDuplicada()
         {
-            var subCategoria = MockSubCategoria("Lanche", 1);
-            var subCategoriasPersistidas = MockSubCategoriasPersistidas();
-
+            var subCategoria = HelperMock.MockSubCategoria("Lanche", 1);
+            
             var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() =>_CadastroSubCategoriaUseCase.Inserir(subCategoria));
             Assert.Equal("A sub-categoria Lanche ja existe no sistema", ex.Message);
         }
@@ -54,9 +62,8 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveLancarUmaExceptionCasoASubCategoriaNaoEstejaVinculadaAUmaCategoria()
         {
-            var subCategoria = MockSubCategoria("Fritas", 2);
-            var categoriasPersistidas = MockCategoriasPersistidas();
-
+            var subCategoria = HelperMock.MockSubCategoria("Fritas", 5);
+            
             var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _CadastroSubCategoriaUseCase.Inserir(subCategoria));
             Assert.Equal("Sub-categoria precisa estar vinculada a uma categoria", ex.Message);
         }
@@ -73,8 +80,8 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveDeletarUmaSubCategoriaExistente()
         {
-            var subCategoria = MockSubCategoria("Lanche", 1);
-            var subCategoriasPersistidasAntes = MockSubCategoriasPersistidas();
+            var subCategoria = HelperMock.MockSubCategoria("Lanche", 1);
+            var subCategoriasPersistidasAntes = HelperMock.MockListaSubCategoriasPersistidas().Count;
 
             _mockSubCategoriaRepository
                 .Setup(x => x.Deletar(It.IsAny<SubCategoria>()))
@@ -82,14 +89,14 @@ namespace ControlFood.UnitTest.UseCase
 
             _CadastroSubCategoriaUseCase.Deletar(subCategoria);
 
-            Assert.True(subCategoriasPersistidasAntes.Count > subCategoriasPersistidasDepois.Count);
+            Assert.True(subCategoriasPersistidasAntes > subCategoriasPersistidasDepois.Count);
 
         }
 
         #region [ METODOS PRIVADOS ]
         private List<SubCategoria> DeletarSubCategoriaExistente(SubCategoria subCategoria)
         {
-            var subCategorias = MockSubCategoriasPersistidas();
+            var subCategorias = HelperMock.MockListaSubCategoriasPersistidas();
 
             var existeSubCategoria = subCategorias.Any(s => s.IdentificadorUnico == subCategoria.IdentificadorUnico);
             var indice = subCategorias.FindIndex(s => s.IdentificadorUnico == subCategoria.IdentificadorUnico);
@@ -101,42 +108,7 @@ namespace ControlFood.UnitTest.UseCase
 
             return subCategorias;
         }
-
-        private SubCategoria AtualizarSubCategoria(SubCategoria subCategoria)
-        {
-            subCategoria.IdentificadorUnico = 1;
-            return subCategoria;
-        }
-
-        private SubCategoria MockSubCategoria(string tipo, int idCategoria)
-        {
-            var subCategoria = new SubCategoria
-            {
-                Tipo = tipo,
-                IndicadorItemCozinha = true
-            };
-
-            subCategoria.Categoria = new Categoria { Tipo = "Alimento", IdentificadorUnico = idCategoria };
-
-            return subCategoria;
-        }
-        
-        private List<SubCategoria> MockSubCategoriasPersistidas() => 
-            new List<SubCategoria> {
-                MockSubCategoria("Lanche", 1),
-                MockSubCategoria("Pastel", 1)
-            };
-
-        private List<Categoria> MockCategoriasPersistidas() =>        
-            new List<Categoria>
-            {
-                new Categoria { Tipo = "Alimento", IdentificadorUnico = 1},
-                new Categoria { Tipo = "Bebida", IdentificadorUnico = 2}
-            };
-        
-
-
-
+       
         #endregion
     }
 }

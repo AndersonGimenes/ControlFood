@@ -1,4 +1,5 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.UnitTest.UseCase.Helpers;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
@@ -12,18 +13,24 @@ namespace ControlFood.UnitTest.UseCase
 {
     public class CadastroCategoriaUseCaseTest
     {
-        private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
+        private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;        
+        private readonly Mock<ISubCategoriaRepository> _mockSubCategoriaRepository;
         private readonly ICadastroCategoriaUseCase _cadastroCategoria;
         private List<Categoria> categoriasPersistidasDepois;
 
         public CadastroCategoriaUseCaseTest()
         {
             _mockCategoriaRepository = new Mock<ICategoriaRepository>();
-            _cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object);
+            _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
+            _cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object, _mockSubCategoriaRepository.Object);
 
             _mockCategoriaRepository
                .Setup(x => x.BuscarTodos())
-               .Returns(MockListaCategorias());
+               .Returns(HelperMock.MockListaCategoriasPersistidas());
+
+            _mockSubCategoriaRepository
+                .Setup(x => x.BuscarTodos())
+                .Returns(HelperMock.MockListaSubCategoriasPersistidas());
         }
 
         [Fact]
@@ -33,7 +40,11 @@ namespace ControlFood.UnitTest.UseCase
 
             _mockCategoriaRepository
                 .Setup(x => x.Inserir(It.IsAny<Categoria>()))
-                .Returns(AdicionarIdentificador(categoria));
+                .Returns(() =>
+                {
+                    categoria.IdentificadorUnico = 1;
+                    return categoria;
+                });
 
             _cadastroCategoria.Inserir(categoria);
 
@@ -41,35 +52,13 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void DeveAtualizarOsDadosDaCategoriaNoSistemaComSucesso()
+        public void DeveLancarUmaExceptionCasoACategoriaSejaDuplicada()
         {
-            var categoriaRequest = new Categoria { Tipo = "Suprimento", IdentificadorUnico = 1 };
-            Categoria categoriaBase = default;
+            var categoriaRequest = new Categoria { Tipo = "Alimento", IdentificadorUnico = 0 };
 
-            _mockCategoriaRepository
-                .Setup(x => x.Atualizar(It.IsAny<Categoria>()))
-                .Callback(() => {
-                    categoriaBase = MockClienteAtualizar(categoriaRequest);
-                });
+            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Inserir(categoriaRequest));
+            Assert.Equal("A categoria Alimento ja existe no sistema", ex.Message);
 
-            _cadastroCategoria.Atualizar(categoriaRequest);
-
-            Assert.Equal("Suprimento", categoriaBase.Tipo);
-        }
-
-        [Fact]
-        public void DeveBuscarOsDadosDaCategoriaNoSistemaComSucesso()
-        {
-            Categoria categoriaRequest = new Categoria { IdentificadorUnico = 1 };
-
-            _mockCategoriaRepository
-                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
-                .Returns(MockCategoriaBuscar(categoriaRequest.IdentificadorUnico));
-
-            var retorno = _cadastroCategoria.BuscarPorIdentificacao(categoriaRequest, nameof(categoriaRequest.IdentificadorUnico));
-
-            Assert.True(retorno != null);
-            Assert.Equal("Alimento", retorno.Tipo);
         }
 
         [Fact]
@@ -85,7 +74,7 @@ namespace ControlFood.UnitTest.UseCase
         public void DeveDeletarUmaCategoriaExistente()
         {
             var categoria = new Categoria { Tipo = "Bebida", IdentificadorUnico = 2 };
-            var categoriasPersistidasAntes = MockListaCategorias();
+            var categoriasPersistidasAntes = HelperMock.MockListaCategoriasPersistidas().Count;
             
             _mockCategoriaRepository
                 .Setup(x => x.Deletar(It.IsAny<Categoria>()))
@@ -93,73 +82,34 @@ namespace ControlFood.UnitTest.UseCase
 
             _cadastroCategoria.Deletar(categoria);
 
-            Assert.True(categoriasPersistidasAntes.Count > categoriasPersistidasDepois.Count);
+            Assert.True(categoriasPersistidasAntes > categoriasPersistidasDepois.Count);
             
         }
 
         [Fact]
-        public void DeveLancarUmaExceptionCasoACategoriaSejaDuplicada()
+        public void DeveLancarExceptionAoTentarDeletarUmaCategoriaQueTenhaUmaSubCategoriaVinculadaAMesma()
         {
-            var categoriaRequest = new Categoria { Tipo = "Alimento", IdentificadorUnico = 0 };
+            var categoria = new Categoria { Tipo = "Alimento", IdentificadorUnico = 1 };
 
-            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Inserir(categoriaRequest));
-            Assert.Equal("A categoria Alimento ja existe no sistema", ex.Message);
-
+            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Deletar(categoria));
+            Assert.Equal("Existe Sub-categoria vinculada a Categoria Alimento.", ex.Message);
         }
 
         #region [ METODOS PRIVADOS ]
+        
         private List<Categoria> DeletarCategoriaExistente(Categoria categoria)
         {
-            var categorias = MockListaCategorias();
+            var categorias = HelperMock.MockListaCategoriasPersistidas();
 
             var existeCategoria = categorias.Any(c => c.IdentificadorUnico == categoria.IdentificadorUnico);
             var indice = categorias.FindIndex(c => c.IdentificadorUnico == categoria.IdentificadorUnico);
 
             if (existeCategoria)
-            {
                 categorias.RemoveAt(indice);
-            }
-
+            
             return categorias;
         }
 
-        private List<Categoria> MockListaCategorias()
-        {
-            return new List<Categoria>
-            {
-                new Categoria{IdentificadorUnico = 1, Tipo = "Alimento"},
-                new Categoria{IdentificadorUnico = 2, Tipo = "Bebida"},
-                new Categoria{IdentificadorUnico = 3, Tipo = "Sobremesa"}
-            };
-        }
-
-        private Categoria MockCategoriaBuscar(int identificadorUnico)
-        {
-            var categoriaBase = new Categoria { Tipo = "Alimento", IdentificadorUnico = 1 };
-
-            if (identificadorUnico == categoriaBase.IdentificadorUnico)
-                return categoriaBase;
-
-            return default;
-        }
-
-        private Categoria AdicionarIdentificador(Categoria categoria)
-        {
-            categoria.IdentificadorUnico = 1;
-            return categoria;
-        }
-
-        private Categoria MockClienteAtualizar(Categoria categoriaRequest)
-        {
-            var categoriaBase = new Categoria { Tipo = "Alimento", IdentificadorUnico = 1 };
-
-            if (categoriaRequest.IdentificadorUnico == categoriaBase.IdentificadorUnico)
-            {
-                categoriaBase.Tipo = categoriaRequest.Tipo;
-            }
-
-            return categoriaBase;
-        }
         #endregion
     }
 }

@@ -11,27 +11,27 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroSubCategoriaUseCase : CadastroBaseUseCase<SubCategoria>,  ICadastroSubCategoriaUseCase
     {
-        private ISubCategoriaRepository _subCategoriaRepository;
-        
-        public CadastroSubCategoriaUseCase(ISubCategoriaRepository subCategoriaRepository)
+        private ICategoriaRepository _categoriaRepository;
+
+        public CadastroSubCategoriaUseCase(ISubCategoriaRepository subCategoriaRepository, ICategoriaRepository categoriaRepository)
             : base(subCategoriaRepository)
         {
-            _subCategoriaRepository = subCategoriaRepository;
+            _categoriaRepository = categoriaRepository;
         }
 
         public override SubCategoria Inserir(SubCategoria subCategoria)
         {
             var subCategorias = base.BuscarTodos();
 
-            this.VerificarCategoriaVinculada(subCategoria, subCategorias);
+            this.VerificarCategoriaVinculada(subCategoria, _categoriaRepository.BuscarTodos());
             this.VerificarDuplicidade(subCategoria, subCategorias);
 
             return base.Inserir(subCategoria);
         }
 
-        private void VerificarCategoriaVinculada(SubCategoria subCategoria, List<SubCategoria> subCategorias)
+        private void VerificarCategoriaVinculada(SubCategoria subCategoria, List<Categoria> categorias)
         {
-            var existeCategoriaVinculada = subCategorias.Any(c => c.Categoria.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico);
+            var existeCategoriaVinculada = categorias.Any(c => c.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico);
             if (!existeCategoriaVinculada)
                 throw new SubCategoriaIncorretaUseCaseException(Mensagem.Validacao.CategoriaNaoVinculadaASubCategoria);
         }

@@ -11,6 +11,8 @@
             public const string SubCategoriaDuplicada = "A sub-categoria {0} ja existe no sistema";
 
             public const string CategoriaNaoVinculadaASubCategoria = "Sub-categoria precisa estar vinculada a uma categoria";
+
+            public const string CategoriaVinculadaASubCategoria = "Existe Sub-categoria vinculada a Categoria {0}.";
         }    
     }
 }

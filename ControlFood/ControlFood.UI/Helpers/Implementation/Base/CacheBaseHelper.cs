@@ -16,7 +16,7 @@ namespace ControlFood.UI.Helpers.Implementation.Base
             _genericCadastroUseCase = genericCadastroUseCase;
         }
 
-        protected List<T> ListaGenericaCache(string cacheName, bool renovaCache)
+        protected List<T> ListarCache(string cacheName, bool renovaCache)
         {
             if (renovaCache || !_cache.TryGetValue(cacheName, out _))
             {

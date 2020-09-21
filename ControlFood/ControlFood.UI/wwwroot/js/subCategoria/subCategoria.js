@@ -6,16 +6,17 @@
 class SubCategoria {
 
     deletar = function () {
-        $(".btn-deletar").click(function(){
+        $(".btn-deletar").click(function () {
 
+            var helper = new ComumHelper();
             var elementoTr = this.parentNode.parentNode;
 
             $.ajax({
                 url: "/SubCategoria/Deletar",
                 type: 'DELETE',
                 data: {
-                    IdentificadorUnico: _obterId(elementoTr),
-                    Tipo: _obterTipo(elementoTr)
+                    IdentificadorUnico: helper.obterId(elementoTr),
+                    Tipo: helper.obterTipo(elementoTr)
                 },
                 success: function () {
                     window.location.reload();
@@ -24,18 +25,9 @@ class SubCategoria {
                 error: function (XMLHttpRequest) {
                     alert('Erro: ' + XMLHttpRequest.responseText)
                     console.log(XMLHttpRequest.responseText);
-                    
+
                 }
             });
         });
-
-        // Funções privadas
-        function _obterTipo(elementoTr) {
-            return elementoTr.firstElementChild.textContent;
-        }
-
-        function _obterId(elementoTr) {
-            return elementoTr.lastElementChild.value;
-        }
     }
 }

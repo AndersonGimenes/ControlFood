@@ -12,13 +12,11 @@ namespace ControlFood.UI.Mapping
             CreateMap<Dominio.Categoria, Models.Categoria>();
 
             CreateMap<Models.SubCategoria, Dominio.SubCategoria>()
-                .ForMember(dest => dest.IndicadorItemCozinha, opts => opts.MapFrom(x => IndicadorCozinha(x.Indicador)))
-                .ForMember(dest => dest.IndicadorItemBar, opts => opts.MapFrom(x => IndicadorBar(x.Indicador)));
+                .ForMember(dest => dest.IndicadorItemCozinha, opts => opts.MapFrom(x => x.Indicador == 0))
+                .ForMember(dest => dest.IndicadorItemBar, opts => opts.MapFrom(x => x.Indicador == 1));
 
-            CreateMap<Dominio.SubCategoria, Models.SubCategoria>();
+            CreateMap<Dominio.SubCategoria, Models.SubCategoria>()
+                .ForMember(dest => dest.Indicador, opts => opts.MapFrom(x => x.IndicadorItemCozinha ? 0 : 1));
         }
-
-        private bool IndicadorBar(int indicador) => indicador == 1;
-        private bool IndicadorCozinha(int indicador) => indicador == 0;
     }
 }

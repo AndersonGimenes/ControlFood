@@ -24,11 +24,11 @@ namespace ControlFood.Repository
         public override List<Dominio.SubCategoria> BuscarTodos()
         {
             var subCategoriasPersistidas = _context.SubCategoria
-                                                .Include(x => x.Categoria)                             
                                                 .AsNoTracking()
+                                                .Include(x => x.Categoria)                             
                                                 .ToList();
 
-           return _mapper.Map<List<Dominio.SubCategoria>>(subCategoriasPersistidas);
+            return _mapper.Map<List<Dominio.SubCategoria>>(subCategoriasPersistidas);
         }
 
         protected override object MapearDominioParaRepository(Dominio.SubCategoria subCategoriaDominio) => _mapper.Map<Entidades.SubCategoria>(subCategoriaDominio);

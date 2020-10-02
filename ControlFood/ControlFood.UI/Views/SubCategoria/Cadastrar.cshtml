@@ -19,13 +19,15 @@
             <tbody>
                 @foreach (var subCategoria in ViewBag.SubCategorias)
                 {
-                    <tr>
-                        <td>@subCategoria.Tipo</td>
-                        <td>@subCategoria.Categoria.Tipo</td>
-                        <td><button type="button" class="btn btn-primary">Editar</button></td>
-                        <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
-                        <input type="hidden" value="@subCategoria.IdentificadorUnico" />
-                    </tr>
+                <tr>
+                    <td class="tipo">@subCategoria.Tipo</td>
+                    <td class="tipo-categoria">@subCategoria.Categoria.Tipo</td>
+                    <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
+                    <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
+                    <input type="hidden" class="indicador" value="@subCategoria.Indicador" />
+                    <input type="hidden" class="identificador-unico" value="@subCategoria.IdentificadorUnico" />
+                    <input type="hidden" class="identificador-unico-categoria" value="@subCategoria.Categoria.IdentificadorUnico" />
+                </tr>
                 }
             </tbody>
         </table>
@@ -57,20 +59,20 @@
         <div>
             <span asp-validation-for="@Model.Tipo" class="text-danger"></span>
         </div>
-        <input type="text" class="form-control" name="Tipo">
+        <input type="text" class="form-control" name="tipo" id="tipo">
     </div>
 
     <fieldset class="form-group">
         <div class="row">
             <div class="col-sm-10">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="Indicador" value="0" checked>
+                    <input class="form-check-input" type="radio" name="indicador" value="0" checked>
                     <label class="form-check-label">
                         Item separado pela cozinha
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="Indicador" value="1">
+                    <input class="form-check-input" type="radio" name="indicador" value="1">
                     <label class="form-check-label">
                         Item separado pelo bar
                     </label>
@@ -78,7 +80,7 @@
             </div>
         </div>
     </fieldset>
-    <button type="submit" class="btn btn-success">Cadastrar</button>
+    <button type="submit" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
 </form>
 }
 else

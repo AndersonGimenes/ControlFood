@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     var subCategoria = new SubCategoria();
     subCategoria.deletar();
+    subCategoria.editar();
 });
 
 class SubCategoria {
@@ -15,12 +16,12 @@ class SubCategoria {
                 url: "/SubCategoria/Deletar",
                 type: 'DELETE',
                 data: {
-                    IdentificadorUnico: helper.obterId(elementoTr),
-                    Tipo: helper.obterTipo(elementoTr)
+                    IdentificadorUnico: helper.obterValorPorClasse(elementoTr, "identificador-unico"),
+                    Tipo: helper.obterTextoPorClasse(elementoTr, "tipo")
                 },
                 success: function () {
                     window.location.reload();
-                    $("#Tipo").val('');
+                    $("#tipo").val('');
                 },
                 error: function (XMLHttpRequest) {
                     alert('Erro: ' + XMLHttpRequest.responseText)
@@ -30,4 +31,26 @@ class SubCategoria {
             });
         });
     }
+
+    editar = function () {
+        $(".btn-editar").click(function () {
+
+            var helper = new ComumHelper();
+            var elementoTr = this.parentNode.parentNode
+
+            var data = {
+                Tipo: helper.obterTextoPorClasse(elementoTr, "tipo"),
+                TipoCategoria: helper.obterTextoPorClasse(elementoTr, "tipo-categoria"),
+                Indicador: helper.obterValorPorClasse(elementoTr, "indicador"),
+                IdentificadorUnico: helper.obterValorPorClasse(elementoTr, "identificador-unico"),
+                IdentificadorUnicoCategoria: helper.obterValorPorClasse(elementoTr, "identificador-unico-categoria")
+            }
+
+            $("#Categoria_IdentificadorUnico").val(data.IdentificadorUnicoCategoria).prop("disabled", true);
+            $("#tipo").val(data.Tipo).prop("disabled", true);
+            $("#btn-cadastrar").text("Atualizar").prop("type", "button");
+
+            console.log(data);
+        });
+    };
 }

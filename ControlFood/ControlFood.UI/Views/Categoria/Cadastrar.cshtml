@@ -17,11 +17,11 @@
                 @foreach (var categoria in ViewBag.Categorias)
                 {
                     <tr>
-                        <td>@categoria.Tipo</td>
+                        <td class="tipo">@categoria.Tipo</td>
                         <td></td>
                         <td></td>
                         <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
-                        <input type="hidden" value="@categoria.IdentificadorUnico" />
+                        <input type="hidden" class="identificador-unico" value="@categoria.IdentificadorUnico" />
                     </tr>
                 }
             </tbody>
@@ -44,7 +44,7 @@
     <div>
         <span asp-validation-for="@Model.Tipo" class="text-danger"></span>
     </div>
-    <input type="text" class="form-control" id="Tipo" name="Tipo">
+    <input type="text" class="form-control" id="tipo" name="tipo">
 </div>
     <button type="submit" class="btn btn-success" >Cadastrar</button>
 </form>

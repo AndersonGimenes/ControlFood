@@ -1,13 +1,13 @@
 ﻿class ComumHelper
 {
 
-    obterTipo = function(elementoTr)
+    obterTextoPorClasse = function(elemento, classe)
     {
-        return elementoTr.firstElementChild.textContent;
+        return $(elemento).find("."+classe).text();
     }
 
-    obterId = function(elementoTr)
+    obterValorPorClasse = function(elemento, classe)
     {
-        return elementoTr.lastElementChild.value;
+        return $(elemento).find("."+classe).val();
     }
 }

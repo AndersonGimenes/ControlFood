@@ -15,12 +15,12 @@ class Categoria {
                 url: "/Categoria/Deletar",
                 type: 'DELETE',
                 data: {
-                    IdentificadorUnico: helper.obterId(elementoTr),
-                    Tipo: helper.obterTipo(elementoTr)
+                    IdentificadorUnico: helper.obterValorPorClasse(elementoTr, "identificador-unico"),
+                    Tipo: helper.obterTextoPorClasse(elementoTr, "tipo")
                 },
                 success: function () {
                     window.location.reload();
-                    $("#Tipo").val('');
+                    $("#tipo").val('');
                 },
                 error: function (XMLHttpRequest) {
                     alert('Erro: ' + XMLHttpRequest.responseText )

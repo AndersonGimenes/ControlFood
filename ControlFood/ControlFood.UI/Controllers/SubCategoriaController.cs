@@ -90,8 +90,7 @@ namespace ControlFood.UI.Controllers
                 var subCategoriaDominio = _mapper.Map<Dominio.SubCategoria>(subCategoria);
 
                 _cadastroSubCategoriaUseCase.Deletar(subCategoriaDominio);
-                ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-                ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
+                _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
 
                 return NoContent();
             }

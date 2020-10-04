@@ -17,19 +17,21 @@ namespace ControlFood.UnitTest.UseCase.Helpers
 
         public static List<SubCategoria> MockListaSubCategoriasPersistidas() =>
            new List<SubCategoria> {
-                MockSubCategoria("Lanche", 1),
-                MockSubCategoria("Pastel", 1)
+                MockSubCategoria("Lanche", 1, idSubCategoria: 1),
+                MockSubCategoria("Pastel", 1, idSubCategoria: 2),
+                MockSubCategoria("Suco", 2, tipoCategoria: "Bebida", idSubCategoria: 3)
            };
 
-        public static SubCategoria MockSubCategoria(string tipo, int idCategoria)
+        public static SubCategoria MockSubCategoria(string tipo, int idCategoria, string tipoCategoria = "Alimento", int idSubCategoria = 0)
         {
             var subCategoria = new SubCategoria
             {
+                IdentificadorUnico = idSubCategoria,
                 Tipo = tipo,
                 IndicadorItemCozinha = true
             };
 
-            subCategoria.Categoria = new Categoria { Tipo = "Alimento", IdentificadorUnico = idCategoria };
+            subCategoria.Categoria = new Categoria { Tipo = tipoCategoria, IdentificadorUnico = idCategoria };
 
             return subCategoria;
         }

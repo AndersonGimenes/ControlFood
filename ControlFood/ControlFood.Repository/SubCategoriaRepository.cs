@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Dominio = ControlFood.Domain.Entidades;
 using ControlFood.Repository.Base;
 using ControlFood.Repository.Context;
 using ControlFood.UseCase.Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Repository
 {
@@ -19,6 +19,16 @@ namespace ControlFood.Repository
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public override Dominio.SubCategoria BuscarPorId(int id)
+        {
+            var subCategoriaPersistida = _context.SubCategoria
+                                                .AsNoTracking()
+                                                .Include(x => x.Categoria)
+                                                .First(x => x.Id == id);
+
+            return this.MapearRepositoryParaDominio(subCategoriaPersistida);
         }
 
         public override List<Dominio.SubCategoria> BuscarTodos()

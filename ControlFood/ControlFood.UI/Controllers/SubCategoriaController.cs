@@ -20,10 +20,10 @@ namespace ControlFood.UI.Controllers
         private readonly ICadastroCategoriaUseCase _cadastroCategoriaUseCase;
 
         public SubCategoriaController(
-            ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase, 
+            ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase,
             ICadastroCategoriaUseCase cadastroCategoriaUseCase,
-            IMapper mapper, 
-            IMemoryCache cache, 
+            IMapper mapper,
+            IMemoryCache cache,
             ICategoriaHelper categoriaHelper,
             ISubcategoriaHelper subcategoriaHelper)
         {
@@ -32,7 +32,7 @@ namespace ControlFood.UI.Controllers
             _categoriaHelper = categoriaHelper;
             _subcategoriaHelper = subcategoriaHelper;
             _mapper = mapper;
-            _cache = cache;           
+            _cache = cache;
         }
 
         [HttpGet]
@@ -69,14 +69,14 @@ namespace ControlFood.UI.Controllers
                     return View();
                 }
             }
-            catch(SubCategoriaIncorretaUseCaseException ex)
+            catch (SubCategoriaIncorretaUseCaseException ex)
             {
                 ViewData["mensagemErro"] = ex.Message;
                 ViewBag.Categorias = _categoriaHelper.CacheCategorias();
                 ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
                 return View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -93,6 +93,24 @@ namespace ControlFood.UI.Controllers
                 _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
 
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult Atualizar(SubCategoria subCategoria)
+        {
+            try
+            {
+                var subCategoriaDominio = _mapper.Map<Dominio.SubCategoria>(subCategoria);
+
+                _cadastroSubCategoriaUseCase.Atualizar(subCategoriaDominio);
+                _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
+
+                return Json(subCategoriaDominio);
             }
             catch (Exception ex)
             {

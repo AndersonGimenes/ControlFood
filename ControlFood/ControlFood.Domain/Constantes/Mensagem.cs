@@ -13,6 +13,8 @@
             public const string CategoriaNaoVinculadaASubCategoria = "Sub-categoria precisa estar vinculada a uma categoria";
 
             public const string CategoriaVinculadaASubCategoria = "Existe Sub-categoria vinculada a Categoria {0}.";
+
+            public const string EdicaoInvalida = "O campo {0} não pode ser atualizado.";
         }    
     }
 }

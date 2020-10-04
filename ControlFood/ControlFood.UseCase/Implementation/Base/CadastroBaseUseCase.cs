@@ -15,7 +15,7 @@ namespace ControlFood.UseCase.Implementation.Base
 
         public virtual T Inserir(T entidade) => _genericRepository.Inserir(entidade);
 
-        public void Atualizar(T entidade)
+        public virtual void Atualizar(T entidade)
         {
             _genericRepository.Atualizar(entidade);
         }

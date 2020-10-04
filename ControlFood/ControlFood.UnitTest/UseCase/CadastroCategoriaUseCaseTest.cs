@@ -73,7 +73,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveDeletarUmaCategoriaExistente()
         {
-            var categoria = new Categoria { Tipo = "Bebida", IdentificadorUnico = 2 };
+            var categoria = new Categoria { Tipo = "Sobremesa", IdentificadorUnico = 3 };
             var categoriasPersistidasAntes = HelperMock.MockListaCategoriasPersistidas().Count;
             
             _mockCategoriaRepository

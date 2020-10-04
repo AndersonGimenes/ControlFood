@@ -1,5 +1,4 @@
 ﻿using ControlFood.Repository.Context;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace ControlFood.Repository.Base
@@ -18,17 +17,13 @@ namespace ControlFood.Repository.Base
         {
             var objetoPersistencia = this.MapearDominioParaRepository(entity);
 
-            _context.Add(objetoPersistencia);
+            _context.Update(objetoPersistencia);
             _context.SaveChanges();
 
             return MapearRepositoryParaDominio(objetoPersistencia);
         }
 
-        public TEntity BuscarPorId(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public void Deletar(TEntity entity)
         {
             var objetoPersistencia = this.MapearDominioParaRepository(entity);
@@ -48,6 +43,7 @@ namespace ControlFood.Repository.Base
         }
 
         public abstract List<TEntity> BuscarTodos();
+        public abstract TEntity BuscarPorId(int id);
         protected abstract object MapearDominioParaRepository(TEntity entity);
         protected abstract TEntity MapearRepositoryParaDominio(object objeto);
        

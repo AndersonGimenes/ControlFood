@@ -29,6 +29,23 @@ namespace ControlFood.UseCase.Implementation
             return base.Inserir(subCategoria);
         }
 
+        public override void Atualizar(SubCategoria subCategoria)
+        {
+            var subCategoriaPersistida = base.BuscarPorIdentificacao(subCategoria, nameof(subCategoria.IdentificadorUnico));
+            VerificarTiposAtaulizacao(subCategoriaPersistida, subCategoria);
+
+            base.Atualizar(subCategoria);
+        }
+
+        private void VerificarTiposAtaulizacao(SubCategoria subCategoriaPersistida, SubCategoria subCategoria)
+        {
+            if (subCategoria.Tipo != subCategoriaPersistida.Tipo)
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.EdicaoInvalida, nameof(subCategoria.Tipo)));
+
+            if(subCategoria.Categoria.IdentificadorUnico != subCategoriaPersistida.Categoria.IdentificadorUnico)
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.EdicaoInvalida, nameof(subCategoria.Categoria.IdentificadorUnico)));
+        }
+
         private void VerificarCategoriaVinculada(SubCategoria subCategoria, List<Categoria> categorias)
         {
             var existeCategoriaVinculada = categorias.Any(c => c.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico);

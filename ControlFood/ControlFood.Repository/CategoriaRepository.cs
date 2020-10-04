@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ControlFood.Domain.Entidades;
 using ControlFood.Repository.Base;
 using ControlFood.Repository.Context;
 using ControlFood.UseCase.Interface.Repository;
@@ -19,6 +20,11 @@ namespace ControlFood.Repository
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public override Categoria BuscarPorId(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         public override List<Dominio.Categoria> BuscarTodos()

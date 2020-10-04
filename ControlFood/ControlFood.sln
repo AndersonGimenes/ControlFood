@@ -29,7 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.DependencyInjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.Repository", "ControlFood.Repository\ControlFood.Repository.csproj", "{1DDF30F4-944F-4421-A59E-42596FEA20E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlFood.UnitTest", "ControlFood.UnitTest\ControlFood.UnitTest.csproj", "{9D36A2B0-BA7A-45B7-BFF3-A149FB479178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.UnitTest", "ControlFood.UnitTest\ControlFood.UnitTest.csproj", "{9D36A2B0-BA7A-45B7-BFF3-A149FB479178}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{97974099-3DF4-44D7-A24D-49B7B415249D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFood.UI", "ControlFood.UI\ControlFood.UI.csproj", "{3FA2E72A-7773-4B79-B572-0AAA16D2171A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{9D36A2B0-BA7A-45B7-BFF3-A149FB479178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D36A2B0-BA7A-45B7-BFF3-A149FB479178}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D36A2B0-BA7A-45B7-BFF3-A149FB479178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FA2E72A-7773-4B79-B572-0AAA16D2171A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FA2E72A-7773-4B79-B572-0AAA16D2171A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FA2E72A-7773-4B79-B572-0AAA16D2171A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FA2E72A-7773-4B79-B572-0AAA16D2171A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +80,8 @@ Global
 		{294AC9BE-5581-42A7-9BCB-35A4AB004F1D} = {CC114606-35E8-460B-B22D-4DFF5C4DDA1E}
 		{1DDF30F4-944F-4421-A59E-42596FEA20E1} = {C8473EDA-8547-41FE-A18C-F7FFEB9B3BD8}
 		{9D36A2B0-BA7A-45B7-BFF3-A149FB479178} = {06996CF0-5842-4953-990B-EDFC2B5D0835}
+		{97974099-3DF4-44D7-A24D-49B7B415249D} = {34D4B188-6960-4BAB-9AE3-27F14D6C264F}
+		{3FA2E72A-7773-4B79-B572-0AAA16D2171A} = {97974099-3DF4-44D7-A24D-49B7B415249D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1CBD23B-4597-45FD-9DDD-C07CDA07E0B8}

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ControlFood.UseCase.Interface.Repository
 {
@@ -10,5 +8,6 @@ namespace ControlFood.UseCase.Interface.Repository
         TEntity Atualizar(TEntity entity);
         void Deletar(TEntity entity);
         TEntity BuscarPorId(int id);
+        List<TEntity> BuscarTodos();
     }
 }

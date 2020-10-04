@@ -1,0 +1,148 @@
+﻿@model SubCategoria
+
+@if (ViewBag.categorias.Count > 0)
+{
+    <form method="post">
+
+        @if (ViewBag.SubCategorias.Count > 0)
+        {
+            <label>Sub-categorias cadastradas</label>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Sub-Categoria</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subCategoria in ViewBag.SubCategorias)
+                    {
+                        <tr>
+                            <td class="tipo">@subCategoria.Tipo</td>
+                            <td class="tipo-categoria">@subCategoria.Categoria.Tipo</td>
+                            <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
+                            <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
+                            <input type="hidden" class="indicador" value="@subCategoria.Indicador" />
+                            <input type="hidden" class="identificador-unico" value="@subCategoria.IdentificadorUnico" />
+                            <input type="hidden" class="identificador-unico-categoria" value="@subCategoria.Categoria.IdentificadorUnico" />
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div class="form-group">
+            <label>Selecione a categoria</label>
+            <select class="form-control" asp-for="@Model.Categoria.IdentificadorUnico">
+                @foreach (var categoria in ViewBag.Categorias)
+                {
+                    <option value="@categoria.IdentificadorUnico">@categoria.Tipo</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <label>Cadastrar nova sub-categoria</label>
+                @{
+                    var mensagem = ViewData["mensagemErro"] as string;
+                    if (!string.IsNullOrEmpty(mensagem))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @mensagem
+                        </div>
+                    }
+                }
+            </div>
+            <div>
+                <span asp-validation-for="@Model.Tipo" class="text-danger"></span>
+            </div>
+            <input type="text" class="form-control" name="tipo" id="tipo">
+        </div>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="indicador" value="0" checked>
+                        <label class="form-check-label">
+                            Item separado pela cozinha
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="indicador" value="1">
+                        <label class="form-check-label">
+                            Item separado pelo bar
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <button type="submit" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
+    </form>
+
+    <!-- The Modal -->
+    <div class="modal" id="modal-atualizar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Atualizar Sub-Categoria</h4>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="h4">Categoria</label>
+                            <span id="categoria-tipo"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="h4">Sub-Categoria</label>
+                            <span id="sub-categoria-tipo"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="indicador" id="indicador-cozinha" value="0">
+                                        <label class="form-check-label">
+                                            Item separado pela cozinha
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="indicador" id="indicador-bar" value="1">
+                                        <label class="form-check-label">
+                                            Item separado pelo bar
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="identificador-unico"></span>
+                    <span id="identificador-unico-categoria"></span>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="btn-atualizar">Atualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning text-center">
+        Para cadastrar uma sub-categoria deve existir ao menos uma categoria
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/subCategoria/subCategoria.js"></script>
+    <script type="text/javascript" src="~/js/comumHelper.js"></script>
+}

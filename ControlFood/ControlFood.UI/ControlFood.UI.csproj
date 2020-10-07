@@ -22,4 +22,8 @@
     <ProjectReference Include="..\ControlFood.UseCase\ControlFood.UseCase.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\craftpip\dist\css\" />
+  </ItemGroup>
+
 </Project>

@@ -1,32 +1,60 @@
-﻿class ComumHelper
-{
+﻿class ComumHelper {
 
-    obterTextoPorClasse = function(elemento, classe)
-    {
-        return $(elemento).find("."+classe).text();
+    obterTextoPorClasse = function (elemento, classe) {
+        return $(elemento).find("." + classe).text();
     }
 
-    obterValorPorClasse = function(elemento, classe)
-    {
-        return $(elemento).find("."+classe).val();
+    obterValorPorClasse = function (elemento, classe) {
+        return $(elemento).find("." + classe).val();
     }
 
-    ajaxDeletarItem = function (url, elemento) {
+    obterValorPorId = function (elemento, id) {
+        return $(elemento).find("#" + id).val();
+    }
+
+    validarCamposObrigatorios = function () {
+        var valor = $("#tipo").val();
+
+        if ($.trim(valor) === "") {
+            $("#span-tipo").html("<p class='text-danger'>Campo obrigatório !<p/>");
+            return false;
+        }
+
+        return true;
+    }
+
+    realizarChamadaAjax = function (url, data, acao) {
         $.ajax({
             url: url,
-            type: 'DELETE',
-            data: {
-                IdentificadorUnico: this.obterValorPorClasse(elemento, "identificador-unico"),
-                Tipo: this.obterTextoPorClasse(elemento, "tipo")
-            },
-            success: function () {
-                window.location.reload();
-                $("#tipo").val('');
+            type: acao,
+            data: data,
+            success: function (response) {
+                if (response.mensagem === '' || response.mensagem === undefined) {
+                    window.location.reload();
+                    return;
+                }
+                $.confirm({
+                    title: 'Sucesso',
+                    type: 'blue',
+                    content: response.mensagem,
+                    buttons: {
+                        confirm: function () {
+                            window.location.reload();
+                        }
+                    }
+                });
             },
             error: function (XMLHttpRequest) {
-                alert('Erro: ' + XMLHttpRequest.responseText)
-                console.log(XMLHttpRequest.responseText);
-
+                $.confirm({
+                    title: 'Erro',
+                    type: 'red',
+                    content: XMLHttpRequest.responseText,
+                    buttons: {
+                        confirm: function () {
+                            console.log(XMLHttpRequest.responseText);
+                        }
+                    }
+                });
             }
         });
     }

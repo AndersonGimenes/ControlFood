@@ -1,7 +1,7 @@
-﻿@model Categoria
+﻿@model List<Categoria>
 
-<form method="post">
-    @if (ViewBag.categorias.Count > 0)
+<form>
+    @if (Model.Count > 0)
     {
         <label>Categorias cadastradas</label>
         <table class="table table-striped">
@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var categoria in ViewBag.Categorias)
+                @foreach (var categoria in Model)
                 {
                     <tr>
                         <td class="tipo">@categoria.Tipo</td>
@@ -28,27 +28,12 @@
         </table>
     }
 
-<div class="form-group">
-    <div>   
-        <label>Cadastrar nova categoria</label>
-    @{
-        var mensagem = ViewData["mensagemErro"] as string;
-        if (!string.IsNullOrEmpty(mensagem))
-        {
-            <div class="alert alert-danger" role="alert">
-                @mensagem
-            </div>
-        }
-    }   
+    <div class="form-group">
+        <span id="span-tipo"></span>
+        <input type="text" class="form-control" id="tipo" placeholder="Digite a nova categoria">
     </div>
-    <div>
-        <span asp-validation-for="@Model.Tipo" class="text-danger"></span>
-    </div>
-    <input type="text" class="form-control" id="tipo" name="tipo">
-</div>
-    <button type="submit" class="btn btn-success" >Cadastrar</button>
+    <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
 </form>
-
 
 @section Scripts {
     <script type="text/javascript" src="~/js/categoria/categoria.js"></script>

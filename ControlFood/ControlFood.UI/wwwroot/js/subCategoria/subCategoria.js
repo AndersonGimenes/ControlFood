@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     var subCategoria = new SubCategoria();
+    subCategoria.cadastrar();
     subCategoria.deletar();
     subCategoria.editar();
     subCategoria.atualizar();
@@ -7,13 +8,40 @@
 
 class SubCategoria {
 
+    cadastrar = function () {
+        $("#btn-cadastrar").click(function () {
+            var helper = new ComumHelper();
+            var elemento = this.parentNode;
+
+            if (!helper.validarCamposObrigatorios())
+                return;
+
+            var categoria = {
+                IdentificadorUnico: helper.obterValorPorId(elemento, "identificador-unico-categoria-nova")
+            }
+
+            var data = {
+                Tipo: helper.obterValorPorId(elemento, "tipo"),
+                Categoria: categoria,
+                Indicador: $(elemento).find("input[name='indicador']:checked").val()
+            }
+
+            helper.realizarChamadaAjax("SubCategoria/Cadastrar", data, "POST");
+        });
+    }
+
     deletar = function () {
         $(".btn-deletar").click(function () {
 
             var helper = new ComumHelper();
             var elementoTr = this.parentNode.parentNode;
 
-            helper.ajaxDeletarItem("/SubCategoria/Deletar", elementoTr);           
+            var data = {
+                IdentificadorUnico: helper.obterValorPorClasse(elementoTr, "identificador-unico"),
+                Tipo: helper.obterTextoPorClasse(elementoTr, "tipo")
+            }
+
+            helper.realizarChamadaAjax("/SubCategoria/Deletar", data, "DELETE");           
         });
     }
 
@@ -47,8 +75,6 @@ class SubCategoria {
                 $("#indicador-cozinha").prop("checked", false);
                 $("#indicador-bar").prop("checked", true);
             }
-
-            console.log(data);
         });
     }
 
@@ -68,29 +94,10 @@ class SubCategoria {
                 Categoria: categoria,
                 Indicador: $(elementoTr).find("input[name='indicador']:checked").val(),
                 IdentificadorUnico: helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-                IdentificadorUnicoCategoria: helper.obterValorPorClasse(elementoTr, "identificador-unico-categoria")
             }
-
-            $.ajax({
-                url: "SubCategoria/Atualizar",
-                type: 'PUT',
-                data: data,
-                success: function (response) {
-                    console.log(response);
-                    alert('Atualização concluida com sucesso.');
-                    window.location.reload();                   
-                },
-                error: function (XMLHttpRequest) {
-                    alert('Erro: ' + XMLHttpRequest.responseText)
-                    console.log(XMLHttpRequest.responseText);
-                }
-            });
+                        
+            helper.realizarChamadaAjax("/SubCategoria/Atualizar", data, "PUT");  
 
         });
-
-    }
-
-    atualizarCheckedModal = function () {
-
     }
 }

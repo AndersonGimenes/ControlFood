@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
-using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -40,9 +39,9 @@ namespace ControlFood.UI.Controllers
         {
 
             ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-            ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
+            var subCategorias = _subcategoriaHelper.CacheSubCategorias();
 
-            return View();
+            return View(subCategorias);
         }
 
         [HttpPost]
@@ -50,35 +49,21 @@ namespace ControlFood.UI.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var subCategoriaDominio = _mapper.Map<Dominio.SubCategoria>(subCategoria);
+                subCategoria.IsValid();
 
-                    _cadastroSubCategoriaUseCase.Inserir(subCategoriaDominio);
+                var subCategoriaDominio = _mapper.Map<Dominio.SubCategoria>(subCategoria);
 
-                    ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-                    ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
+                _cadastroSubCategoriaUseCase.Inserir(subCategoriaDominio);
 
-                    return View();
-                }
-                else
-                {
-                    ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-                    ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
-
-                    return View();
-                }
-            }
-            catch (SubCategoriaIncorretaUseCaseException ex)
-            {
-                ViewData["mensagemErro"] = ex.Message;
                 ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-                ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
-                return View();
+                var subCategorias = _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
+
+                return View(subCategorias);
+
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -92,11 +77,12 @@ namespace ControlFood.UI.Controllers
                 _cadastroSubCategoriaUseCase.Deletar(subCategoriaDominio);
                 _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
 
-                return NoContent();
+                subCategoria.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
+                return Json(subCategoria);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -110,11 +96,12 @@ namespace ControlFood.UI.Controllers
                 _cadastroSubCategoriaUseCase.Atualizar(subCategoriaDominio);
                 _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
 
-                return Json(subCategoriaDominio);
+                subCategoria.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
+                return Json(subCategoria);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 

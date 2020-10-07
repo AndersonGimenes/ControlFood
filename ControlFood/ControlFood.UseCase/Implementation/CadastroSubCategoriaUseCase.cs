@@ -40,23 +40,23 @@ namespace ControlFood.UseCase.Implementation
         private void VerificarTiposAtaulizacao(SubCategoria subCategoriaPersistida, SubCategoria subCategoria)
         {
             if (subCategoria.Tipo != subCategoriaPersistida.Tipo)
-                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.EdicaoInvalida, nameof(subCategoria.Tipo)));
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Tipo)));
 
             if(subCategoria.Categoria.IdentificadorUnico != subCategoriaPersistida.Categoria.IdentificadorUnico)
-                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.EdicaoInvalida, nameof(subCategoria.Categoria.IdentificadorUnico)));
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Categoria.IdentificadorUnico)));
         }
 
         private void VerificarCategoriaVinculada(SubCategoria subCategoria, List<Categoria> categorias)
         {
             var existeCategoriaVinculada = categorias.Any(c => c.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico);
             if (!existeCategoriaVinculada)
-                throw new SubCategoriaIncorretaUseCaseException(Mensagem.Validacao.CategoriaNaoVinculadaASubCategoria);
+                throw new SubCategoriaIncorretaUseCaseException(Mensagem.Validacao.SubCategoria.CategoriaNaoVinculadaASubCategoria);
         }
 
         private void VerificarDuplicidade(SubCategoria subCategoria, List<SubCategoria> subCategorias)
         {
             if (subCategorias.Any(s => s.Tipo == subCategoria.Tipo))
-                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoriaDuplicada, subCategoria.Tipo));
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoria.SubCategoriaDuplicada, subCategoria.Tipo));
         }
     }
 }

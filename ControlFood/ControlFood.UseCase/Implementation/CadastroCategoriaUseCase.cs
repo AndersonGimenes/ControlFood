@@ -36,13 +36,13 @@ namespace ControlFood.UseCase.Implementation
         private void VerificarSubCategoriaVinculada(Categoria categoria, List<SubCategoria> subCategorias)
         {
             if (subCategorias.Any(x => x.Categoria.IdentificadorUnico == categoria.IdentificadorUnico))
-                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.CategoriaVinculadaASubCategoria, categoria.Tipo));
+                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaVinculadaASubCategoria, categoria.Tipo));
         }
 
         private void VerificarDuplicidade(Categoria categoria, List<Categoria> categorias)
         {
             if (categorias.Any(c => c.Tipo == categoria.Tipo))
-                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.CategoriaDuplicada, categoria.Tipo));
+                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaDuplicada, categoria.Tipo));
         }
     }
 }

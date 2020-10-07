@@ -28,10 +28,8 @@ namespace ControlFood.UI.Controllers
         [HttpGet]
         public IActionResult Cadastrar()
         {
-
-            ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-
-            return View();
+            var categorias = _categoriaHelper.CacheCategorias();
+            return View(categorias);
         }
 
         [HttpPost]
@@ -39,32 +37,22 @@ namespace ControlFood.UI.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
+                categoria.IsValid();
 
-                    _cadastroCategoriaUseCase.Inserir(categoriaDominio);
-                    
-                    ViewBag.Categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
-                    return View();
-                }
-                else
-                {
-                    ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-                    return View();
-                }
-            }
-            catch (CategoriaIncorretaUseCaseException ex)
-            {
-                ViewData["mensagemErro"] = ex.Message;
-                ViewBag.Categorias = _categoriaHelper.CacheCategorias();
-                return View();
+                var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
+
+                _cadastroCategoriaUseCase.Inserir(categoriaDominio);
+
+               var categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
+
+                return View(categorias);
 
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
+
         }
 
         [HttpDelete]
@@ -77,11 +65,13 @@ namespace ControlFood.UI.Controllers
                 _cadastroCategoriaUseCase.Deletar(categoriaDominio);
                 _categoriaHelper.CacheCategorias(renovaCache: true);
 
-                return NoContent();
+                categoria.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
+
+                return Json(categoria);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }

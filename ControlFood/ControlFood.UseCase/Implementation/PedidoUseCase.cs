@@ -33,7 +33,7 @@ namespace ControlFood.UseCase.Implementation
         {
             var pedidoDto = _genericRepository.BuscarPorId(pedido.IdentificadorUnico);
             if (pedidoDto is null)
-                throw new PedidoIncorretoUseCaseException(string.Format(Mensagem.Validacao.PedidoInexistente, pedido.IdentificadorUnico));
+                throw new PedidoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Comum.PedidoInexistente, pedido.IdentificadorUnico));
             
             pedido.PedidoPago = true;
             pedido.FormaPagamento = formaPagamento;

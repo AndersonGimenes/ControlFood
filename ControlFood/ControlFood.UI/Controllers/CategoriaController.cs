@@ -14,14 +14,12 @@ namespace ControlFood.UI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICadastroCategoriaUseCase _cadastroCategoriaUseCase;
-        private readonly IMemoryCache _cache;
         private readonly ICategoriaHelper _categoriaHelper;
 
-        public CategoriaController(ICadastroCategoriaUseCase cadastroCategoriaUseCase, IMapper mapper, IMemoryCache cache, ICategoriaHelper categoriaHelper)
+        public CategoriaController(ICadastroCategoriaUseCase cadastroCategoriaUseCase, IMapper mapper, ICategoriaHelper categoriaHelper)
         {
             _mapper = mapper;
             _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
-            _cache = cache;
             _categoriaHelper = categoriaHelper;
         }
 

@@ -13,25 +13,15 @@ namespace ControlFood.UI.Controllers
     {
         private readonly ICadastroSubCategoriaUseCase _cadastroSubCategoriaUseCase;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
         private readonly ICategoriaHelper _categoriaHelper;
         private readonly ISubcategoriaHelper _subcategoriaHelper;
-        private readonly ICadastroCategoriaUseCase _cadastroCategoriaUseCase;
 
-        public SubCategoriaController(
-            ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase,
-            ICadastroCategoriaUseCase cadastroCategoriaUseCase,
-            IMapper mapper,
-            IMemoryCache cache,
-            ICategoriaHelper categoriaHelper,
-            ISubcategoriaHelper subcategoriaHelper)
+        public SubCategoriaController(ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase, IMapper mapper, ICategoriaHelper categoriaHelper, ISubcategoriaHelper subcategoriaHelper)
         {
             _cadastroSubCategoriaUseCase = cadastroSubCategoriaUseCase;
-            _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
             _categoriaHelper = categoriaHelper;
             _subcategoriaHelper = subcategoriaHelper;
             _mapper = mapper;
-            _cache = cache;
         }
 
         [HttpGet]

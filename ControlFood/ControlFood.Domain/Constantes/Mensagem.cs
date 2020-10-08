@@ -1,4 +1,6 @@
-﻿namespace ControlFood.Domain.Constantes
+﻿using System;
+
+namespace ControlFood.Domain.Constantes
 {
     public static class Mensagem
     {
@@ -23,6 +25,15 @@
                 public const string SubCategoriaDuplicada = "A sub-categoria {0} ja existe no sistema";
 
                 public const string CategoriaNaoVinculadaASubCategoria = "Sub-categoria precisa estar vinculada a uma categoria";
+            }
+
+            public static class Produto
+            {
+                public const string ProdutoDuplicadoPorNome = "O produto com nome {0} ja existe no sistema";
+
+                public const string SubCategoriaNaoVinculadaAoProduto = "Produto precisa estar vinculada a uma sub-categoria";
+
+                public const string ProdutoDuplicadoPorCodigo = "O produto com codigo {0} ja existe no sistema";
             }
         }  
         

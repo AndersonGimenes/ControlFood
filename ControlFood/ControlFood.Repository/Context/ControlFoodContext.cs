@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ControlFood.Repository.Configuration.cs;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using Repositorio = ControlFood.Repository.Entidades;
 
 namespace ControlFood.Repository.Context
@@ -12,47 +14,13 @@ namespace ControlFood.Repository.Context
 
         public virtual DbSet<Repositorio.Categoria> Categoria { get; set; }
         public virtual DbSet<Repositorio.SubCategoria> SubCategoria { get; set; }
+        public virtual DbSet<Repositorio.Produto> Produto { get; set; }
+        public virtual DbSet<Repositorio.Estoque> Estoque { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            var categoria = modelBuilder.Entity<Repositorio.Categoria>();
-            categoria
-                .HasKey(x => x.Id)
-                .HasName("Categoria_Id");
-
-            categoria
-                .Property(x => x.Tipo)
-                .HasColumnType("varchar(200)")
-                .IsRequired();
-
-            var subCategoria = modelBuilder.Entity<Repositorio.SubCategoria>();
-            subCategoria
-                .HasKey(x => x.Id)
-                .HasName("SubCategoria_Id");
-
-            subCategoria
-                .Property(x => x.Tipo)
-                .HasColumnType("Varchar(200)")
-                .IsRequired();
-
-            subCategoria
-                .Property(x => x.IndicadorItemCozinha)
-                .HasColumnType("boolean")
-                .HasDefaultValue(false);
-
-            subCategoria
-                .Property(x => x.IndicadorItemBar)
-                .HasColumnType("boolean")
-                .HasDefaultValue(false);
-
-            subCategoria
-                .HasOne(x => x.Categoria)
-                .WithMany(x => x.SubCategorias)
-                .HasForeignKey(x => x.CategoriaId)
-                .HasConstraintName("SubCategoria_Categoria");
-
-            base.OnModelCreating(modelBuilder);
         }
 
     }

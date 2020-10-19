@@ -5,7 +5,6 @@ using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
-using System;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
@@ -77,13 +76,6 @@ namespace ControlFood.UnitTest.UseCase
 
             Assert.NotNull(produtos);
             Assert.True(produtos.Count > 0);
-        }
-
-
-        private Produto AdicionarIdentificador(Produto produto)
-        {
-            produto.IdentificadorUnico = 1;
-            return produto;
         }
 
     }

@@ -58,4 +58,17 @@
             }
         });
     }
+
+    checkHiddenOnOff = function (element, span) {
+        $(element).click(function () {
+
+            if (this.checked) {
+                $(span).removeClass("d-none");
+                return;
+            }
+           
+            $(span).addClass("d-none");
+            
+        });
+    }
 }

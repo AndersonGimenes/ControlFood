@@ -1,0 +1,116 @@
+﻿@model List<Produto>
+
+@if (true)@*(ViewBag.subCategorias.Count > 0)*@
+{
+<form>
+
+    @if (true)@*(Model.Count > 0)*@
+    {
+        <label>Produtos cadastrados</label>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Codigo produto</th>
+                    <th scope="col">Nome produto</th>
+                    <th scope="col">Sub categoria</th>
+                    <th scope="col">Valor venda</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var produto in Model)
+                    {*@
+                <tr>
+                    <td class="codigo-interno">cc2l</td>
+                    <td class="nome">Coca-Cola 2L</td>
+                    <td class="tipo-sub-categoria">Refrigerantes</td>
+                    <td class="tipo-sub-categoria">R$ 8,00</td>
+                    <td class="tipo-sub-categoria">10</td>
+                    <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
+                    <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
+                    <input type="hidden" class="indicador" value="" />
+                    <input type="hidden" class="identificador-unico" value="" />
+                    <input type="hidden" class="identificador-unico-sub-categoria" value="" />
+                </tr>
+                @*}*@
+            </tbody>
+        </table>
+    }
+
+    <div class="form-group">
+        <label>Selecione a sub-categoria</label>
+        <select class="form-control" id="identificador-unico-categoria-nova">
+            @*@foreach (var categoria in ViewBag.Categorias)
+                {
+                    <option value="@categoria.IdentificadorUnico">@categoria.Tipo</option>
+                }*@
+            <option value="">Lanches</option>
+            <option value="">Refrigerantes</option>
+            <option value="">Cervejas</option>
+        </select>
+    </div>
+    <!--Campos comuns-->
+    <div class="form-group">
+        <input type="text" class="form-control" id="nome" placeholder="Digite o novo produto">
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="condigo-interno" placeholder="Digite o codigo do produto">
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="valor-venda" placeholder="Digite o valor de venda">
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="especifico-estoque">
+        <label class="form-check-label" for="exampleCheck1">Cadastrar estoque</label>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="especifico-igredientes">
+        <label class="form-check-label" for="exampleCheck1">Cadastrar igredientes</label>
+    </div>
+
+    
+    <div id="span-especifico-estoque" class="d-none">
+        <!--Campos especificos para cadastro em estoque-->
+        <div class="form-group">
+            <input type="text" class="form-control" id="valor-compra-unitario" placeholder="Digite o valor da compra unitario">
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" id="valor-compra-total" placeholder="Digite o valor da compra total">
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" id="data-validade" placeholder="Digite a validade do produto">
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" id="quantidade" placeholder="Digite a quantidade do produto">
+        </div>
+    </div>
+
+    <!--Campos especificos para cadastro de produtos com igredientes-->
+    <div id="span-especifico-igredientes" class="d-none">
+        <div class="form-group">
+            <textarea class="form-control" id="igredientes" placeholder="Digite os igredientes do produto"></textarea>
+        </div>
+    </div>
+    <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
+</form>
+   
+}
+else
+{
+    <div class="alert alert-warning text-center">
+        Para cadastrar um produto deve existir ao menos uma sub-categoria
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/produto/produto.js"></script>
+    <script type="text/javascript" src="~/js/comumHelper.js"></script>
+}

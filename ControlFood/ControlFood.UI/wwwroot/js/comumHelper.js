@@ -12,15 +12,28 @@
         return $(elemento).find("#" + id).val();
     }
 
-    validarCamposObrigatorios = function () {
-        var valor = $("#tipo").val();
+    validarCamposObrigatorios = function (arrayElementos, arraySpan) {
 
-        if ($.trim(valor) === "") {
-            $("#span-tipo").html("<p class='text-danger'>Campo obrigatório !<p/>");
-            return false;
-        }
+        var retorno = true;
+        var index = 0;
 
-        return true;
+        arrayElementos.forEach(function (elemento) {
+            
+            var valor = $(elemento).val();
+            var span = arraySpan[index];
+
+            if ($.trim(valor) === "") {
+                $(span).html("<p class='text-danger'>Campo obrigatório !<p/>");
+                retorno = false;
+            }
+            else {
+                $(span).html("");
+            }
+
+            index++;
+        });
+
+        return retorno;
     }
 
     realizarChamadaAjax = function (url, data, acao) {

@@ -1,4 +1,5 @@
-﻿using ControlFood.UI.Models;
+﻿using ControlFood.UI.Helpers.Interface;
+using ControlFood.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,17 @@ namespace ControlFood.UI.Controllers
 {
     public class ProdutoController : Controller
     {
+        private readonly ISubCategoriaHelper _subcategoriaHelper;
+
+        public ProdutoController(ISubCategoriaHelper subcategoriaHelper)
+        {
+            _subcategoriaHelper = subcategoriaHelper;
+        }
+
         [HttpGet]
         public IActionResult Cadastrar()
         {
-            ViewBag.SubCategorias = TempMockSubCategorias();
+            ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
 
             return View(TempMockProdutos());
         }
@@ -87,19 +95,6 @@ namespace ControlFood.UI.Controllers
 
             return produtos;
         }
-        private List<SubCategoria> TempMockSubCategorias()
-        {
-            var lst = new List<SubCategoria>();
-
-            var subLanche = TempMockSub(1, 0, "Lanches", 1, "Alimentos");
-            var subRefri = TempMockSub(2, 1, "Refrigerantes", 2, "Bebidas");
-            
-            lst.Add(subRefri);
-            lst.Add(subLanche);
-
-            return lst;
-        }
-
         private SubCategoria TempMockSub(int id, int indicador, string tipo , int idCategoria, string tipoCategoria)
         {
             var sub = new SubCategoria

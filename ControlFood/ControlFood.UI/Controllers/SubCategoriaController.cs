@@ -14,9 +14,9 @@ namespace ControlFood.UI.Controllers
         private readonly ICadastroSubCategoriaUseCase _cadastroSubCategoriaUseCase;
         private readonly IMapper _mapper;
         private readonly ICategoriaHelper _categoriaHelper;
-        private readonly ISubcategoriaHelper _subcategoriaHelper;
+        private readonly ISubCategoriaHelper _subcategoriaHelper;
 
-        public SubCategoriaController(ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase, IMapper mapper, ICategoriaHelper categoriaHelper, ISubcategoriaHelper subcategoriaHelper)
+        public SubCategoriaController(ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase, IMapper mapper, ICategoriaHelper categoriaHelper, ISubCategoriaHelper subcategoriaHelper)
         {
             _cadastroSubCategoriaUseCase = cadastroSubCategoriaUseCase;
             _categoriaHelper = categoriaHelper;

@@ -1,41 +1,42 @@
 ﻿$(document).ready(function () {
     var categoria = new Categoria();
     categoria.cadastrar(categoria);
-    categoria.deletar();
+    categoria.deletar(categoria);
 });
 
 class Categoria {
 
-    cadastrar = function () {
+    constructor() {
+        this._helper = new ComumHelper();
+    }
+
+    cadastrar = function (instanciaCategoria) {
 
         $("#btn-cadastrar").click(function () {
-
-            var helper = new ComumHelper();
             var elemento = this.parentNode;
 
-            if (!helper.validarCamposObrigatorios())
+            if (!instanciaCategoria._helper.validarCamposObrigatorios([$("#tipo")], [$("#span-valida-tipo")]))
                 return;
 
             var data = {
-                Tipo: helper.obterValorPorId(elemento, "tipo")
+                Tipo: instanciaCategoria._helper.obterValorPorId(elemento, "tipo")
             }
 
-            helper.realizarChamadaAjax("Categoria/Cadastrar", data, "POST");
+            instanciaCategoria._helper.realizarChamadaAjax("Categoria/Cadastrar", data, "POST");
         });
     }
 
-    deletar = function () {
+    deletar = function (instanciaCategoria) {
         $(".btn-deletar").click(function () {
 
-            var helper = new ComumHelper();
             var elementoTr = this.parentNode.parentNode;
 
             var data = {
-                IdentificadorUnico: helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-                Tipo: helper.obterTextoPorClasse(elementoTr, "tipo")
+                IdentificadorUnico: instanciaCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
+                Tipo: instanciaCategoria._helper.obterTextoPorClasse(elementoTr, "tipo")
             }
 
-            helper.realizarChamadaAjax("/Categoria/Deletar", data, "DELETE");
+            instanciaCategoria._helper.realizarChamadaAjax("/Categoria/Deletar", data, "DELETE");
 
         });
     }

@@ -39,7 +39,7 @@ namespace ControlFood.UI
             services.AddTransient<ISubCategoriaRepository, SubCategoriaRepository>();
             // UI
             services.AddScoped<ICategoriaHelper, CategoriaHelper>();
-            services.AddScoped<ISubcategoriaHelper, SubcategoriaHelper>();
+            services.AddScoped<ISubCategoriaHelper, SubcategoriaHelper>();
 
             services.AddControllersWithViews();
 

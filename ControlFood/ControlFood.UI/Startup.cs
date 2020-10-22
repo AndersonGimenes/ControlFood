@@ -34,6 +34,7 @@ namespace ControlFood.UI
             // Use Case
             services.AddTransient<ICadastroCategoriaUseCase, CadastroCategoriaUseCase>();
             services.AddTransient<ICadastroSubCategoriaUseCase, CadastroSubCategoriaUseCase>();
+            services.AddTransient<ICadastroProdutoUseCase, CadastroProdutoUseCase>();
 
             // Repository
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
@@ -43,6 +44,7 @@ namespace ControlFood.UI
             // UI
             services.AddScoped<ICategoriaHelper, CategoriaHelper>();
             services.AddScoped<ISubCategoriaHelper, SubcategoriaHelper>();
+            services.AddScoped<IProdutoHelper, ProdutoHelper>();
 
             services.AddControllersWithViews();
 

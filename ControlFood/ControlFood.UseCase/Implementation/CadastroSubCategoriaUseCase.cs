@@ -12,11 +12,13 @@ namespace ControlFood.UseCase.Implementation
     public class CadastroSubCategoriaUseCase : CadastroBaseUseCase<SubCategoria>,  ICadastroSubCategoriaUseCase
     {
         private ICategoriaRepository _categoriaRepository;
+        private readonly IProdutoRepository _produtoRepository;
 
-        public CadastroSubCategoriaUseCase(ISubCategoriaRepository subCategoriaRepository, ICategoriaRepository categoriaRepository)
+        public CadastroSubCategoriaUseCase(ISubCategoriaRepository subCategoriaRepository, ICategoriaRepository categoriaRepository, IProdutoRepository produtoRepository)
             : base(subCategoriaRepository)
         {
             _categoriaRepository = categoriaRepository;
+            _produtoRepository = produtoRepository;
         }
 
         public override SubCategoria Inserir(SubCategoria subCategoria)
@@ -35,6 +37,20 @@ namespace ControlFood.UseCase.Implementation
             VerificarTiposAtaulizacao(subCategoriaPersistida, subCategoria);
 
             base.Atualizar(subCategoria);
+        }
+
+        public override void Deletar(SubCategoria subCategoria)
+        {
+            var produtos = _produtoRepository.BuscarTodos();
+            this.VerificarSubCategoriaVinculada(subCategoria, produtos);
+
+            base.Deletar(subCategoria);
+        }
+
+        private void VerificarSubCategoriaVinculada(SubCategoria subCategoria, List<Produto> produtos)
+        {
+            if (produtos.Any(x => x.SubCategoria.IdentificadorUnico == subCategoria.IdentificadorUnico))
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.SubCategoria.ProdutoVinculadoASubCategoria, subCategoria.Tipo));
         }
 
         private void VerificarTiposAtaulizacao(SubCategoria subCategoriaPersistida, SubCategoria subCategoria)

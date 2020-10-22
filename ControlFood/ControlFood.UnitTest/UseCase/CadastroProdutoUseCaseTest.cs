@@ -63,7 +63,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void CasoNaoExistaUmaSubCategoriaVinculadaAoProdutoDeveSerLancadaUmaException()
         {
-            var produto = HelperMock.MockProduto("xpto", "Xtapa", idSubCategoria: 5);
+            var produto = HelperMock.MockProduto("xpto", "Xtapa", idSubCategoria: 99);
 
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
             Assert.Equal("Produto precisa estar vinculada a uma sub-categoria", ex.Message);

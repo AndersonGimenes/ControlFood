@@ -25,6 +25,8 @@ namespace ControlFood.Domain.Constantes
                 public const string SubCategoriaDuplicada = "A sub-categoria {0} ja existe no sistema";
 
                 public const string CategoriaNaoVinculadaASubCategoria = "Sub-categoria precisa estar vinculada a uma categoria";
+
+                public const string ProdutoVinculadoASubCategoria = "Existe Produto vinculada a Sub-Categoria {0}.";
             }
 
             public static class Produto

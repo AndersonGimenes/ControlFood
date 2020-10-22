@@ -15,6 +15,7 @@ namespace ControlFood.UnitTest.UseCase
     {
         private readonly Mock<ISubCategoriaRepository> _mockSubCategoriaRepository;
         private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
+        private readonly Mock<IProdutoRepository> _mockProdutoRepository;
         private readonly ICadastroSubCategoriaUseCase _cadastroSubCategoriaUseCase;
         private List<SubCategoria> subCategoriasPersistidasDepois;
 
@@ -22,7 +23,8 @@ namespace ControlFood.UnitTest.UseCase
         {
             _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
             _mockCategoriaRepository = new Mock<ICategoriaRepository>();
-            _cadastroSubCategoriaUseCase = new CadastroSubCategoriaUseCase(_mockSubCategoriaRepository.Object, _mockCategoriaRepository.Object);
+            _mockProdutoRepository = new Mock<IProdutoRepository>();
+            _cadastroSubCategoriaUseCase = new CadastroSubCategoriaUseCase(_mockSubCategoriaRepository.Object, _mockCategoriaRepository.Object, _mockProdutoRepository.Object);
 
             _mockSubCategoriaRepository
                 .Setup(x => x.BuscarTodos())
@@ -31,6 +33,10 @@ namespace ControlFood.UnitTest.UseCase
             _mockCategoriaRepository
                 .Setup(x => x.BuscarTodos())
                 .Returns(HelperMock.MockListaCategoriasPersistidas());
+
+            _mockProdutoRepository
+                .Setup(x => x.BuscarTodos())
+                .Returns(HelperMock.MockListaProdutosPersistidos());
         }
 
         [Fact]
@@ -80,7 +86,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveDeletarUmaSubCategoriaExistente()
         {
-            var subCategoria = HelperMock.MockSubCategoria("Lanche", 1, idSubCategoria: 1);
+            var subCategoria = HelperMock.MockSubCategoria("Espetos", 1, idSubCategoria: 5);
             var subCategoriasPersistidasAntes = HelperMock.MockListaSubCategoriasPersistidas().Count;
 
             _mockSubCategoriaRepository
@@ -147,6 +153,16 @@ namespace ControlFood.UnitTest.UseCase
 
             var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _cadastroSubCategoriaUseCase.Atualizar(subCategoria));
             Assert.Equal("O campo Tipo não pode ser atualizado.", ex.Message);
+        }
+
+        [Fact]
+        public void DeveLancarUmaExcepetionAoTentarDeletarUmaSubCategoriaVinculadaAUmProduto()
+        {
+            var subCategoria = HelperMock.MockSubCategoria("Lanche", 1, idSubCategoria: 1);
+
+            var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _cadastroSubCategoriaUseCase.Deletar(subCategoria));
+
+            Assert.Equal("Existe Produto vinculada a Sub-Categoria Lanche.", ex.Message);
         }
 
         #region [ METODOS PRIVADOS ]

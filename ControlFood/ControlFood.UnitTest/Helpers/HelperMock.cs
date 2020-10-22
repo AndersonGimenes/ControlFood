@@ -17,10 +17,11 @@ namespace ControlFood.UnitTest.UseCase.Helpers
         public static List<SubCategoria> MockListaSubCategoriasPersistidas() =>
             new List<SubCategoria>
             {
-                 MockSubCategoria("Lanche", 1, idSubCategoria: 1),
-                 MockSubCategoria("Pastel", 1, idSubCategoria: 2),
-                 MockSubCategoria("Suco", 2, tipoCategoria: "Bebida", idSubCategoria: 3),
-                 MockSubCategoria("Refrigerantes", 2, tipoCategoria: "Bebida", idSubCategoria: 4)
+                 MockSubCategoria("Lanche", idCategoria: 1, idSubCategoria: 1),
+                 MockSubCategoria("Pastel", idCategoria: 1, idSubCategoria: 2),
+                 MockSubCategoria("Suco", idCategoria: 2, tipoCategoria: "Bebida", idSubCategoria: 3),
+                 MockSubCategoria("Refrigerantes", idCategoria: 2, tipoCategoria: "Bebida", idSubCategoria: 4),
+                 MockSubCategoria("Espetos", idCategoria: 1, idSubCategoria: 5)
             };
 
         public static SubCategoria MockSubCategoria(string tipo, int idCategoria, string tipoCategoria = "Alimento", int idSubCategoria = 0)
@@ -42,7 +43,8 @@ namespace ControlFood.UnitTest.UseCase.Helpers
             {
                 MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1),
                 MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2),
-                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3)
+                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3), 
+                MockProduto("XT001", "X-TUDO", idProduto: 4, idSubCategoria: 1)
             };
         
 

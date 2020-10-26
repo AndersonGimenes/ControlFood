@@ -1,5 +1,4 @@
-﻿using ControlFood.Repository.Configuration.cs;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Repositorio = ControlFood.Repository.Entidades;
 

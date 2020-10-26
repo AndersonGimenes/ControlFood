@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ControlFood.Repository.Configuration.cs
+namespace ControlFood.Repository.Configuration
 {
     class SubCategoriaConfiguration : IEntityTypeConfiguration<SubCategoria>
     {

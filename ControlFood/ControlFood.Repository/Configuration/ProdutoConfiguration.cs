@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ControlFood.Repository.Configuration.cs
+namespace ControlFood.Repository.Configuration
 {
     public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
     {

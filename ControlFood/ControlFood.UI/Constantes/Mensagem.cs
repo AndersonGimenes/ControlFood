@@ -12,5 +12,10 @@
             public const string ItemDeletado = "Registro deletado.";
             public const string ItemAtualizado = "Item atualizado.";
         }
+
+        public static class EStoque
+        {
+            public const string EStoqueCadastrado = "Estoque cadastrado";
+        }
     }
 }

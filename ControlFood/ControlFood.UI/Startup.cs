@@ -35,11 +35,13 @@ namespace ControlFood.UI
             services.AddTransient<ICadastroCategoriaUseCase, CadastroCategoriaUseCase>();
             services.AddTransient<ICadastroSubCategoriaUseCase, CadastroSubCategoriaUseCase>();
             services.AddTransient<ICadastroProdutoUseCase, CadastroProdutoUseCase>();
+            services.AddTransient<ICadastroEstoqueUseCase, CadastroEstoqueUseCase>();
 
             // Repository
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<ISubCategoriaRepository, SubCategoriaRepository>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
+            services.AddTransient<IEstoqueRepository, EstoqueRepository>();
             
             // UI
             services.AddScoped<ICategoriaHelper, CategoriaHelper>();

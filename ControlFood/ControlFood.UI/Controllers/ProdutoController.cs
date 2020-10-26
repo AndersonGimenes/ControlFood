@@ -14,13 +14,22 @@ namespace ControlFood.UI.Controllers
         private readonly IProdutoHelper _produtoHelper;
         private readonly IMapper _mapper;
         private readonly ICadastroProdutoUseCase _cadastroProdutoUseCase;
+        private readonly ICadastroEstoqueUseCase _cadastroEstoqueUseCase;
 
-        public ProdutoController(ISubCategoriaHelper subcategoriaHelper, IProdutoHelper produtoHelper, IMapper mapper, ICadastroProdutoUseCase cadastroProdutoUseCase)
+        public ProdutoController
+        (
+            ISubCategoriaHelper subcategoriaHelper, 
+            IProdutoHelper produtoHelper, 
+            IMapper mapper, 
+            ICadastroProdutoUseCase cadastroProdutoUseCase,
+            ICadastroEstoqueUseCase cadastroEstoqueUseCase
+        )
         {
             _subcategoriaHelper = subcategoriaHelper;
             _produtoHelper = produtoHelper;
             _mapper = mapper;
             _cadastroProdutoUseCase = cadastroProdutoUseCase;
+            _cadastroEstoqueUseCase = cadastroEstoqueUseCase;
         }
 
         [HttpGet]
@@ -37,7 +46,7 @@ namespace ControlFood.UI.Controllers
         {
             try
             {
-                // validar produto is valid
+                produto.IsValid();
 
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
                 
@@ -47,6 +56,28 @@ namespace ControlFood.UI.Controllers
                 var produtosPersistidos = _produtoHelper.CacheProdutos(renovaCache: true);
                 
                 return View(produtosPersistidos);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
+        public IActionResult CadastrarEstoque(Produto produto)
+        {
+            try
+            {
+                produto.Estoque.IsValid();
+
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+                produtoDominio.Estoque.AtribuirIdentificadorUnicoProduto(produtoDominio.IdentificadorUnico);
+
+                _cadastroEstoqueUseCase.InserirEstoque(produtoDominio);
+
+                produto.Mensagem = Constantes.Mensagem.EStoque.EStoqueCadastrado;
+                return Json(produto);
 
             }
             catch (Exception ex)

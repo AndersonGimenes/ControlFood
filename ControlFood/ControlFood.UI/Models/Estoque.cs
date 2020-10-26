@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControlFood.UI.Validation;
+using System;
 
 namespace ControlFood.UI.Models
 {
@@ -8,5 +9,11 @@ namespace ControlFood.UI.Models
         public DateTime DataValidade { get; set; }
         public decimal ValorCompraUnidade { get; set; }
         public decimal ValorCompraTotal { get; set; }
+
+        public void IsValid()
+        {
+            var valida = new EstoqueValidation();
+            valida.Validar(this);
+        }
     }
 }

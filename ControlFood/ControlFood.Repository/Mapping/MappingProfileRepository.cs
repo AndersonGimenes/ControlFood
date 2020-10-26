@@ -16,7 +16,8 @@ namespace ControlFood.Repository.Mapping
                 .ForMember(dest => dest.CategoriaId, opts => opts.MapFrom(x => x.Categoria.IdentificadorUnico))
                 .ForMember(dest => dest.Categoria, opts => opts.MapFrom(x => SetarNulo()));
 
-            CreateMap<Dominio.Estoque, Entidades.Estoque>();
+            CreateMap<Dominio.Estoque, Entidades.Estoque>()
+                .ForMember(dest => dest.IdProduto, opts => opts.MapFrom(x => x.IdentificadorUnicoProduto));
 
             CreateMap<Dominio.Produto, Entidades.Produto>()
                 .ForMember(dest => dest.SubCategoriaId, opts => opts.MapFrom(x => x.SubCategoria.IdentificadorUnico))

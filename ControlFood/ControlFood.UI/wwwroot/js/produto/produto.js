@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
     var produto = new Produto();
     produto.cadastrar(produto);
+    produto.preencherCadastroEstoque(produto);
     produto.cadastrarEstoque(produto);
+    produto.ajustarValorCompra(produto);
 });
 
 class Produto {
@@ -44,7 +46,7 @@ class Produto {
         });
     }
 
-    cadastrarEstoque = function (instanciaProduto) {
+    preencherCadastroEstoque = function (instanciaProduto) {
         $(".btn-cadastro-estoque").click(function () {
             var elementoTr = this.parentNode.parentNode;
 
@@ -56,8 +58,69 @@ class Produto {
             $("#modal-cadastro-estoque").modal("show");
 
             $("#produto-nome").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
-            $("#produto-identificador-unico").html("<input type='hidden' value='" + produto.IdentificadorUnico + "'/>");
+            $("#span-produto-identificador-unico").html("<input id='produto-identificador-unico' type='hidden' value='" + produto.IdentificadorUnico + "'/>");
             
+        });
+    }
+
+    cadastrarEstoque = function (instanciaProduto) {
+        $("#btn-cadastrar-estoque").click(function () {
+            var elementoTr = this.parentNode.parentNode;
+
+            var arrayElementos = [$("#quantidade"), $("#valor-compra-unitario"), $("#valor-compra-total"), $("#data-validade")];
+            var arraySpans = [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario"), $("#span-valida-valor-compra-total"), $("#span-valida-data-validade")];
+
+            if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
+                return; 
+
+            var estoque = {
+                Quantidade : instanciaProduto._helper.obterValorPorId(elementoTr, "quantidade"),
+                DataValidade: instanciaProduto._helper.obterValorPorId(elementoTr, "data-validade"),
+                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-unitario"),
+                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-total")
+            }
+
+            var data = {
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorId(elementoTr, "produto-identificador-unico"),
+                Estoque: estoque
+            }   
+
+            instanciaProduto._helper.realizarChamadaAjax("Produto/CadastrarEstoque", data, "POST");
+
+        });
+    }
+
+    ajustarValorCompra = function (instanciaProduto) {
+        // autocompleta o valor de compra total com base no valor unitario
+        $("#valor-compra-unitario").blur(function () {
+            var elementoTr = this.parentNode.parentNode;
+
+            var estoque = {
+                Quantidade: instanciaProduto._helper.obterValorPorId(elementoTr, "quantidade"),
+                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-unitario"),
+                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-total")
+            }
+
+            $("#valor-compra-total").val(
+                estoque.Quantidade * estoque.ValorCompraUnidade
+            );
+
+        });
+
+        // autocompleta o valor de compra unitario com base no valor total
+        $("#valor-compra-total").blur(function () {
+            var elementoTr = this.parentNode.parentNode;
+
+            var estoque = {
+                Quantidade: instanciaProduto._helper.obterValorPorId(elementoTr, "quantidade"),
+                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-unitario"),
+                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-total")
+            }
+
+            $("#valor-compra-unitario").val(
+                estoque.ValorCompraTotal / estoque.Quantidade
+            );
+
         });
     }
 }

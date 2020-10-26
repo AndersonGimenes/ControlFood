@@ -39,7 +39,7 @@ namespace ControlFood.UI.Controllers
 
                 _cadastroCategoriaUseCase.Inserir(categoriaDominio);
 
-               var categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
+                var categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
 
                 return View(categorias);
 

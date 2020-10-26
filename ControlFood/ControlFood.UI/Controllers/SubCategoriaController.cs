@@ -3,7 +3,6 @@ using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using Dominio = ControlFood.Domain.Entidades;
 

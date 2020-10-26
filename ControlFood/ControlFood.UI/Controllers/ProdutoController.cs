@@ -1,8 +1,10 @@
-﻿using ControlFood.UI.Helpers.Interface;
+﻿using AutoMapper;
+using Dominio = ControlFood.Domain.Entidades;
+using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
+using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 
 namespace ControlFood.UI.Controllers
 {
@@ -10,11 +12,15 @@ namespace ControlFood.UI.Controllers
     {
         private readonly ISubCategoriaHelper _subcategoriaHelper;
         private readonly IProdutoHelper _produtoHelper;
+        private readonly IMapper _mapper;
+        private readonly ICadastroProdutoUseCase _cadastroProdutoUseCase;
 
-        public ProdutoController(ISubCategoriaHelper subcategoriaHelper, IProdutoHelper produtoHelper)
+        public ProdutoController(ISubCategoriaHelper subcategoriaHelper, IProdutoHelper produtoHelper, IMapper mapper, ICadastroProdutoUseCase cadastroProdutoUseCase)
         {
             _subcategoriaHelper = subcategoriaHelper;
             _produtoHelper = produtoHelper;
+            _mapper = mapper;
+            _cadastroProdutoUseCase = cadastroProdutoUseCase;
         }
 
         [HttpGet]
@@ -33,14 +39,14 @@ namespace ControlFood.UI.Controllers
             {
                 // validar produto is valid
 
-                // criar mapper para dominio 
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+                
+                _cadastroProdutoUseCase.Inserir(produtoDominio);
 
-                // chamar metodo para inserir
-
-                // mapear retorno 
-
-                // retornar lista de produtos
-                return View();
+                ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
+                var produtosPersistidos = _produtoHelper.CacheProdutos(renovaCache: true);
+                
+                return View(produtosPersistidos);
 
             }
             catch (Exception ex)

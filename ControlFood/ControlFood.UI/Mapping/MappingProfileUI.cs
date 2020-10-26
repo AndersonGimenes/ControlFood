@@ -15,6 +15,10 @@ namespace ControlFood.UI.Mapping
                 .ForMember(dest => dest.IndicadorItemCozinha, opts => opts.MapFrom(x => x.Indicador == 0))
                 .ForMember(dest => dest.IndicadorItemBar, opts => opts.MapFrom(x => x.Indicador == 1));
 
+            CreateMap<Models.Estoque, Dominio.Estoque>();
+
+            CreateMap<Models.Produto, Dominio.Produto>();
+
             // mapper dominio para modelo
             CreateMap<Dominio.Categoria, Models.Categoria>();            
 

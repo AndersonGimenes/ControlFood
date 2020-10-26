@@ -1,22 +1,13 @@
 ﻿$(document).ready(function () {
     var produto = new Produto();
-    produto.checkIgrediente(produto);
-    produto.checkEstoque(produto);
     produto.cadastrar(produto);
+    produto.cadastrarEstoque(produto);
 });
 
 class Produto {
 
-    constructor(){
+    constructor() {
         this._helper = new ComumHelper();
-    }
-
-    checkIgrediente = function (instanciaProduto) {
-        instanciaProduto._helper.checkHiddenOnOff("#especifico-igredientes", "#span-especifico-igredientes");
-    }
-
-    checkEstoque = function (instanciaProduto) {
-        instanciaProduto._helper.checkHiddenOnOff("#especifico-estoque", "#span-especifico-estoque");
     }
 
     cadastrar = function (instanciaProduto) {
@@ -24,8 +15,11 @@ class Produto {
         $("#btn-cadastrar").click(function () {
             var elemento = this.parentNode;
 
-            if (!instanciaProduto._validarCampos(elemento))
-                return;
+            var arrayElementos = [$("#nome"), $("#codigo-interno"), $("#valor-venda")];
+            var arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
+
+            if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
+                return;            
 
             var subCategoria = {
                 IdentificadorUnico: instanciaProduto._helper.obterValorPorId(elemento, "identificador-unico-sub-categoria-nova")
@@ -50,25 +44,20 @@ class Produto {
         });
     }
 
-    _validarCampos = function (elemento) {
+    cadastrarEstoque = function (instanciaProduto) {
+        $(".btn-cadastro-estoque").click(function () {
+            var elementoTr = this.parentNode.parentNode;
 
-        var arrayElementos = [$("#nome"), $("#codigo-interno"), $("#valor-venda")];
-        var arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
+            var produto = {
+                Nome: instanciaProduto._helper.obterTextoPorClasse(elementoTr, "nome"),
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elementoTr, "identificador-unico")
+            }
 
+            $("#modal-cadastro-estoque").modal("show");
 
-        if (!this._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
-            return false;
-
-        var className = $(elemento).find("#span-especifico-estoque")[0].className;
-
-        if (className != "d-none") {
-            arrayElementos = [$("#data-validade"), $("#quantidade")];
-            arraySpans = [$("#span-valida-data-validade"), $("#span-valida-quantidade")];
-
-            if (!this._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
-                return false;
-        }
-
-        return true;
+            $("#produto-nome").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
+            $("#produto-identificador-unico").html("<input type='hidden' value='" + produto.IdentificadorUnico + "'/>");
+            
+        });
     }
 }

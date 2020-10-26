@@ -14,7 +14,7 @@
                     <th scope="col">Nome produto</th>
                     <th scope="col">Sub categoria</th>
                     <th scope="col">Valor venda</th>
-                    <th scope="col">Quantidade</th>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
@@ -27,7 +27,7 @@
                     <td class="nome">@produto.Nome</td>
                     <td class="tipo-sub-categoria">@produto.SubCategoria.Tipo</td>
                     <td class="valor-venda">R$@produto.ValorVenda</td>
-                    <td class="quantidade">@produto.Estoque.Quantidade</td>
+                    <td><button type="button" class="btn btn-success btn-cadastro-estoque">Cadastrar Estoque</button></td>
                     <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
                     <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
                     <input type="hidden" class="identificador-unico" value="@produto.IdentificadorUnico" />
@@ -47,7 +47,7 @@
                 }
         </select>
     </div>
-    <!--Campos comuns-->
+    
     <div class="form-group">
         <span id="span-valida-nome"></span>
         <input type="text" class="form-control" id="nome" placeholder="Digite o novo produto">
@@ -63,46 +63,10 @@
         <input type="text" class="form-control" id="valor-venda" placeholder="Digite o valor de venda">
     </div>
 
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="especifico-estoque">
-        <label class="form-check-label" for="exampleCheck1">Cadastrar estoque</label>
-    </div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="especifico-igredientes">
-        <label class="form-check-label" for="exampleCheck1">Cadastrar igredientes</label>
-    </div>
-
-    
-    <div id="span-especifico-estoque" class="d-none">
-        <!--Campos especificos para cadastro em estoque-->
-        <div class="form-group">
-            <input type="text" class="form-control" id="valor-compra-unitario" placeholder="Digite o valor da compra unitario">
-        </div>
-
-        <div class="form-group">
-            <input type="text" class="form-control" id="valor-compra-total" placeholder="Digite o valor da compra total">
-        </div>
-
-        <div class="form-group">
-            <span id="span-valida-data-validade"></span>
-            <input type="date" class="form-control" id="data-validade" placeholder="Digite a validade do produto">
-        </div>
-
-        <div class="form-group">
-            <span id="span-valida-quantidade"></span>
-            <input type="text" class="form-control" id="quantidade" placeholder="Digite a quantidade do produto">
-        </div>
-    </div>
-
-    <!--Campos especificos para cadastro de produtos com igredientes-->
-    <div id="span-especifico-igredientes" class="d-none">
-        <div class="form-group">
-            <textarea class="form-control" id="igredientes" placeholder="Digite os igredientes do produto"></textarea>
-        </div>
-    </div>
     <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
 </form>
-   
+    
+    <partial name="_ModalCadastroEstoque" />
 }
 else
 {

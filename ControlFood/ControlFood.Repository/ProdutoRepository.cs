@@ -36,11 +36,14 @@ namespace ControlFood.Repository
             return _mapper.Map<List<Dominio.Produto>>(produtosPersistidos);
         }
 
-        protected override object MapearDominioParaRepository(Dominio.Produto produto)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        protected override object MapearDominioParaRepository(Dominio.Produto produto) => _mapper.Map<Dominio.Produto, Entidades.Produto>(produto, opt => {
+            opt.AfterMap((src, dest) =>
+            {
+                var estoque = _mapper.Map<Entidades.Estoque>(src.Estoque);
+                dest.Estoques.Add(estoque);
+            });
+        });
+        
         protected override Dominio.Produto MapearRepositoryParaDominio(object produtoPersistido) => _mapper.Map<Dominio.Produto>(produtoPersistido);
     }
 }

@@ -58,8 +58,8 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                 ValorVenda = 5
             };
 
-            produto.SubCategoria.IdentificadorUnico = idSubCategoria;
-           
+            produto.SubCategoria = new SubCategoria { IdentificadorUnico = idSubCategoria };
+                     
             return produto;
         }
     }

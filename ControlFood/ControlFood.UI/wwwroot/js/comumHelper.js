@@ -72,16 +72,7 @@
         });
     }
 
-    checkHiddenOnOff = function (element, span) {
-        $(element).click(function () {
-
-            if (this.checked) {
-                $(span).removeClass("d-none");
-                return;
-            }
-           
-            $(span).addClass("d-none");
-            
-        });
+    mascaraValorMonetario = function (element) {
+        element.mask('#.##0,00', { reverse: true });
     }
 }

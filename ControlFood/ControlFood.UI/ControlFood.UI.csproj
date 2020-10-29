@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\craftpip\dist\css\" />
+    <Folder Include="wwwroot\lib\jquery-mask\dist\" />
   </ItemGroup>
 
 </Project>

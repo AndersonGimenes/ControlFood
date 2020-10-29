@@ -36,6 +36,8 @@ namespace ControlFood.Domain.Constantes
                 public const string SubCategoriaNaoVinculadaAoProduto = "Produto precisa estar vinculada a uma sub-categoria";
 
                 public const string ProdutoDuplicadoPorCodigo = "O produto com codigo {0} ja existe no sistema";
+
+                public const string ProdutoInexistente = "Não é possivel cadastrar o estoque: Produto inexistente";
             }
         }  
         

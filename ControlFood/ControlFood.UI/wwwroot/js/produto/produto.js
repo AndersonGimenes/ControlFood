@@ -73,10 +73,12 @@ class Produto {
             if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
                 return; 
 
+            var valorUnidade = instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-unitario");
+
             var estoque = {
                 Quantidade : instanciaProduto._helper.obterValorPorId(elementoTr, "quantidade"),
                 DataValidade: instanciaProduto._helper.obterValorPorId(elementoTr, "data-validade"),
-                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-unitario"),
+                ValorCompraUnidade: valorUnidade,
                 ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-total")
             }
 
@@ -91,21 +93,27 @@ class Produto {
     }
 
     ajustarValorCompra = function (instanciaProduto) {
+        $("#valor-compra-unitario").mask('#.##0,00', { reverse: true });
+      
         // autocompleta o valor de compra total com base no valor unitario
         $("#valor-compra-unitario").blur(function () {
             var elementoTr = this.parentNode.parentNode;
-
+           
             var estoque = {
                 Quantidade: instanciaProduto._helper.obterValorPorId(elementoTr, "quantidade"),
                 ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-unitario"),
                 ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-total")
             }
 
-            $("#valor-compra-total").val(
-                estoque.Quantidade * estoque.ValorCompraUnidade
-            );
+            var valorFormatado = instanciaProduto._formatarValorInput(estoque.ValorCompraUnidade);
+
+            var resultado = parseInt(estoque.Quantidade) * valorFormatado;
+
+            $("#valor-compra-total").val(instanciaProduto._formatarValorOutput(resultado));
 
         });
+
+        $("#valor-compra-total").mask('#.##0,00', { reverse: true });
 
         // autocompleta o valor de compra unitario com base no valor total
         $("#valor-compra-total").blur(function () {
@@ -117,10 +125,60 @@ class Produto {
                 ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elementoTr, "valor-compra-total")
             }
 
-            $("#valor-compra-unitario").val(
-                estoque.ValorCompraTotal / estoque.Quantidade
-            );
+            var valorFormatado = instanciaProduto._formatarValorInput(estoque.ValorCompraTotal);
 
+            var resultado = valorFormatado / parseInt(estoque.Quantidade);
+
+            $("#valor-compra-unitario").val(instanciaProduto._formatarValorOutput(resultado));
+            
         });
+               
+    }
+
+    _formatarValorInput = function (valor) {
+        var valorSemCaracteres = valor.replace(',', '').replace('.', '');
+
+        var duasUltimasCasas = valorSemCaracteres.substring(valorSemCaracteres.length, valorSemCaracteres.length - 2);
+
+        var valorInvertido = valorSemCaracteres.split('').reverse().join('');
+
+        var demaisCasasInvertido = valorInvertido.substring(valorInvertido.length, 2);
+
+        var demaisCasas = demaisCasasInvertido.split('').reverse().join('');
+
+        return parseFloat(demaisCasas + '.' + duasUltimasCasas);
+    }
+
+    _formatarValorOutput = function (valor) {
+        var valorSemCaracteres = valor.toFixed(2).toString().replace('.', '');
+
+        if (valorSemCaracteres.length <= 5)
+            return valor.toFixed(2).toString().replace('.', ',');
+
+        var duasUltimasCasas = valorSemCaracteres.substring(valorSemCaracteres.length, valorSemCaracteres.length - 2);
+
+        var valorInvertido = valorSemCaracteres.split('').reverse().join('');
+
+        var demaisCasasInvertido = valorInvertido.substring(valorInvertido.length, 2);
+
+        var concatSequencia = '';
+        var concatSequenciaPonto = '';
+        var concatResultado = '';
+
+        demaisCasasInvertido.split('').forEach(function (numero) {
+                                   
+            concatSequencia += numero;
+            
+            if (concatSequencia.length == 3) {
+                concatSequenciaPonto += concatSequencia + ".";
+                concatSequencia = "";
+            } 
+
+            concatResultado = concatSequenciaPonto + concatSequencia;
+        });
+
+        var demaisCasas = concatResultado.split('').reverse().join('');
+
+        return demaisCasas + ',' + duasUltimasCasas;
     }
 }

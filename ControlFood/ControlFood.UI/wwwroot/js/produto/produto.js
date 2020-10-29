@@ -11,6 +11,16 @@ class Produto {
 
     constructor() {
         this._helper = new ComumHelper();
+
+        // input valor venda produto
+        this._helper.mascaraValorMonetario($("#valor-venda"));
+
+        // modal cadastro estoque
+        // input valor compra unitario
+        this._helper.mascaraValorMonetario($("#valor-compra-unitario"));
+
+        // input valor compra total
+        this._helper.mascaraValorMonetario($("#valor-compra-total"));
     }
 
     cadastrar = function (instanciaProduto) {
@@ -51,6 +61,7 @@ class Produto {
     }
 
     preencherCadastroEstoque = function (instanciaProduto) {
+
         $(".btn-cadastro-estoque").click(function () {
             var elemento = this.parentNode.parentNode;
 
@@ -71,6 +82,7 @@ class Produto {
     }
 
     cadastrarEstoque = function (instanciaProduto) {
+
         $("#btn-cadastrar-estoque").click(function () {
             var elemento = this.parentNode.parentNode;
 
@@ -101,9 +113,6 @@ class Produto {
     }
 
     ajustarValorCompra = function (instanciaProduto) {
-        // input valor compra unitario
-        instanciaProduto._helper.mascaraValorMonetario($("#valor-compra-unitario"));
-              
         // autocompleta o valor de compra total com base no valor unitario
         $("#valor-compra-unitario").blur(function () {
 
@@ -131,9 +140,6 @@ class Produto {
 
         });
 
-        // input valor compra total
-        instanciaProduto._helper.mascaraValorMonetario($("#valor-compra-total"));
-        
         // autocompleta o valor de compra unitario com base no valor total
         $("#valor-compra-total").blur(function () {
 

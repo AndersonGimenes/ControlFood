@@ -8,13 +8,36 @@ namespace ControlFood.UseCase.Validation
 {
     internal static class CadastroSubCategoriaUseCaseValidation
     {
-        internal static void VerificarSubCategoriaVinculada(SubCategoria subCategoria, List<Produto> produtos)
+        internal static void ValidarRegrasParaInserir(SubCategoria subCategoria, List<Categoria> categorias, List<SubCategoria> subCategorias)
         {
-            if (produtos.Any(x => x.SubCategoria.IdentificadorUnico == subCategoria.IdentificadorUnico))
-                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoria.ProdutoVinculadoASubCategoria, subCategoria.Tipo));
+            VerificarCategoriaVinculada(subCategoria, categorias);
+            VerificarDuplicidade(subCategoria, subCategorias);
         }
 
-        internal static void VerificarTiposAtaulizacao(SubCategoria subCategoriaPersistida, SubCategoria subCategoria)
+        internal static void ValidarRegrasParaAtualizar(SubCategoria subCategoria, SubCategoria subCategoriaPersistida)
+        {
+            VerificarTiposAtaulizacao(subCategoriaPersistida, subCategoria);
+        }
+
+        internal static void ValidarRegrasParaDeletar(SubCategoria subCategoria, List<Produto> produtos)
+        {
+            VerificarSubCategoriaVinculada(subCategoria, produtos);
+        }
+
+        #region [ PRIVADOS ]
+        private static void VerificarCategoriaVinculada(SubCategoria subCategoria, List<Categoria> categorias)
+        {
+            if(!categorias.Any(c => c.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico))            
+                throw new SubCategoriaIncorretaUseCaseException(Mensagem.Validacao.SubCategoria.CategoriaNaoVinculadaASubCategoria);
+        }
+
+        private static void VerificarDuplicidade(SubCategoria subCategoria, List<SubCategoria> subCategorias)
+        {
+            if (subCategorias.Any(s => s.Tipo == subCategoria.Tipo))
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoria.SubCategoriaDuplicada, subCategoria.Tipo));
+        }
+
+        private static void VerificarTiposAtaulizacao(SubCategoria subCategoriaPersistida, SubCategoria subCategoria)
         {
             if (subCategoria.Tipo != subCategoriaPersistida.Tipo)
                 throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Tipo)));
@@ -23,16 +46,12 @@ namespace ControlFood.UseCase.Validation
                 throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Categoria.IdentificadorUnico)));
         }
 
-        internal static void VerificarCategoriaVinculada(SubCategoria subCategoria, List<Categoria> categorias)
+        private static void VerificarSubCategoriaVinculada(SubCategoria subCategoria, List<Produto> produtos)
         {
-            if(!categorias.Any(c => c.IdentificadorUnico == subCategoria.Categoria.IdentificadorUnico))            
-                throw new SubCategoriaIncorretaUseCaseException(Mensagem.Validacao.SubCategoria.CategoriaNaoVinculadaASubCategoria);
+            if (produtos.Any(x => x.SubCategoria.IdentificadorUnico == subCategoria.IdentificadorUnico))
+                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoria.ProdutoVinculadoASubCategoria, subCategoria.Tipo));
         }
 
-        internal static void VerificarDuplicidade(SubCategoria subCategoria, List<SubCategoria> subCategorias)
-        {
-            if (subCategorias.Any(s => s.Tipo == subCategoria.Tipo))
-                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoria.SubCategoriaDuplicada, subCategoria.Tipo));
-        }
+        #endregion
     }
 }

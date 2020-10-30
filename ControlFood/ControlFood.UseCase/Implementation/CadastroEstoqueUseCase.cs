@@ -1,12 +1,8 @@
-﻿using ControlFood.Domain.Constantes;
-using ControlFood.Domain.Entidades;
-using ControlFood.UseCase.Exceptions;
+﻿using ControlFood.Domain.Entidades;
 using ControlFood.UseCase.Implementation.Base;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using ControlFood.UseCase.Validation;
 
 namespace ControlFood.UseCase.Implementation
 {
@@ -22,11 +18,9 @@ namespace ControlFood.UseCase.Implementation
 
         public Produto InserirEstoque(Produto produto)
         {
-            VerificarProdutoVinculado(_produtoRepository.BuscarTodos(), produto);
-            
-            VerificarValidade(produto);
+            var produtos = _produtoRepository.BuscarTodos();
 
-            VerificarValoresParaPersistencia(produto);
+            CadastroEstoqueUseCaseValidation.ValidarRegrasParaInserir(produto, produtos);
 
             produto.Estoque.AtribuirDataDeEntrada();
 
@@ -36,22 +30,6 @@ namespace ControlFood.UseCase.Implementation
             return default;
         }
 
-        private void VerificarValoresParaPersistencia(Produto produto)
-        {
-            if((produto.Estoque.Quantidade * produto.Estoque.ValorCompraUnidade) != produto.Estoque.ValorCompraTotal)
-                throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.ValoresDivergentes);
-        }
-
-        private void VerificarValidade(Produto produto)
-        {
-            if(produto.Estoque.DataValidade <= DateTime.Today)
-                throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.ValidadeIncorreta, DateTime.Today.ToString("dd/MM/yyyy")));
-        }
-
-        private void VerificarProdutoVinculado(List<Produto> produtos, Produto produto)
-        {
-            if(!produtos.Any(x => x.IdentificadorUnico == produto.Estoque.IdentificadorUnicoProduto))
-                throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.ProdutoInexistente);
-        }
+        
     }
 }

@@ -23,8 +23,7 @@ namespace ControlFood.UseCase.Implementation
             var produtos = _produtoRepository.BuscarTodos();
             var subCategorias = _subCategoriaRepository.BuscarTodos();
 
-            CadastroProdutoUseCaseValidation.VerifcarDuplicidade(produto, produtos);
-            CadastroProdutoUseCaseValidation.VerificarSubCategoriaVinculadada(subCategorias, produto);
+            CadastroProdutoUseCaseValidation.ValidarRegrasParaInserir(produto, produtos, subCategorias);
 
             return base.Inserir(produto);
         }

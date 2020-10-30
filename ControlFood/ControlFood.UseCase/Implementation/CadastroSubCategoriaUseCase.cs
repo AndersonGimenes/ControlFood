@@ -20,10 +20,10 @@ namespace ControlFood.UseCase.Implementation
 
         public override SubCategoria Inserir(SubCategoria subCategoria)
         {
+            var categorias = _categoriaRepository.BuscarTodos();
             var subCategorias = base.BuscarTodos();
 
-            CadastroSubCategoriaUseCaseValidation.VerificarCategoriaVinculada(subCategoria, _categoriaRepository.BuscarTodos());
-            CadastroSubCategoriaUseCaseValidation.VerificarDuplicidade(subCategoria, subCategorias);
+            CadastroSubCategoriaUseCaseValidation.ValidarRegrasParaInserir(subCategoria, categorias, subCategorias);
 
             return base.Inserir(subCategoria);
         }
@@ -31,7 +31,8 @@ namespace ControlFood.UseCase.Implementation
         public override void Atualizar(SubCategoria subCategoria)
         {
             var subCategoriaPersistida = base.BuscarPorIdentificacao(subCategoria, nameof(subCategoria.IdentificadorUnico));
-            CadastroSubCategoriaUseCaseValidation.VerificarTiposAtaulizacao(subCategoriaPersistida, subCategoria);
+
+            CadastroSubCategoriaUseCaseValidation.ValidarRegrasParaAtualizar(subCategoria, subCategoriaPersistida);
 
             base.Atualizar(subCategoria);
         }
@@ -39,8 +40,9 @@ namespace ControlFood.UseCase.Implementation
         public override void Deletar(SubCategoria subCategoria)
         {
             var produtos = _produtoRepository.BuscarTodos();
-            CadastroSubCategoriaUseCaseValidation.VerificarSubCategoriaVinculada(subCategoria, produtos);
 
+            CadastroSubCategoriaUseCaseValidation.ValidarRegrasParaDeletar(subCategoria, produtos);
+            
             base.Deletar(subCategoria);
         }
 

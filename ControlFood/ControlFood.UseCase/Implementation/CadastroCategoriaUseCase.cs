@@ -18,7 +18,9 @@ namespace ControlFood.UseCase.Implementation
 
         public override Categoria Inserir(Categoria categoria)
         {
-            CadastroCategoriaUseCaseValidation.VerificarDuplicidade(categoria, base.BuscarTodos());
+            var catrgorias = base.BuscarTodos();
+
+            CadastroCategoriaUseCaseValidation.ValidarRegrasParaInserir(categoria, catrgorias);
 
             return base.Inserir(categoria);
         }
@@ -26,7 +28,8 @@ namespace ControlFood.UseCase.Implementation
         public override void Deletar(Categoria categoria)
         {
             var subCategorias = _subCategoriaRepository.BuscarTodos();
-            CadastroCategoriaUseCaseValidation.VerificarSubCategoriaVinculada(categoria, subCategorias);
+
+            CadastroCategoriaUseCaseValidation.ValidarRegrasParaDeletar(categoria, subCategorias);
 
             base.Deletar(categoria);
         }

@@ -1,6 +1,7 @@
 ﻿using ControlFood.Domain.Constantes;
 using ControlFood.Domain.Entidades;
 using ControlFood.UseCase.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,14 @@ namespace ControlFood.UseCase.Validation
 {
     internal static class CadastroProdutoUseCaseValidation
     {
-        internal static void VerifcarDuplicidade(Produto produto, List<Produto> produtos)
+        internal static void ValidarRegrasParaInserir(Produto produto, List<Produto> produtos, List<SubCategoria> subCategorias)
+        {
+            VerifcarDuplicidade(produto, produtos);
+            VerificarSubCategoriaVinculadada(subCategorias, produto);
+        }
+
+        #region[ PRIVADOS ]
+        private static void VerifcarDuplicidade(Produto produto, List<Produto> produtos)
         {
             if (produtos.Any(p => p.Nome == produto.Nome))
                 throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.ProdutoDuplicadoPorNome, produto.Nome));
@@ -17,10 +25,11 @@ namespace ControlFood.UseCase.Validation
                 throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.ProdutoDuplicadoPorCodigo, produto.CodigoInterno));
         }
 
-        internal static void VerificarSubCategoriaVinculadada(List<SubCategoria> subCategorias, Produto produto)
+        private static void VerificarSubCategoriaVinculadada(List<SubCategoria> subCategorias, Produto produto)
         {
             if (!subCategorias.Any(s => s.IdentificadorUnico == produto.SubCategoria.IdentificadorUnico))
                 throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.SubCategoriaNaoVinculadaAoProduto);
         }
+        #endregion
     }
 }

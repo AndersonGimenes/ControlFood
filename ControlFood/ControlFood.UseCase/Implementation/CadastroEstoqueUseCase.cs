@@ -23,6 +23,7 @@ namespace ControlFood.UseCase.Implementation
         public Produto InserirEstoque(Produto produto)
         {
             VerificarProdutoVinculado(_produtoRepository.BuscarTodos(), produto);
+            VerificarValidade(produto);
 
             produto.Estoque.AtribuirDataDeEntrada();
 
@@ -30,6 +31,12 @@ namespace ControlFood.UseCase.Implementation
 
             // ajustar 
             return default;
+        }
+
+        private void VerificarValidade(Produto produto)
+        {
+            if(produto.Estoque.DataValidade <= DateTime.Today)
+                throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.ValidadeIncorreta, DateTime.Today.ToString("dd/MM/yyyy")));
         }
 
         private void VerificarProdutoVinculado(List<Produto> produtos, Produto produto)

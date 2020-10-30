@@ -23,7 +23,10 @@ namespace ControlFood.UseCase.Implementation
         public Produto InserirEstoque(Produto produto)
         {
             VerificarProdutoVinculado(_produtoRepository.BuscarTodos(), produto);
+            
             VerificarValidade(produto);
+
+            VerificarValoresParaPersistencia(produto);
 
             produto.Estoque.AtribuirDataDeEntrada();
 
@@ -31,6 +34,12 @@ namespace ControlFood.UseCase.Implementation
 
             // ajustar 
             return default;
+        }
+
+        private void VerificarValoresParaPersistencia(Produto produto)
+        {
+            if((produto.Estoque.Quantidade * produto.Estoque.ValorCompraUnidade) != produto.Estoque.ValorCompraTotal)
+                throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.ValoresDivergentes);
         }
 
         private void VerificarValidade(Produto produto)

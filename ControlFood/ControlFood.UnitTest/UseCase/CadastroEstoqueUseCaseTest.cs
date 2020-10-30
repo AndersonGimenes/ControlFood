@@ -69,5 +69,17 @@ namespace ControlFood.UnitTest.UseCase
 
             Assert.Equal(mensagemErro, ex.Message);
         }
+
+        [Fact]
+        public void SeAQauntidadeVezesValorUnitarioForDiferenteDoValorTotalDeveSerLancadaUmaException()
+        {
+            var sorvete = new Produto();
+            sorvete.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 05, 15), ValorCompraTotal = 35.00M, ValorCompraUnidade = 3.00M };
+            sorvete.Estoque.AtribuirIdentificadorUnicoProduto(5);
+
+            var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(sorvete));
+
+            Assert.Equal("A quantidade X valor unitario é diferente do valor total do lote.", ex.Message);
+        }
     }
 }

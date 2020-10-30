@@ -15,6 +15,11 @@ namespace ControlFood.UseCase.Validation
             VerificarSubCategoriaVinculadada(subCategorias, produto);
         }
 
+        internal static void ValidarRegrasParaDeletar(Produto produto, List<Estoque> estoques)
+        {
+            VerificarEstoqueVinculado(produto, estoques);
+        }
+
         #region[ PRIVADOS ]
         private static void VerifcarDuplicidade(Produto produto, List<Produto> produtos)
         {
@@ -29,6 +34,12 @@ namespace ControlFood.UseCase.Validation
         {
             if (!subCategorias.Any(s => s.IdentificadorUnico == produto.SubCategoria.IdentificadorUnico))
                 throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.SubCategoriaNaoVinculadaAoProduto);
+        }
+
+        private static void VerificarEstoqueVinculado(Produto produto, List<Estoque> estoques)
+        {
+            if (estoques.Any(e => e.IdentificadorUnicoProduto == produto.IdentificadorUnico))
+                throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.EstoqueVinculado, produto.Nome));
         }
         #endregion
     }

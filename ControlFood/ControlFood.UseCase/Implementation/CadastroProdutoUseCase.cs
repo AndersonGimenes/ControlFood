@@ -10,12 +10,14 @@ namespace ControlFood.UseCase.Implementation
     {        
         private readonly IProdutoRepository _produtoRepository;
         private readonly ISubCategoriaRepository _subCategoriaRepository;
+        private readonly IEstoqueRepository _estoqueRepository;
 
-        public CadastroProdutoUseCase(IProdutoRepository produtoRepository, ISubCategoriaRepository subCategoriaRepository)
+        public CadastroProdutoUseCase(IProdutoRepository produtoRepository, ISubCategoriaRepository subCategoriaRepository, IEstoqueRepository estoqueRepository)
             : base(produtoRepository)
         {
             _produtoRepository = produtoRepository;
             _subCategoriaRepository = subCategoriaRepository;
+            _estoqueRepository = estoqueRepository;
         }
 
         public override Produto Inserir(Produto produto)
@@ -26,6 +28,15 @@ namespace ControlFood.UseCase.Implementation
             CadastroProdutoUseCaseValidation.ValidarRegrasParaInserir(produto, produtos, subCategorias);
 
             return base.Inserir(produto);
+        }
+
+        public override void Deletar(Produto produto)
+        {
+            var estoques = _estoqueRepository.BuscarTodos();
+            
+            CadastroProdutoUseCaseValidation.ValidarRegrasParaDeletar(produto, estoques);
+            // se existir estoque vinculado ao produto lancar exception
+            base.Deletar(produto);
         }
     }
 }

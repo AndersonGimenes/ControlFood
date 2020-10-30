@@ -65,5 +65,17 @@ namespace ControlFood.UnitTest.UseCase.Helpers
 
             return produto;
         }
+
+        public static List<Estoque> MockListaEstoque()
+        {
+            var estoqueCocaCola = new Estoque { Quantidade = 10, DataValidade = DateTime.Now.AddDays(150), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
+            estoqueCocaCola.AtribuirDataDeEntrada();
+            estoqueCocaCola.AtribuirIdentificadorUnicoProduto(1);
+
+            return new List<Estoque>
+            {
+                estoqueCocaCola
+            };
+        }
     }
 }

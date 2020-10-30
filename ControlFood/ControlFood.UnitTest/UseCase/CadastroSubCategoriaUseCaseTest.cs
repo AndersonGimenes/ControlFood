@@ -1,4 +1,5 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.UnitTest.Helpers;
 using ControlFood.UnitTest.UseCase.Helpers;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Implementation;
@@ -17,8 +18,8 @@ namespace ControlFood.UnitTest.UseCase
         private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
         private readonly ICadastroSubCategoriaUseCase _cadastroSubCategoriaUseCase;
-        private List<SubCategoria> subCategoriasPersistidasDepois;
-
+        private int subCategoriasPersistidasDepois;
+        
         public CadastroSubCategoriaUseCaseTest()
         {
             _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
@@ -87,16 +88,16 @@ namespace ControlFood.UnitTest.UseCase
         public void DeveDeletarUmaSubCategoriaExistente()
         {
             var subCategoria = HelperMock.MockSubCategoria("Espetos", 1, idSubCategoria: 5);
-            var subCategoriasPersistidasAntes = HelperMock.MockListaSubCategoriasPersistidas().Count;
+            var subCategorias = HelperMock.MockListaSubCategoriasPersistidas();
+            var subCategoriasPersistidasAntes = subCategorias.Count; 
 
             _mockSubCategoriaRepository
                 .Setup(x => x.Deletar(It.IsAny<SubCategoria>()))
-                .Callback(() => subCategoriasPersistidasDepois = DeletarSubCategoriaExistente(subCategoria));
+                .Callback(() => subCategoriasPersistidasDepois = HelperComum<SubCategoria>.DeletarRegistro(subCategoria, subCategorias, nameof(subCategoria.IdentificadorUnico)));
 
             _cadastroSubCategoriaUseCase.Deletar(subCategoria);
 
-            Assert.True(subCategoriasPersistidasAntes > subCategoriasPersistidasDepois.Count);
-
+            Assert.True(subCategoriasPersistidasAntes > subCategoriasPersistidasDepois);
         }
 
         [Fact]
@@ -165,22 +166,5 @@ namespace ControlFood.UnitTest.UseCase
             Assert.Equal("Existe Produto vinculada a Sub-Categoria Lanche.", ex.Message);
         }
 
-        #region [ METODOS PRIVADOS ]
-        private List<SubCategoria> DeletarSubCategoriaExistente(SubCategoria subCategoria)
-        {
-            var subCategorias = HelperMock.MockListaSubCategoriasPersistidas();
-
-            var existeSubCategoria = subCategorias.Any(s => s.IdentificadorUnico == subCategoria.IdentificadorUnico);
-            var indice = subCategorias.FindIndex(s => s.IdentificadorUnico == subCategoria.IdentificadorUnico);
-
-            if (existeSubCategoria)
-            {
-                subCategorias.RemoveAt(indice);
-            }
-
-            return subCategorias;
-        }
-       
-        #endregion
     }
 }

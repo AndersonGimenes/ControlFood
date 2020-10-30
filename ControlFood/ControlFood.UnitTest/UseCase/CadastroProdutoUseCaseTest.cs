@@ -1,10 +1,12 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.UnitTest.Helpers;
 using ControlFood.UnitTest.UseCase.Helpers;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
+using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
@@ -13,14 +15,17 @@ namespace ControlFood.UnitTest.UseCase
     {
         private readonly Mock<ISubCategoriaRepository> _mockSubCategoriaRepository;
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
+        private readonly Mock<IEstoqueRepository> _mockEstoqueRepository;
         private readonly ICadastroProdutoUseCase _cadastroProduto;
+        private int listaProdutoDepois;
 
         public CadastroProdutoUseCaseTest()
         {
             _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
             _mockProdutoRepository = new Mock<IProdutoRepository>();
+            _mockEstoqueRepository = new Mock<IEstoqueRepository>();
 
-            _cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object, _mockSubCategoriaRepository.Object);
+            _cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object, _mockSubCategoriaRepository.Object, _mockEstoqueRepository.Object);
 
             _mockSubCategoriaRepository
                 .Setup(x => x.BuscarTodos())
@@ -29,6 +34,10 @@ namespace ControlFood.UnitTest.UseCase
             _mockProdutoRepository
                 .Setup(x => x.BuscarTodos())
                 .Returns(HelperMock.MockListaProdutosPersistidos());
+
+            _mockEstoqueRepository
+                .Setup(x => x.BuscarTodos())
+                .Returns(HelperMock.MockListaEstoque());
         }
 
         [Fact]
@@ -78,5 +87,29 @@ namespace ControlFood.UnitTest.UseCase
             Assert.True(produtos.Count > 0);
         }
 
+        [Fact]
+        public void SeHouverEstoqueVinculadoAoProdutoNaoDeveDeletarOProdutoEDeveLancarUmaException()
+        {
+            var produtoRequest = HelperMock.MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1);
+
+            var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Deletar(produtoRequest));
+            Assert.Equal("Existe estoque vinculado ao Produto Coca-cola lata 350ml", ex.Message);
+        }
+
+        [Fact]
+        public void AoEnviarUmaSolicitacaoDeDelecaoValidaOProdutoDeveSerDeletadoComSucesso()
+        {
+            var produtoRequest = HelperMock.MockProduto("SP001", "Sorverte de palito", idProduto: 5, idSubCategoria: 6);
+            var listaProdutos = HelperMock.MockListaProdutosPersistidos();
+            var listaProdutoAntes = listaProdutos.Count;
+
+            _mockProdutoRepository
+                .Setup(x => x.Deletar(It.IsAny<Produto>()))
+                .Callback(() => listaProdutoDepois = HelperComum<Produto>.DeletarRegistro(produtoRequest, listaProdutos, nameof(produtoRequest.IdentificadorUnico)));
+
+            _cadastroProduto.Deletar(produtoRequest);
+
+            Assert.True(listaProdutoAntes > listaProdutoDepois);
+        }
     }
 }

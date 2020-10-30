@@ -1,4 +1,5 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.UnitTest.Helpers;
 using ControlFood.UnitTest.UseCase.Helpers;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Implementation;
@@ -13,10 +14,10 @@ namespace ControlFood.UnitTest.UseCase
 {
     public class CadastroCategoriaUseCaseTest
     {
-        private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;        
+        private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
         private readonly Mock<ISubCategoriaRepository> _mockSubCategoriaRepository;
         private readonly ICadastroCategoriaUseCase _cadastroCategoria;
-        private List<Categoria> categoriasPersistidasDepois;
+        private int categoriasPersistidasDepois;
 
         public CadastroCategoriaUseCaseTest()
         {
@@ -74,16 +75,18 @@ namespace ControlFood.UnitTest.UseCase
         public void DeveDeletarUmaCategoriaExistente()
         {
             var categoria = new Categoria { Tipo = "CategoriaTeste", IdentificadorUnico = 4 };
-            var categoriasPersistidasAntes = HelperMock.MockListaCategoriasPersistidas().Count;
-            
+            var categorias = HelperMock.MockListaCategoriasPersistidas();
+            var categoriasPersistidasAntes = categorias.Count;
+
+
             _mockCategoriaRepository
                 .Setup(x => x.Deletar(It.IsAny<Categoria>()))
-                .Callback(() => categoriasPersistidasDepois = DeletarCategoriaExistente(categoria));
+                .Callback(() => categoriasPersistidasDepois = HelperComum<Categoria>.DeletarRegistro(categoria, categorias, nameof(categoria.IdentificadorUnico)));
 
             _cadastroCategoria.Deletar(categoria);
 
-            Assert.True(categoriasPersistidasAntes > categoriasPersistidasDepois.Count);
-            
+            Assert.True(categoriasPersistidasAntes > categoriasPersistidasDepois);
+
         }
 
         [Fact]
@@ -94,22 +97,5 @@ namespace ControlFood.UnitTest.UseCase
             var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Deletar(categoria));
             Assert.Equal("Existe Sub-categoria vinculada a Categoria Alimento.", ex.Message);
         }
-
-        #region [ METODOS PRIVADOS ]
-        
-        private List<Categoria> DeletarCategoriaExistente(Categoria categoria)
-        {
-            var categorias = HelperMock.MockListaCategoriasPersistidas();
-
-            var existeCategoria = categorias.Any(c => c.IdentificadorUnico == categoria.IdentificadorUnico);
-            var indice = categorias.FindIndex(c => c.IdentificadorUnico == categoria.IdentificadorUnico);
-
-            if (existeCategoria)
-                categorias.RemoveAt(indice);
-            
-            return categorias;
-        }
-
-        #endregion
     }
 }

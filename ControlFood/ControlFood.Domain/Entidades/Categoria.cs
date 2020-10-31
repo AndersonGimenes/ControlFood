@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ControlFood.Domain.Entidades
+﻿namespace ControlFood.Domain.Entidades
 {
     public class Categoria
     {

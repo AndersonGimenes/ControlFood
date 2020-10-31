@@ -6,7 +6,6 @@ using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
-using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase

@@ -1,5 +1,7 @@
-﻿using ControlFood.Domain.Entidades;
+﻿using ControlFood.Domain.Constantes;
+using ControlFood.Domain.Entidades;
 using ControlFood.UseCase.Exceptions;
+using ControlFood.UseCase.Validation.Comum;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,28 +9,21 @@ namespace ControlFood.UseCase.Validation
 {
     internal static class CadastroCategoriaUseCaseValidation
     {
+       
         internal static void ValidarRegrasParaInserir(Categoria categoria, List<Categoria> categorias)
         {
-            VerificarDuplicidade(categoria, categorias);
+            ComumValidation<Categoria>
+                .VerificarDuplicidade(categoria, categorias, nameof(categoria.Tipo), () => throw new CategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Categoria.CategoriaDuplicada, categoria.Tipo)));
         }
 
         internal static void ValidarRegrasParaDeletar(Categoria categoria, List<SubCategoria> subCategorias)
         {
-            VerificarSubCategoriaVinculada(categoria, subCategorias);
-        }
+            var subCategoriasCast = subCategorias
+                                        .Cast<object>()
+                                        .ToList();
 
-        #region [ PRIVADOS ] 
-        private static void VerificarDuplicidade(Categoria categoria, List<Categoria> categorias)
-        {
-            if (categorias.Any(c => c.Tipo == categoria.Tipo))
-                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaDuplicada, categoria.Tipo));
+            ComumValidation<Categoria>
+                .VerificarVinculoDeletar(categoria, subCategoriasCast, nameof(SubCategoria.Categoria), nameof(categoria.IdentificadorUnico), () => throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaVinculadaASubCategoria, categoria.Tipo)));
         }
-
-        private static void VerificarSubCategoriaVinculada(Categoria categoria, List<SubCategoria> subCategorias)
-        {
-            if (subCategorias.Any(x => x.Categoria.IdentificadorUnico == categoria.IdentificadorUnico))
-                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaVinculadaASubCategoria, categoria.Tipo));
-        }
-        #endregion
     }
 }

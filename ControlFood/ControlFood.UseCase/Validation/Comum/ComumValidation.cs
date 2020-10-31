@@ -8,9 +8,9 @@ namespace ControlFood.UseCase.Validation.Comum
     {
         internal static void VerificarDuplicidade(T entidade, List<T> entidades, string propertyName, Action lancarException)
         {
-            var propriedadeValor = ObterValorReflection(entidade, propertyName).ToString();
+            var propriedadeValor = ObterValorReflection(entidade, propertyName).ToString().ToUpper();
 
-            if (entidades.Any(e => ObterValorReflection(e, propertyName).ToString() == propriedadeValor))
+            if (entidades.Any(e => ObterValorReflection(e, propertyName).ToString().ToUpper() == propriedadeValor))
                 lancarException.Invoke();
         }
 
@@ -18,7 +18,7 @@ namespace ControlFood.UseCase.Validation.Comum
         {
             var propriedadeValor = (int)ObterValorReflection(entidade, propertyName);
 
-            var existeVinculo = entidades.Any(e => (int)e.GetType().GetProperties().First(p => p.Name == propertyName).GetValue(e) == propriedadeValor);
+            var existeVinculo = entidades.Any(e => (int)ObterValorReflection(e, propertyName) == propriedadeValor);
 
             if (!existeVinculo)
                 lancarException.Invoke();
@@ -45,6 +45,7 @@ namespace ControlFood.UseCase.Validation.Comum
                                                                                                 .GetProperties()
                                                                                                 .First(p => p.Name == propertyName)
                                                                                                 .GetValue(entidade);
+                                                                                                
         #endregion
     }
 }

@@ -42,6 +42,7 @@ namespace ControlFood.Domain.Constantes
                 public const string ValidadeIncorreta = "A data de validade do produto deve ser maior que {0}";
 
                 public const string ValoresDivergentes = "A quantidade X valor unitario é diferente do valor total do lote.";
+
                 public const string EstoqueVinculado = "Existe estoque vinculado ao Produto {0}";
             }
         }  

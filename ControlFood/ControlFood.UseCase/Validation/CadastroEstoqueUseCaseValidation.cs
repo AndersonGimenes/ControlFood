@@ -11,8 +11,11 @@ namespace ControlFood.UseCase.Validation
     {
         internal static void ValidarRegrasParaInserir(Produto produto, List<Produto> produtos)
         {
+            // Verifica se existe produto vinculado para inserir o estoque
             VerificarProdutoVinculado(produtos, produto);
+            // Verifica se data de validade é maior que o dia atual
             VerificarValidade(produto);
+            // Verifica se valor total é igual ao valor unitario x a quantidade
             VerificarValoresParaPersistencia(produto);
         }
 

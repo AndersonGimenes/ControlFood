@@ -8,5 +8,7 @@
         public decimal ValorVenda { get; set; }
         public SubCategoria SubCategoria { get; set; }
         public Estoque Estoque { get; set; }
+
+        
     }
 }

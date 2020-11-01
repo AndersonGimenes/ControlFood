@@ -25,11 +25,9 @@ namespace ControlFood.UseCase.Implementation
             produto.Estoque.AtribuirDataDeEntrada();
 
             base.Inserir(produto.Estoque);
-
-            // ajustar 
-            return default;
+                         
+            return produto;
         }
 
-        
     }
 }

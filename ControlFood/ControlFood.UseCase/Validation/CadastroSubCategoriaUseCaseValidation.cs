@@ -23,7 +23,12 @@ namespace ControlFood.UseCase.Validation
         internal static void ValidarRegrasParaAtualizar(SubCategoria subCategoria, SubCategoria subCategoriaPersistida)
         {
             // Verifica propriedades que podem ser atualizadas
-            VerificarTiposAtaulizacao(subCategoriaPersistida, subCategoria);
+            ComumValidation<SubCategoria>
+                .VerificarTiposAtaulizacao(subCategoriaPersistida, subCategoria, nameof(subCategoria.Tipo), () => throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Tipo))));
+
+            ComumValidation<Categoria>
+                .VerificarTiposAtaulizacao(subCategoriaPersistida.Categoria, subCategoria.Categoria, nameof(subCategoria.Categoria.IdentificadorUnico), () => throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Categoria.IdentificadorUnico))));
+
         }
 
         internal static void ValidarRegrasParaDeletar(SubCategoria subCategoria, List<Produto> produtos)
@@ -36,17 +41,6 @@ namespace ControlFood.UseCase.Validation
             ComumValidation<SubCategoria>
                 .VerificarVinculoDeletar(subCategoria, produtosCast, nameof(Produto.SubCategoria), nameof(subCategoria.IdentificadorUnico), () => throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.SubCategoria.ProdutoVinculadoASubCategoria, subCategoria.Tipo)));
         }
-
-        #region [ PRIVADOS ]
-
-        private static void VerificarTiposAtaulizacao(SubCategoria subCategoriaPersistida, SubCategoria subCategoria)
-        {
-            if (subCategoria.Tipo != subCategoriaPersistida.Tipo)
-                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Tipo)));
-
-            if (subCategoria.Categoria.IdentificadorUnico != subCategoriaPersistida.Categoria.IdentificadorUnico)
-                throw new SubCategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(subCategoria.Categoria.IdentificadorUnico)));
-        }
-        #endregion
+                
     }
 }

@@ -6,6 +6,8 @@ using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
@@ -17,6 +19,7 @@ namespace ControlFood.UnitTest.UseCase
         private readonly Mock<IEstoqueRepository> _mockEstoqueRepository;
         private readonly ICadastroProdutoUseCase _cadastroProduto;
         private int listaProdutoDepois;
+        private List<Produto> produtosPersistidos;
 
         public CadastroProdutoUseCaseTest()
         {
@@ -46,7 +49,8 @@ namespace ControlFood.UnitTest.UseCase
 
             _mockProdutoRepository
                 .Setup(x => x.Inserir(It.IsAny<Produto>()))
-                .Returns(() => {
+                .Returns(() =>
+                {
                     produto.IdentificadorUnico = 4;
                     return produto;
                 });
@@ -109,6 +113,96 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroProduto.Deletar(produtoRequest);
 
             Assert.True(listaProdutoAntes > listaProdutoDepois);
+        }
+
+        [Fact]
+        public void DeveAtualizarApenasOValorDeVendaDoProdutoComSucesso()
+        {
+            var produtoRequest = HelperMock.MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1);
+            produtoRequest.ValorVenda = 10.00M;
+
+            _mockProdutoRepository
+                .Setup(x => x.Atualizar(It.IsAny<Produto>()))
+                .Returns(() =>
+                {
+                    produtosPersistidos = HelperMock.MockListaProdutosPersistidos();
+
+                    return produtosPersistidos.First(p =>
+                    {
+                        var condicao = p.IdentificadorUnico == produtoRequest.IdentificadorUnico;
+
+                        if (condicao)
+                            p.ValorVenda = produtoRequest.ValorVenda;
+
+                        return condicao;
+                    });
+                });
+
+            _mockProdutoRepository
+                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
+                .Returns(() =>
+                {
+                    produtosPersistidos = HelperMock.MockListaProdutosPersistidos();
+                    return produtosPersistidos.First(p => p.IdentificadorUnico == produtoRequest.IdentificadorUnico);
+                });
+
+            _cadastroProduto.Atualizar(produtoRequest);
+
+            Assert.Equal(produtoRequest.ValorVenda, produtosPersistidos.First(p => p.IdentificadorUnico == produtoRequest.IdentificadorUnico).ValorVenda);
+        }
+
+        [Fact]
+        public void NaoDeveAtualizarOCampoNomeELancarUmaException()
+        {
+            var produtoRequest = HelperMock.MockProduto("cc350", "Coca-cola lata 300ml", idProduto: 1);
+
+            _mockProdutoRepository
+                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
+                .Returns(() =>
+                {
+                    produtosPersistidos = HelperMock.MockListaProdutosPersistidos();
+                    return produtosPersistidos.First(p => p.IdentificadorUnico == produtoRequest.IdentificadorUnico);
+                });
+
+            var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Atualizar(produtoRequest));
+
+            Assert.Equal("O campo Nome não pode ser atualizado.", ex.Message);
+        }
+
+        [Fact]
+        public void NaoDeveAtualizarOCampoCodigoInternoELancarUmaException()
+        {
+            var produtoRequest = HelperMock.MockProduto("cc300", "Coca-cola lata 350ml", idProduto: 1);
+
+            _mockProdutoRepository
+                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
+                .Returns(() =>
+                {
+                    produtosPersistidos = HelperMock.MockListaProdutosPersistidos();
+                    return produtosPersistidos.First(p => p.IdentificadorUnico == produtoRequest.IdentificadorUnico);
+                });
+
+            var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Atualizar(produtoRequest));
+
+            Assert.Equal("O campo CodigoInterno não pode ser atualizado.", ex.Message);
+        }
+
+        [Fact]
+        public void NaoDeveAtualizarOCampoIdentificadorUnicoDaSubCategoriaELancarUmaException()
+        {
+            var produtoRequest = HelperMock.MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idSubCategoria: 99);
+
+            _mockProdutoRepository
+                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
+                .Returns(() =>
+                {
+                    produtosPersistidos = HelperMock.MockListaProdutosPersistidos();
+                    return produtosPersistidos.First(p => p.IdentificadorUnico == produtoRequest.IdentificadorUnico);
+                });
+
+            var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Atualizar(produtoRequest));
+
+            Assert.Equal("O campo IdentificadorUnico não pode ser atualizado.", ex.Message);
         }
     }
 }

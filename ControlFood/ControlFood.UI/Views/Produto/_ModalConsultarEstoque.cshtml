@@ -4,7 +4,7 @@
         <div class="modal-content modal-tamanho-ajuste">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Consultar Estoque Produto</h4>
+                <h4 class="modal-title" id="titulo-modal-consulta-estoque"></h4>
             </div>
 
             <!-- Modal body -->
@@ -18,23 +18,13 @@
                             <th scope="col">Validade</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @for (int i = 0; i < 10; i++) {
-                        <tr>
-                            <td class="quantidade">10</td>
-                            <td class="valor-compra-unitario">R$ 5,00</td>
-                            <td class="valor-compra-total">R$ 50,00</td>
-                            <td class="validade">01/10/2021</td>
-
-                            <input type="hidden" class="identificador-unico-produto" value="1" />
-                        </tr>
-                        }
+                    <tbody id="render-lista-estoque">
                         
                     </tbody>
                 </table>
                 <div class="row">
                     <H6 class="col-3">Quantidade total</H6>
-                    <p class="col-3">30</p>
+                    <p id="quantidade-total" class="col-3"></p>
                 </div>
 
             <!-- Modal footer -->

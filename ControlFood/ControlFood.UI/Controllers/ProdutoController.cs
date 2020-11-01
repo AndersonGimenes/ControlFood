@@ -5,6 +5,7 @@ using ControlFood.UI.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace ControlFood.UI.Controllers
 {
@@ -119,6 +120,23 @@ namespace ControlFood.UI.Controllers
 
                 produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
                 return Json(produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult BuscarEstoque(Produto produto)
+        {
+            try
+            {
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+
+                var estoques = _cadastroEstoqueUseCase.BuscarDadosProdutoXEstoques(produtoDominio);
+
+                return Json(_mapper.Map<List<Estoque>>(estoques));
             }
             catch (Exception ex)
             {

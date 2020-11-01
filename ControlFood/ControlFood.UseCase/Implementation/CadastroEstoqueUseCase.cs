@@ -25,10 +25,10 @@ namespace ControlFood.UseCase.Implementation
         {
             var produtos = _produtoRepository.BuscarTodos();
 
-            CadastroEstoqueUseCaseValidation.ValidarRegrasParaInserir(produto, produtos);
-
             produto.Estoque.AtribuirDataDeEntrada();
             produto.Estoque.AtribuirIdentificadorUnicoProduto(produto.IdentificadorUnico);
+
+            CadastroEstoqueUseCaseValidation.ValidarRegrasParaInserir(produto, produtos);            
 
             base.Inserir(produto.Estoque);
                          

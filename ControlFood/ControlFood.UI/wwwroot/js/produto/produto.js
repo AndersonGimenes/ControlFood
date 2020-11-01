@@ -9,6 +9,7 @@
     produto.editar(produto);
     produto.atualizar(produto);
     produto.consultarEstoque(produto);
+
 });
 
 class Produto {
@@ -25,7 +26,7 @@ class Produto {
 
         // input valor compra total
         this._helper.mascaraValorMonetario($("#valor-compra-total"));
-        
+
     }
 
     cadastrar = function (instanciaProduto) {
@@ -38,7 +39,7 @@ class Produto {
             var arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
 
             if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
-                return;            
+                return;
 
             // montar objetos request
             var subCategoria = {
@@ -82,7 +83,7 @@ class Produto {
             // preencher nome produto e identificador do produto
             $("#produto-nome").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
             $("#span-produto-identificador-unico").html("<input id='produto-identificador-unico' type='hidden' value='" + produto.IdentificadorUnico + "'/>");
-            
+
         });
     }
 
@@ -96,11 +97,11 @@ class Produto {
             var arraySpans = [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario"), $("#span-valida-valor-compra-total"), $("#span-valida-data-validade")];
 
             if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
-                return; 
+                return;
 
             // montar objetos request
             var estoque = {
-                Quantidade : instanciaProduto._helper.obterValorPorId(elemento, "quantidade"),
+                Quantidade: instanciaProduto._helper.obterValorPorId(elemento, "quantidade"),
                 DataValidade: instanciaProduto._helper.obterValorPorId(elemento, "data-validade"),
                 ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-unitario"),
                 ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-total")
@@ -109,7 +110,7 @@ class Produto {
             var data = {
                 IdentificadorUnico: instanciaProduto._helper.obterValorPorId(elemento, "produto-identificador-unico"),
                 Estoque: estoque
-            }   
+            }
 
             // realizar requisição
             instanciaProduto._helper.realizarChamadaAjax("Produto/CadastrarEstoque", data, "POST");
@@ -117,9 +118,59 @@ class Produto {
         });
     }
 
-    consultarEstoque = function (instanciProduto) {
+    consultarEstoque = function (instanciaProduto) {
         $(".btn-consulta-estoque").click(function () {
-            $("#modal-consultar-estoque").modal("show");
+
+            var elemento = this.parentNode.parentNode;
+
+            var data = {
+                Nome: instanciaProduto._helper.obterTextoPorClasse(elemento, "nome"),
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico")
+            }
+
+            $.ajax({
+                url: "Produto/BuscarEstoque",
+                type: 'GET',
+                data: data,
+                success: function (response) {
+                    var html = "";
+                    var somaQuantidade = 0;
+
+                    $("#modal-consultar-estoque").modal("show");
+
+                    $("#titulo-modal-consulta-estoque").text("Consulta estoque " + data.Nome);
+
+                    response.forEach(function (estoque) {
+                        
+                        html += "<tr>" +
+                                    "<td>" + estoque.quantidade + "</td>" +
+                                    "<td>R$ " + instanciaProduto._formatarValorOutput(estoque.valorCompraUnidade) + "</td>" +
+                                    "<td>R$ " + instanciaProduto._formatarValorOutput(estoque.valorCompraTotal) + "</td>" +
+                                    "<td>" + instanciaProduto._formatarDataOutput(estoque.dataValidade) + "</td>" +
+                                "</tr>";
+
+                        somaQuantidade += parseInt(estoque.quantidade);
+
+                    });
+
+                    $("#quantidade-total").text(somaQuantidade);
+
+                    $("#render-lista-estoque").html(html);
+                },
+                error: function (XMLHttpRequest) {
+                    $.confirm({
+                        title: 'Erro',
+                        type: 'red',
+                        content: XMLHttpRequest.responseText,
+                        buttons: {
+                            confirm: function () {
+                                console.log(XMLHttpRequest.responseText);
+                            }
+                        }
+                    });
+                }
+            });
+
         });
     }
 
@@ -249,9 +300,9 @@ class Produto {
 
             // devolve valor calculado e formatado para tela
             $("#valor-compra-unitario").val(instanciaProduto._formatarValorOutput(resultado));
-            
+
         });
-               
+
     }
 
     limparCampoInput = function () {
@@ -295,13 +346,13 @@ class Produto {
         var concatResultado = '';
 
         demaisCasasInvertido.split('').forEach(function (numero) {
-                                   
+
             concatSequencia += numero;
-            
+
             if (concatSequencia.length == 3) {
                 concatSequenciaPonto += concatSequencia + ".";
                 concatSequencia = "";
-            } 
+            }
 
             concatResultado = concatSequenciaPonto + concatSequencia;
         });
@@ -309,5 +360,10 @@ class Produto {
         var demaisCasas = concatResultado.split('').reverse().join('');
 
         return demaisCasas + ',' + duasUltimasCasas;
+    }
+
+    _formatarDataOutput(data) {
+        var arrayData = data.substring(0, 10).split('-');
+        return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
     }
 }

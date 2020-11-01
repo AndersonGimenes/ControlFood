@@ -23,7 +23,12 @@ namespace ControlFood.Repository
 
         public override Dominio.Produto BuscarPorId(int id)
         {
-            throw new System.NotImplementedException();
+            var produtosPersistido = _context.Produto
+                                            .AsNoTracking()
+                                            .Include(x => x.SubCategoria)
+                                            .First(x => x.Id == id);
+
+            return MapearRepositoryParaDominio(produtosPersistido);
         }
 
         public override List<Dominio.Produto> BuscarTodos()

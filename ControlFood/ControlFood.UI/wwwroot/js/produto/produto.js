@@ -7,6 +7,7 @@
     produto.limparCampoInput();
     produto.deletar(produto);
     produto.editar(produto);
+    produto.atualizar(produto);
 });
 
 class Produto {
@@ -140,14 +141,37 @@ class Produto {
 
             // preencher nome produto e identificador do produto
             $("#span-sub-categoria-tipo").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
-            $("#span-produto-nome-atualizar").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
-            $("#span-produto-codigo").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
+            $("#span-produto-nome-atualizar").html("<input type='text' class='form-control nome' disabled='disabled' value='" + produto.Nome + "'/>");
+            $("#span-produto-codigo").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
             $("#span-valor-venda-atualizar").html("<input type='text' class='form-control valor-venda' value='" + valor + "'/>");
-            $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value=" + produto.IdentificadorUnico + "'/>");
+            $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value='" + produto.IdentificadorUnico + "'/>");
             $("#span-identificador-unico-sub-categoria").html("<input type='hidden' class='form-control identificador-unico-sub-categoria' value='" + subCategoria.IdentificadorUnico + "'/>");
 
             // input valor venda produto
             instanciaProduto._helper.mascaraValorMonetario($("#valor-venda-atualizar"));
+        });
+    }
+
+    atualizar = function (instanciaProduto) {
+        $("#btn-atualizar").click(function () {
+            var elemento = this.parentNode.parentNode;
+
+            console.log(elemento);
+
+            var subCategoria = {
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico-sub-categoria")
+            }
+
+            var data = {
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
+                CodigoInterno: instanciaProduto._helper.obterValorPorClasse(elemento, "codigo-interno"),
+                Nome: instanciaProduto._helper.obterValorPorClasse(elemento, "nome"),
+                ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda"),
+                SubCategoria: subCategoria
+            }
+
+            instanciaProduto._helper.realizarChamadaAjax("/Produto/Atualizar", data, "PUT");
+
         });
     }
 

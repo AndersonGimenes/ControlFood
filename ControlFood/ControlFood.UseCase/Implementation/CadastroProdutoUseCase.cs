@@ -35,7 +35,7 @@ namespace ControlFood.UseCase.Implementation
             var estoques = _estoqueRepository.BuscarTodos();
 
             CadastroProdutoUseCaseValidation.ValidarRegrasParaDeletar(produto, estoques);
-            // se existir estoque vinculado ao produto lancar exception
+            
             base.Deletar(produto);
         }
 

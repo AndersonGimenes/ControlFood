@@ -106,6 +106,24 @@ namespace ControlFood.UI.Controllers
             }
         }
 
+        [HttpPut]
+        public IActionResult Atualizar(Produto produto)
+        {
+            try
+            {
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+
+                _cadastroProdutoUseCase.Atualizar(produtoDominio);
+                _produtoHelper.CacheProdutos(renovaCache: true);
+
+                produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
+                return Json(produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 
 }

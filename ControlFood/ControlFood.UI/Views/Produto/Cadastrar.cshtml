@@ -2,74 +2,75 @@
 
 @if (ViewBag.subCategorias.Count > 0)
 {
-<form>
+    <form>
 
-    @if (Model.Count > 0)
-    {
-        <label>Produtos cadastrados</label>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Codigo produto</th>
-                    <th scope="col">Nome produto</th>
-                    <th scope="col">Sub categoria</th>
-                    <th scope="col">Valor venda</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var produto in Model)
+        @if (Model.Count > 0)
+        {
+            <label>Produtos cadastrados</label>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Codigo produto</th>
+                        <th scope="col">Nome produto</th>
+                        <th scope="col">Sub categoria</th>
+                        <th scope="col">Valor venda</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var produto in Model)
                     {
-                <tr>
-                    <td class="codigo-interno">@produto.CodigoInterno</td>
-                    <td class="nome">@produto.Nome</td>
-                    <td class="tipo-sub-categoria">@produto.SubCategoria.Tipo</td>
-                    <td class="valor-venda">R$@produto.ValorVenda</td>
-                    <td><button type="button" class="btn btn-success btn-cadastro-estoque">Cadastrar Estoque</button></td>
-                    <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
-                    <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
-                    <input type="hidden" class="identificador-unico" value="@produto.IdentificadorUnico" />
-                    <input type="hidden" class="identificador-unico-sub-categoria" value="@produto.SubCategoria.IdentificadorUnico" />
-                </tr>
-                }
-            </tbody>
-        </table>
-    }
+                        <tr>
+                            <td class="codigo-interno">@produto.CodigoInterno</td>
+                            <td class="nome">@produto.Nome</td>
+                            <td class="tipo-sub-categoria">@produto.SubCategoria.Tipo</td>
+                            <td class="valor-venda">R$@produto.ValorVenda</td>
+                            <td><button type="button" class="btn btn-success btn-cadastro-estoque">Cadastrar Estoque</button></td>
+                            <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
+                            <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
+                            <input type="hidden" class="identificador-unico" value="@produto.IdentificadorUnico" />
+                            <input type="hidden" class="identificador-unico-sub-categoria" value="@produto.SubCategoria.IdentificadorUnico" />
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
 
-    <div class="form-group">
-        <label>Selecione a sub-categoria</label>
-        <select class="form-control" id="identificador-unico-sub-categoria-nova">
-            @foreach (var subCategoria in ViewBag.SubCategorias)
+        <div class="form-group">
+            <label>Selecione a sub-categoria</label>
+            <select class="form-control" id="identificador-unico-sub-categoria-nova">
+                @foreach (var subCategoria in ViewBag.SubCategorias)
                 {
                     <option value="@subCategoria.IdentificadorUnico">@subCategoria.Tipo</option>
                 }
-        </select>
-    </div>
-    
-    <div class="form-group">
-        <label>Nome do Produto</label>
-        <span id="span-valida-nome"></span>
-        <input type="text" class="form-control" id="nome" placeholder="Digite o novo produto">
-    </div>
+            </select>
+        </div>
 
-    <div class="form-group">
-        <label>Codigo do Produto</label>
-        <span id="span-valida-codigo-interno"></span>
-        <input type="text" class="form-control" id="codigo-interno" placeholder="Digite o codigo do produto">
-    </div>
+        <div class="form-group">
+            <label>Nome do Produto</label>
+            <span id="span-valida-nome"></span>
+            <input type="text" class="form-control" id="nome" placeholder="Digite o novo produto">
+        </div>
 
-    <div class="form-group">
-        <label>Valor de venda</label>
-        <span id="span-valida-valor-venda"></span>
-        <input type="text" class="form-control" id="valor-venda" placeholder="Digite o valor de venda">
-    </div>
+        <div class="form-group">
+            <label>Codigo do Produto</label>
+            <span id="span-valida-codigo-interno"></span>
+            <input type="text" class="form-control" id="codigo-interno" placeholder="Digite o codigo do produto">
+        </div>
 
-    <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
-</form>
-    
+        <div class="form-group">
+            <label>Valor de venda</label>
+            <span id="span-valida-valor-venda"></span>
+            <input type="text" class="form-control" id="valor-venda" placeholder="Digite o valor de venda">
+        </div>
+
+        <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
+    </form>
+
     <partial name="_ModalCadastroEstoque" />
+    <partial name="_ModalAtualizar" />
 }
 else
 {

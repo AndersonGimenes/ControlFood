@@ -87,6 +87,25 @@ namespace ControlFood.UI.Controllers
 
         }
 
+        [HttpDelete]
+        public IActionResult Deletar(Produto produto)
+        {
+            try
+            {
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+
+                _cadastroProdutoUseCase.Deletar(produtoDominio);
+                _produtoHelper.CacheProdutos(renovaCache: true);
+
+                produto.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
+                return Json(produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 
 }

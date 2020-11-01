@@ -5,6 +5,8 @@
     produto.cadastrarEstoque(produto);
     produto.ajustarValorCompra(produto);
     produto.limparCampoInput();
+    produto.deletar(produto);
+    produto.editar(produto);
 });
 
 class Produto {
@@ -21,6 +23,7 @@ class Produto {
 
         // input valor compra total
         this._helper.mascaraValorMonetario($("#valor-compra-total"));
+        
     }
 
     cadastrar = function (instanciaProduto) {
@@ -109,6 +112,54 @@ class Produto {
             // realizar requisição
             instanciaProduto._helper.realizarChamadaAjax("Produto/CadastrarEstoque", data, "POST");
 
+        });
+    }
+
+    editar = function (instanciaProduto) {
+
+        $(".btn-editar").click(function () {
+            var elemento = this.parentNode.parentNode;
+
+            //montar objeto produto
+            var subCategoria = {
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico-sub-categoria"),
+                Tipo: instanciaProduto._helper.obterTextoPorClasse(elemento, "tipo-sub-categoria")
+            }
+
+            var produto = {
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
+                CodigoInterno: instanciaProduto._helper.obterTextoPorClasse(elemento, "codigo-interno"),
+                Nome: instanciaProduto._helper.obterTextoPorClasse(elemento, "nome"),
+                ValorVenda: instanciaProduto._helper.obterTextoPorClasse(elemento, "valor-venda")
+            }
+
+            var valor = instanciaProduto._formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '')));
+
+            // mostrar modal
+            $("#modal-atualizar").modal("show");
+
+            // preencher nome produto e identificador do produto
+            $("#span-sub-categoria-tipo").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
+            $("#span-produto-nome-atualizar").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
+            $("#span-produto-codigo").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
+            $("#span-valor-venda-atualizar").html("<input type='text' class='form-control valor-venda' value='" + valor + "'/>");
+            $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value=" + produto.IdentificadorUnico + "'/>");
+            $("#span-identificador-unico-sub-categoria").html("<input type='hidden' class='form-control identificador-unico-sub-categoria' value='" + subCategoria.IdentificadorUnico + "'/>");
+
+            // input valor venda produto
+            instanciaProduto._helper.mascaraValorMonetario($("#valor-venda-atualizar"));
+        });
+    }
+
+    deletar = function (instanciaProduto) {
+        $(".btn-deletar").click(function () {
+            var elemento = this.parentNode.parentNode;
+
+            var data = {
+                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
+            }
+
+            instanciaProduto._helper.realizarChamadaAjax("/Produto/Deletar", data, "DELETE");
         });
     }
 

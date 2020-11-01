@@ -34,6 +34,16 @@ namespace ControlFood.Repository
             return _mapper.Map<List<Dominio.Estoque>>(estoquesPersistidos);
         }
 
+        public List<Dominio.Estoque> BuscarTodosPorProduto(Dominio.Produto produto)
+        {
+            var estoquesPersistidos = _context.Estoque
+                                                .AsNoTracking()
+                                                .Where(e => e.IdProduto == produto.IdentificadorUnico)
+                                                .ToList();
+
+            return _mapper.Map<List<Dominio.Estoque>>(estoquesPersistidos);
+        }
+
         protected override object MapearDominioParaRepository(Dominio.Estoque estoque) => _mapper.Map<Estoque>(estoque);
 
         protected override Dominio.Estoque MapearRepositoryParaDominio(object estoque) => _mapper.Map<Dominio.Estoque>(estoque);

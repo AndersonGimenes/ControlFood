@@ -72,8 +72,7 @@ namespace ControlFood.UI.Controllers
                 produto.Estoque.IsValid();
 
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
-                produtoDominio.Estoque.AtribuirIdentificadorUnicoProduto(produtoDominio.IdentificadorUnico);
-
+                
                 _cadastroEstoqueUseCase.InserirEstoque(produtoDominio);
 
                 produto.Mensagem = Constantes.Mensagem.EStoque.EStoqueCadastrado;

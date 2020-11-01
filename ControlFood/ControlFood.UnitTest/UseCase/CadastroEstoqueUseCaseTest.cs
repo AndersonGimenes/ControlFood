@@ -6,6 +6,7 @@ using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
@@ -20,7 +21,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             _mockEstoqueRepository = new Mock<IEstoqueRepository>();
             _mockProdutoRepository = new Mock<IProdutoRepository>();
-            
+
             _cadastroEstoqueUseCase = new CadastroEstoqueUseCase(_mockEstoqueRepository.Object, _mockProdutoRepository.Object);
 
             _mockProdutoRepository
@@ -52,7 +53,7 @@ namespace ControlFood.UnitTest.UseCase
             estoqueCocaCola.Estoque.AtribuirIdentificadorUnicoProduto(99);
 
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(estoqueCocaCola));
-            
+
             Assert.Equal("Não é possivel cadastrar o estoque: Produto inexistente", ex.Message);
         }
 
@@ -81,5 +82,20 @@ namespace ControlFood.UnitTest.UseCase
 
             Assert.Equal("A quantidade X valor unitario é diferente do valor total do lote.", ex.Message);
         }
+
+        [Fact]
+        public void DeveDevolverListaDeEstoquePorProdutoComDataValidadeOk()
+        {
+            var produto = HelperMock.MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1);
+
+            _mockEstoqueRepository
+                .Setup(x => x.BuscarTodosPorProduto(It.IsAny<Produto>()))
+                .Returns(HelperMock.MockListaEstoque());
+
+            var estoquesXProduto = _cadastroEstoqueUseCase.BuscarDadosProdutoXEstoques(produto);
+
+            Assert.DoesNotContain(estoquesXProduto, e => e.DataValidade < DateTime.Today);
+        }
+
     }
 }

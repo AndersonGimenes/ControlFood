@@ -68,13 +68,33 @@ namespace ControlFood.UnitTest.UseCase.Helpers
 
         public static List<Estoque> MockListaEstoque()
         {
-            var estoqueCocaCola = new Estoque { Quantidade = 10, DataValidade = DateTime.Now.AddDays(150), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
-            estoqueCocaCola.AtribuirDataDeEntrada();
-            estoqueCocaCola.AtribuirIdentificadorUnicoProduto(1);
+            var itemLoteHum = new Estoque { Quantidade = 10, DataValidade = DateTime.Now.AddDays(-10), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
+            itemLoteHum.AtribuirDataDeEntrada();
+            itemLoteHum.AtribuirIdentificadorUnicoProduto(1);
+
+            var itemLoteDois = new Estoque { Quantidade = 10, DataValidade = DateTime.Now.AddDays(-7), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
+            itemLoteDois.AtribuirDataDeEntrada();
+            itemLoteDois.AtribuirIdentificadorUnicoProduto(1);
+
+            var itemLoteTres = new Estoque { Quantidade = 10, DataValidade = DateTime.Now.AddDays(150), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
+            itemLoteTres.AtribuirDataDeEntrada();
+            itemLoteTres.AtribuirIdentificadorUnicoProduto(1);
+
+            var itemLoteQautro = new Estoque { Quantidade = 10, DataValidade = DateTime.Now.AddDays(170), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
+            itemLoteQautro.AtribuirDataDeEntrada();
+            itemLoteQautro.AtribuirIdentificadorUnicoProduto(1);
+
+            var itemLoteCinco = new Estoque { Quantidade = 10, DataValidade = DateTime.Now.AddDays(190), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
+            itemLoteCinco.AtribuirDataDeEntrada();
+            itemLoteCinco.AtribuirIdentificadorUnicoProduto(1);
 
             return new List<Estoque>
             {
-                estoqueCocaCola
+                itemLoteHum,
+                itemLoteDois,
+                itemLoteTres,
+                itemLoteQautro,
+                itemLoteCinco
             };
         }
     }

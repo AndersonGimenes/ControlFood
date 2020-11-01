@@ -82,8 +82,7 @@ class SubCategoria {
             var elementoTr = this.parentNode.parentNode;
 
             var categoria = {
-                IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico-categoria"),
-                Tipo: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "tipo-categoria")
+                IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico-categoria")
             }
 
             var data = {

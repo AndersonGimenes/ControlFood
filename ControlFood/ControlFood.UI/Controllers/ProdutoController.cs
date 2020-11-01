@@ -111,6 +111,8 @@ namespace ControlFood.UI.Controllers
         {
             try
             {
+                produto.IsValid();
+
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
                 _cadastroProdutoUseCase.Atualizar(produtoDominio);

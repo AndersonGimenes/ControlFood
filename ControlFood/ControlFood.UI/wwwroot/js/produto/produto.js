@@ -143,12 +143,12 @@ class Produto {
             $("#span-sub-categoria-tipo").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
             $("#span-produto-nome-atualizar").html("<input type='text' class='form-control nome' disabled='disabled' value='" + produto.Nome + "'/>");
             $("#span-produto-codigo").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
-            $("#span-valor-venda-atualizar").html("<input type='text' class='form-control valor-venda' value='" + valor + "'/>");
+            $("#span-valor-venda-atualizar").html("<span id='span-valida-valor-venda'></span><input type='text' class='form-control valor-venda' value='" + valor + "'/>");
             $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value='" + produto.IdentificadorUnico + "'/>");
             $("#span-identificador-unico-sub-categoria").html("<input type='hidden' class='form-control identificador-unico-sub-categoria' value='" + subCategoria.IdentificadorUnico + "'/>");
 
             // input valor venda produto
-            instanciaProduto._helper.mascaraValorMonetario($("#valor-venda-atualizar"));
+            instanciaProduto._helper.mascaraValorMonetario($(".valor-venda"));
         });
     }
 
@@ -169,6 +169,9 @@ class Produto {
                 ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda"),
                 SubCategoria: subCategoria
             }
+
+            if (!instanciaProduto._helper.validarCamposObrigatorios([$(elemento).find(".valor-venda")], $(elemento).find("#span-valida-valor-venda")))
+                return;
 
             instanciaProduto._helper.realizarChamadaAjax("/Produto/Atualizar", data, "PUT");
 

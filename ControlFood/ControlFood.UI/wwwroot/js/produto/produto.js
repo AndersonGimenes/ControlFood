@@ -8,6 +8,7 @@
     produto.deletar(produto);
     produto.editar(produto);
     produto.atualizar(produto);
+    produto.consultarEstoque(produto);
 });
 
 class Produto {
@@ -113,6 +114,12 @@ class Produto {
             // realizar requisição
             instanciaProduto._helper.realizarChamadaAjax("Produto/CadastrarEstoque", data, "POST");
 
+        });
+    }
+
+    consultarEstoque = function (instanciProduto) {
+        $(".btn-consulta-estoque").click(function () {
+            $("#modal-consultar-estoque").modal("show");
         });
     }
 

@@ -28,6 +28,7 @@
                             <td class="tipo-sub-categoria">@produto.SubCategoria.Tipo</td>
                             <td class="valor-venda">R$@produto.ValorVenda</td>
                             <td><button type="button" class="btn btn-success btn-cadastro-estoque">Cadastrar Estoque</button></td>
+                            <td><button type="button" class="btn btn-warning btn-consulta-estoque">Consultar Estoque</button></td>
                             <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
                             <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
                             <input type="hidden" class="identificador-unico" value="@produto.IdentificadorUnico" />
@@ -71,12 +72,17 @@
 
     <partial name="_ModalCadastroEstoque" />
     <partial name="_ModalAtualizar" />
+    <partial name="_ModalConsultarEstoque" />
+
 }
 else
 {
     <div class="alert alert-warning text-center">
         Para cadastrar um produto deve existir ao menos uma sub-categoria
     </div>
+}
+@section Css {
+    <link rel="stylesheet" type="text/css" href="~/css/produto/produto.css" />
 }
 
 @section Scripts {

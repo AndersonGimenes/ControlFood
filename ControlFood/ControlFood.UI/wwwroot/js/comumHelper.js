@@ -4,6 +4,10 @@
         return $(elemento).find("." + classe).text();
     }
 
+    obterTextoPorId = function (elemento, classe) {
+        return $(elemento).find("#" + classe).text();
+    }
+
     obterValorPorClasse = function (elemento, classe) {
         return $(elemento).find("." + classe).val();
     }

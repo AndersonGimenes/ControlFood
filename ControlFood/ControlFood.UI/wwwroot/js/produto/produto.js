@@ -21,14 +21,14 @@ class Produto {
         this._helper = new ComumHelper();
 
         // input valor venda produto
-        this._helper.mascaraValorMonetario($("#valor-venda"));
+        this._helper.mascaraValorMonetario($("#valor-venda-cadastro"));
 
         // modal cadastro estoque
         // input valor compra unitario
-        this._helper.mascaraValorMonetario($("#valor-compra-unitario"));
+        this._helper.mascaraValorMonetario($("#valor-compra-unitario-cadastro"));
 
         // input valor compra total
-        this._helper.mascaraValorMonetario($("#valor-compra-total"));
+        this._helper.mascaraValorMonetario($("#valor-compra-total-cadastro"));
     }
 
     cadastrar = function (instanciaProduto) {
@@ -92,9 +92,9 @@ class Produto {
             $("#modal-atualizar").modal("show");
 
             // preencher nome produto e identificador do produto
-            $("#span-sub-categoria-tipo").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
+            $("#span-sub-categoria-tipo-atualizar").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
             $("#span-produto-nome-atualizar").html("<input type='text' class='form-control nome' disabled='disabled' value='" + produto.Nome + "'/>");
-            $("#span-produto-codigo").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
+            $("#span-produto-codigo-atualizar").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
             $("#span-valor-venda-atualizar").html("<span id='span-valida-valor-venda'></span><input type='text' class='form-control valor-venda' value='" + valor + "'/>");
             $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value='" + produto.IdentificadorUnico + "'/>");
             $("#span-identificador-unico-sub-categoria").html("<input type='hidden' class='form-control identificador-unico-sub-categoria' value='" + subCategoria.IdentificadorUnico + "'/>");

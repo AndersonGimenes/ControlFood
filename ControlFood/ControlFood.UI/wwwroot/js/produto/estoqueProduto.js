@@ -28,7 +28,7 @@
             $("#modal-cadastro-estoque").modal("show");
 
             // preencher nome produto e identificador do produto
-            $("#produto-nome").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
+            $("#span-produto-nome-cadastro-estoque").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
             $("#span-produto-identificador-unico").html("<input id='produto-identificador-unico' type='hidden' value='" + produto.IdentificadorUnico + "'/>");
 
         });
@@ -40,7 +40,7 @@
             var elemento = this.parentNode.parentNode;
 
             // validar campos obrigatorios
-            var arrayElementos = [$("#quantidade"), $("#valor-compra-unitario"), $("#valor-compra-total"), $("#data-validade")];
+            var arrayElementos = [$("#quantidade-cadastro"), $("#valor-compra-unitario-cadastro"), $("#valor-compra-total-cadastro"), $("#data-validade-cadastro")];
             var arraySpans = [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario"), $("#span-valida-valor-compra-total"), $("#span-valida-data-validade")];
 
             if (!instanciaEstoque._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
@@ -48,10 +48,10 @@
 
             // montar objetos request
             var estoque = {
-                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade"),
-                DataValidade: instanciaEstoque._helper.obterValorPorId(elemento, "data-validade"),
-                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total")
+                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-cadastro"),
+                DataValidade: instanciaEstoque._helper.obterValorPorId(elemento, "data-validade-cadastro"),
+                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-cadastro"),
+                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-cadastro")
             }
 
             var data = {
@@ -85,19 +85,19 @@
 
     ajustarValorCompra = function (instanciaEstoque) {
         // autocompleta o valor de compra total com base no valor unitario
-        $("#valor-compra-unitario").blur(function () {
+        $("#valor-compra-unitario-cadastro").blur(function () {
 
             var elemento = this.parentNode.parentNode;
 
             // monta objeto estoque
             var estoque = {
-                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade"),
-                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total")
+                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-cadastro"),
+                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-cadastro"),
+                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-cadastro")
             }
 
             // validar campo quantidade antes do calculo
-            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade"), $("#valor-compra-unitario")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario")]))
+            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade-cadastro"), $("#valor-compra-unitario-cadastro")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario")]))
                 return;
 
             // formata valor para calculo 
@@ -107,24 +107,24 @@
             var resultado = parseInt(estoque.Quantidade) * valorFormatado;
 
             // devolve valor calculado e formatado para tela
-            $("#valor-compra-total").val(instanciaEstoque._helper.formatarValorOutput(resultado));
+            $("#valor-compra-total-cadastro").val(instanciaEstoque._helper.formatarValorOutput(resultado));
 
         });
 
         // autocompleta o valor de compra unitario com base no valor total
-        $("#valor-compra-total").blur(function () {
+        $("#valor-compra-total-cadastro").blur(function () {
 
             var elemento = this.parentNode.parentNode;
 
             // monta objeto estoque
             var estoque = {
-                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade"),
-                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total")
+                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-cadastro"),
+                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-cadastro"),
+                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-cadastro")
             }
 
             // validar campo quantidade antes do calculo
-            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade"), $("#valor-compra-total")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-total")]))
+            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade-cadastro"), $("#valor-compra-total-cadastro")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-total")]))
                 return;
 
             // formata valor para calculo
@@ -134,7 +134,7 @@
             var resultado = valorFormatado / parseInt(estoque.Quantidade);
 
             // devolve valor calculado e formatado para tela
-            $("#valor-compra-unitario").val(instanciaEstoque._helper.formatarValorOutput(resultado));
+            $("#valor-compra-unitario-cadastro").val(instanciaEstoque._helper.formatarValorOutput(resultado));
 
         });
 
@@ -142,10 +142,10 @@
 
     limparCampoInput = function () {
         $("#btn-close").click(function () {
-            $("#quantidade").val('');
-            $("#data-validade").val('');
-            $("#valor-compra-unitario").val('');
-            $("#valor-compra-total").val('');
+            $("#quantidade-cadastro").val('');
+            $("#data-validade-cadastro").val('');
+            $("#valor-compra-unitario-cadastro").val('');
+            $("#valor-compra-total-cadastro").val('');
         });
     }
 
@@ -161,11 +161,13 @@
         response.forEach(function (estoque) {
 
             html += "<tr>" +
-                "<td>" + estoque.quantidade + "</td>" +
-                "<td>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraUnidade) + "</td>" +
-                "<td>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraTotal) + "</td>" +
-                "<td>" + instanciaEstoque._helper.formatarDataOutput(estoque.dataValidade) + "</td>" +
-                "</tr>";
+                        "<td>" + estoque.quantidade + "</td>" +
+                        "<td>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraUnidade) + "</td>" +
+                        "<td>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraTotal) + "</td>" +
+                        "<td>" + instanciaEstoque._helper.formatarDataOutput(estoque.dataValidade) + "</td>" +
+                        "<td><button type='button' class='btn btn-primary btn-editar-estoque'>Editar</button></td>" +
+                        "<td><button type='button' class='btn btn-danger btn-deletar-estoque'> Deletar</button></td>" +
+                    "</tr>";
 
             somaQuantidade += parseInt(estoque.quantidade);
 

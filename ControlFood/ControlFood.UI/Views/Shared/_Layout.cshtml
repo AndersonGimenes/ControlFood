@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/craftpip/dist/css/jquery-confirm.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Css", required: false)
 </head>
 <body>
     <header>
@@ -29,6 +30,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-controller="Categoria" asp-action="Cadastrar">Categoria</a>
                                 <a class="dropdown-item" asp-controller="SubCategoria" asp-action="Cadastrar">Sub Categoria</a>
+                                <a class="dropdown-item" asp-controller="Produto" asp-action="Cadastrar">Produto</a>
                             </div>
                         </li>
                     </ul>
@@ -50,6 +52,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/craftpip/dist/js/jquery-confirm.min.js"></script>
+    <script src="~/lib/jquery-mask/dist/jquery.mask.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

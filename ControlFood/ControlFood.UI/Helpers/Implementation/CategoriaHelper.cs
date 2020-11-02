@@ -8,7 +8,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 
 namespace ControlFood.UI.Helpers.Implementation
-
 {
     public class CategoriaHelper : CacheBaseHelper<Dominio.Categoria>, ICategoriaHelper
     {

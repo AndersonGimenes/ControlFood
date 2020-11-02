@@ -1,6 +1,7 @@
 ﻿using ControlFood.UseCase.Interface.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ControlFood.UseCase.Implementation.Base
 {
@@ -22,15 +23,9 @@ namespace ControlFood.UseCase.Implementation.Base
 
         public T BuscarPorIdentificacao(T entidade, string propertyName)
         {
-            var propriedades = entidade.GetType().GetProperties();
+            var valor = (int)entidade.GetType().GetProperties().First(p => p.Name == propertyName).GetValue(entidade);
 
-            foreach (var prop in propriedades)
-            {
-                if (prop.Name.Equals(propertyName))
-                    return _genericRepository.BuscarPorId((int)prop.GetValue(entidade));
-            }
-
-            return default;
+            return _genericRepository.BuscarPorId(valor);
         }
 
         public List<T> BuscarTodos() => _genericRepository.BuscarTodos();

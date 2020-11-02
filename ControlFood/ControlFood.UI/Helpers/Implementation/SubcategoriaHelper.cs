@@ -10,7 +10,7 @@ using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.UI.Helpers.Implementation
 {
-    public class SubcategoriaHelper : CacheBaseHelper<Dominio.SubCategoria>, ISubcategoriaHelper
+    public class SubcategoriaHelper : CacheBaseHelper<Dominio.SubCategoria>, ISubCategoriaHelper
     {
         private readonly IMapper _mapper;
         private const string CACHE_NAME = "ListaSubCategoriasCache";

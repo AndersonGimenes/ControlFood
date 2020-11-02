@@ -1,10 +1,8 @@
 ﻿using ControlFood.Domain.Entidades;
-using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Implementation.Base;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
-using System.Collections.Generic;
-using System.Linq;
+using ControlFood.UseCase.Validation;
 
 namespace ControlFood.UseCase.Implementation
 {
@@ -20,7 +18,9 @@ namespace ControlFood.UseCase.Implementation
 
         public override Categoria Inserir(Categoria categoria)
         {
-            this.VerificarDuplicidade(categoria, base.BuscarTodos());
+            var catrgorias = base.BuscarTodos();
+
+            CadastroCategoriaUseCaseValidation.ValidarRegrasParaInserir(categoria, catrgorias);
 
             return base.Inserir(categoria);
         }
@@ -28,21 +28,10 @@ namespace ControlFood.UseCase.Implementation
         public override void Deletar(Categoria categoria)
         {
             var subCategorias = _subCategoriaRepository.BuscarTodos();
-            this.VerificarSubCategoriaVinculada(categoria, subCategorias);
+
+            CadastroCategoriaUseCaseValidation.ValidarRegrasParaDeletar(categoria, subCategorias);
 
             base.Deletar(categoria);
-        }
-
-        private void VerificarSubCategoriaVinculada(Categoria categoria, List<SubCategoria> subCategorias)
-        {
-            if (subCategorias.Any(x => x.Categoria.IdentificadorUnico == categoria.IdentificadorUnico))
-                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaVinculadaASubCategoria, categoria.Tipo));
-        }
-
-        private void VerificarDuplicidade(Categoria categoria, List<Categoria> categorias)
-        {
-            if (categorias.Any(c => c.Tipo == categoria.Tipo))
-                throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaDuplicada, categoria.Tipo));
         }
     }
 }

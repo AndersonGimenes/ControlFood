@@ -3,7 +3,6 @@ using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using Dominio = ControlFood.Domain.Entidades;
 
@@ -13,25 +12,15 @@ namespace ControlFood.UI.Controllers
     {
         private readonly ICadastroSubCategoriaUseCase _cadastroSubCategoriaUseCase;
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _cache;
         private readonly ICategoriaHelper _categoriaHelper;
-        private readonly ISubcategoriaHelper _subcategoriaHelper;
-        private readonly ICadastroCategoriaUseCase _cadastroCategoriaUseCase;
+        private readonly ISubCategoriaHelper _subcategoriaHelper;
 
-        public SubCategoriaController(
-            ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase,
-            ICadastroCategoriaUseCase cadastroCategoriaUseCase,
-            IMapper mapper,
-            IMemoryCache cache,
-            ICategoriaHelper categoriaHelper,
-            ISubcategoriaHelper subcategoriaHelper)
+        public SubCategoriaController(ICadastroSubCategoriaUseCase cadastroSubCategoriaUseCase, IMapper mapper, ICategoriaHelper categoriaHelper, ISubCategoriaHelper subcategoriaHelper)
         {
             _cadastroSubCategoriaUseCase = cadastroSubCategoriaUseCase;
-            _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
             _categoriaHelper = categoriaHelper;
             _subcategoriaHelper = subcategoriaHelper;
             _mapper = mapper;
-            _cache = cache;
         }
 
         [HttpGet]

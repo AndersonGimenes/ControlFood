@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>0a9fdb3e-3de4-4710-8f6f-2bb2897f5755</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\craftpip\dist\css\" />
+    <Folder Include="wwwroot\lib\jquery-mask\dist\" />
   </ItemGroup>
 
 </Project>

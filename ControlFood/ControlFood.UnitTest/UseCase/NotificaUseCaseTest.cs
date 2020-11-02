@@ -39,42 +39,32 @@ namespace ControlFood.UnitTest.UseCase
         private void ItensMock(Pedido pedido)
         {
             var xEgg = new Produto { Nome = "X-Egg", ValorVenda = 10 };
-            xEgg.Categoria.Tipo = "Alimento";
-            xEgg.SubCategoria.Tipo = "Lanche";
-            xEgg.SubCategoria.IndicadorItemCozinha = true;
+            xEgg.SubCategoria = AdicionarSubCategoria("Lanche", indicadorCozinha: true);
             pedido.Itens.Add(xEgg);
 
             var hotdog = new Produto { Nome = "Hot Morte", ValorVenda = 12 };
-            hotdog.Categoria.Tipo = "Alimento";
-            hotdog.SubCategoria.Tipo = "Cachorro quente";
-            hotdog.SubCategoria.IndicadorItemCozinha = true;
+            hotdog.SubCategoria = AdicionarSubCategoria("Cachorro quente", indicadorCozinha: true);
             pedido.Itens.Add(hotdog);
 
             var pastel = new Produto { Nome = "Pastel de carne", ValorVenda = 8 };
-            pastel.Categoria.Tipo = "Alimento";
-            pastel.SubCategoria.Tipo = "Pastel";
-            pastel.SubCategoria.IndicadorItemCozinha = true;
+            pastel.SubCategoria = AdicionarSubCategoria("Pastel", indicadorCozinha: true);
             pedido.Itens.Add(pastel);
 
             var cocaCola = new Produto { Nome = "Coca cola 600ml", ValorVenda = 8 };
-            cocaCola.Categoria.Tipo = "Bebida";
-            cocaCola.SubCategoria.Tipo = "Coca cola 350ml";
-            cocaCola.SubCategoria.IndicadorItemBar = true;
+            cocaCola.SubCategoria = AdicionarSubCategoria("Refrigerante", indicadorBar: true);
             pedido.Itens.Add(cocaCola);
 
             var cerveja = new Produto { Nome = "Skol 350ml", ValorVenda = 5 };
-            cerveja.Categoria.Tipo = "Bebida";
-            cerveja.SubCategoria.Tipo = "Cerveja";
-            cerveja.SubCategoria.IndicadorItemBar = true;
+            cerveja.SubCategoria = AdicionarSubCategoria("Cerveja", indicadorBar: true);
             pedido.Itens.Add(cerveja);
             
             var suco = new Produto { Nome = "Suco de Laranja 300ml", ValorVenda = 7 };
-            suco.Categoria.Tipo = "Bebida";
-            suco.SubCategoria.Tipo = "Suco";
-            suco.SubCategoria.IndicadorItemCozinha = true;
+            suco.SubCategoria = AdicionarSubCategoria("Suco", indicadorCozinha: true);
             pedido.Itens.Add(suco);
 
         }
 
+        private SubCategoria AdicionarSubCategoria(string tipo, bool indicadorBar = false, bool indicadorCozinha = false)
+            => new SubCategoria { Tipo = tipo, IndicadorItemBar = indicadorBar, IndicadorItemCozinha = indicadorCozinha };
     }
 }

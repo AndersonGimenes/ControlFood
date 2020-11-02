@@ -1,0 +1,36 @@
+﻿<!-- The Modal -->
+<div class="modal" id="modal-consultar-estoque">
+    <div class="modal-dialog modal-posicao-ajuste">
+        <div class="modal-content modal-tamanho-ajuste">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="titulo-modal-consulta-estoque"></h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Valor compra unidade</th>
+                            <th scope="col">Valor compra total</th>
+                            <th scope="col">Validade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="render-lista-estoque">
+                        
+                    </tbody>
+                </table>
+                <div class="row">
+                    <H6 class="col-3">Quantidade total</H6>
+                    <p id="quantidade-total" class="col-3"></p>
+                </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

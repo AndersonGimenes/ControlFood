@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
-using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using Dominio = ControlFood.Domain.Entidades;
 
@@ -14,14 +12,12 @@ namespace ControlFood.UI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICadastroCategoriaUseCase _cadastroCategoriaUseCase;
-        private readonly IMemoryCache _cache;
         private readonly ICategoriaHelper _categoriaHelper;
 
-        public CategoriaController(ICadastroCategoriaUseCase cadastroCategoriaUseCase, IMapper mapper, IMemoryCache cache, ICategoriaHelper categoriaHelper)
+        public CategoriaController(ICadastroCategoriaUseCase cadastroCategoriaUseCase, IMapper mapper, ICategoriaHelper categoriaHelper)
         {
             _mapper = mapper;
             _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
-            _cache = cache;
             _categoriaHelper = categoriaHelper;
         }
 
@@ -43,7 +39,7 @@ namespace ControlFood.UI.Controllers
 
                 _cadastroCategoriaUseCase.Inserir(categoriaDominio);
 
-               var categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
+                var categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
 
                 return View(categorias);
 

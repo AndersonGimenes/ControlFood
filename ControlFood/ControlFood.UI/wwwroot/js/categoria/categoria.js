@@ -22,7 +22,7 @@ class Categoria {
                 Tipo: instanciaCategoria._helper.obterValorPorId(elemento, "tipo")
             }
 
-            instanciaCategoria._helper.realizarChamadaAjax("Categoria/Cadastrar", data, "POST");
+            instanciaCategoria._helper.realizarChamadaAjax("Categoria/Cadastrar", data, "POST", instanciaCategoria._helper);
         });
     }
 
@@ -36,7 +36,7 @@ class Categoria {
                 Tipo: instanciaCategoria._helper.obterTextoPorClasse(elementoTr, "tipo")
             }
 
-            instanciaCategoria._helper.realizarChamadaAjax("/Categoria/Deletar", data, "DELETE");
+            instanciaCategoria._helper.realizarChamadaAjax("/Categoria/Deletar", data, "DELETE", instanciaCategoria._helper);
 
         });
     }

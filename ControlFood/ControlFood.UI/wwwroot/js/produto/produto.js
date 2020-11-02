@@ -1,14 +1,17 @@
 ﻿$(document).ready(function () {
     var produto = new Produto();
+    var estoque = new Estoque();
+
     produto.cadastrar(produto);
-    produto.preencherCadastroEstoque(produto);
-    produto.cadastrarEstoque(produto);
-    produto.ajustarValorCompra(produto);
-    produto.limparCampoInput();
     produto.deletar(produto);
-    produto.editar(produto);
+    produto.popularModalAtualizar(produto);
     produto.atualizar(produto);
-    produto.consultarEstoque(produto);
+
+    estoque.popularModalCadastro(estoque);
+    estoque.cadastrar(estoque);
+    estoque.ajustarValorCompra(estoque);
+    estoque.consultar(estoque);
+    estoque.limparCampoInput();
 
 });
 
@@ -26,7 +29,6 @@ class Produto {
 
         // input valor compra total
         this._helper.mascaraValorMonetario($("#valor-compra-total"));
-
     }
 
     cadastrar = function (instanciaProduto) {
@@ -62,119 +64,11 @@ class Produto {
             }
 
             // realizar requisição
-            instanciaProduto._helper.realizarChamadaAjax("Produto/Cadastrar", data, "POST");
+            instanciaProduto._helper.realizarChamadaAjax("Produto/Cadastrar", data, "POST", instanciaProduto._helper);
         });
     }
 
-    preencherCadastroEstoque = function (instanciaProduto) {
-
-        $(".btn-cadastro-estoque").click(function () {
-            var elemento = this.parentNode.parentNode;
-
-            //montar objeto produto
-            var produto = {
-                Nome: instanciaProduto._helper.obterTextoPorClasse(elemento, "nome"),
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico")
-            }
-
-            // mostrar modal
-            $("#modal-cadastro-estoque").modal("show");
-
-            // preencher nome produto e identificador do produto
-            $("#produto-nome").html("<input type='text' class='form-control' disabled='disabled' value='" + produto.Nome + "'/>");
-            $("#span-produto-identificador-unico").html("<input id='produto-identificador-unico' type='hidden' value='" + produto.IdentificadorUnico + "'/>");
-
-        });
-    }
-
-    cadastrarEstoque = function (instanciaProduto) {
-
-        $("#btn-cadastrar-estoque").click(function () {
-            var elemento = this.parentNode.parentNode;
-
-            // validar campos obrigatorios
-            var arrayElementos = [$("#quantidade"), $("#valor-compra-unitario"), $("#valor-compra-total"), $("#data-validade")];
-            var arraySpans = [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario"), $("#span-valida-valor-compra-total"), $("#span-valida-data-validade")];
-
-            if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
-                return;
-
-            // montar objetos request
-            var estoque = {
-                Quantidade: instanciaProduto._helper.obterValorPorId(elemento, "quantidade"),
-                DataValidade: instanciaProduto._helper.obterValorPorId(elemento, "data-validade"),
-                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-total")
-            }
-
-            var data = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorId(elemento, "produto-identificador-unico"),
-                Estoque: estoque
-            }
-
-            // realizar requisição
-            instanciaProduto._helper.realizarChamadaAjax("Produto/CadastrarEstoque", data, "POST");
-
-        });
-    }
-
-    consultarEstoque = function (instanciaProduto) {
-        $(".btn-consulta-estoque").click(function () {
-
-            var elemento = this.parentNode.parentNode;
-
-            var data = {
-                Nome: instanciaProduto._helper.obterTextoPorClasse(elemento, "nome"),
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico")
-            }
-
-            $.ajax({
-                url: "Produto/BuscarEstoque",
-                type: 'GET',
-                data: data,
-                success: function (response) {
-                    var html = "";
-                    var somaQuantidade = 0;
-
-                    $("#modal-consultar-estoque").modal("show");
-
-                    $("#titulo-modal-consulta-estoque").text("Consulta estoque " + data.Nome);
-
-                    response.forEach(function (estoque) {
-                        
-                        html += "<tr>" +
-                                    "<td>" + estoque.quantidade + "</td>" +
-                                    "<td>R$ " + instanciaProduto._formatarValorOutput(estoque.valorCompraUnidade) + "</td>" +
-                                    "<td>R$ " + instanciaProduto._formatarValorOutput(estoque.valorCompraTotal) + "</td>" +
-                                    "<td>" + instanciaProduto._formatarDataOutput(estoque.dataValidade) + "</td>" +
-                                "</tr>";
-
-                        somaQuantidade += parseInt(estoque.quantidade);
-
-                    });
-
-                    $("#quantidade-total").text(somaQuantidade);
-
-                    $("#render-lista-estoque").html(html);
-                },
-                error: function (XMLHttpRequest) {
-                    $.confirm({
-                        title: 'Erro',
-                        type: 'red',
-                        content: XMLHttpRequest.responseText,
-                        buttons: {
-                            confirm: function () {
-                                console.log(XMLHttpRequest.responseText);
-                            }
-                        }
-                    });
-                }
-            });
-
-        });
-    }
-
-    editar = function (instanciaProduto) {
+    popularModalAtualizar = function (instanciaProduto) {
 
         $(".btn-editar").click(function () {
             var elemento = this.parentNode.parentNode;
@@ -192,7 +86,7 @@ class Produto {
                 ValorVenda: instanciaProduto._helper.obterTextoPorClasse(elemento, "valor-venda")
             }
 
-            var valor = instanciaProduto._formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '')));
+            var valor = instanciaProduto._helper.formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '')));
 
             // mostrar modal
             $("#modal-atualizar").modal("show");
@@ -231,7 +125,7 @@ class Produto {
             if (!instanciaProduto._helper.validarCamposObrigatorios([$(elemento).find(".valor-venda")], $(elemento).find("#span-valida-valor-venda")))
                 return;
 
-            instanciaProduto._helper.realizarChamadaAjax("/Produto/Atualizar", data, "PUT");
+            instanciaProduto._helper.realizarChamadaAjax("/Produto/Atualizar", data, "PUT", instanciaProduto._helper);
 
         });
     }
@@ -244,126 +138,7 @@ class Produto {
                 IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
             }
 
-            instanciaProduto._helper.realizarChamadaAjax("/Produto/Deletar", data, "DELETE");
+            instanciaProduto._helper.realizarChamadaAjax("/Produto/Deletar", data, "DELETE", instanciaProduto._helper);
         });
-    }
-
-    ajustarValorCompra = function (instanciaProduto) {
-        // autocompleta o valor de compra total com base no valor unitario
-        $("#valor-compra-unitario").blur(function () {
-
-            var elemento = this.parentNode.parentNode;
-
-            // monta objeto estoque
-            var estoque = {
-                Quantidade: instanciaProduto._helper.obterValorPorId(elemento, "quantidade"),
-                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-total")
-            }
-
-            // validar campo quantidade antes do calculo
-            if (!instanciaProduto._helper.validarCamposObrigatorios([$("#quantidade"), $("#valor-compra-unitario")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario")]))
-                return;
-
-            // formata valor para calculo 
-            var valorFormatado = instanciaProduto._formatarValorInput(estoque.ValorCompraUnidade);
-
-            // calculo 
-            var resultado = parseInt(estoque.Quantidade) * valorFormatado;
-
-            // devolve valor calculado e formatado para tela
-            $("#valor-compra-total").val(instanciaProduto._formatarValorOutput(resultado));
-
-        });
-
-        // autocompleta o valor de compra unitario com base no valor total
-        $("#valor-compra-total").blur(function () {
-
-            var elemento = this.parentNode.parentNode;
-
-            // monta objeto estoque
-            var estoque = {
-                Quantidade: instanciaProduto._helper.obterValorPorId(elemento, "quantidade"),
-                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-total")
-            }
-
-            // validar campo quantidade antes do calculo
-            if (!instanciaProduto._helper.validarCamposObrigatorios([$("#quantidade"), $("#valor-compra-total")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-total")]))
-                return;
-
-            // formata valor para calculo
-            var valorFormatado = instanciaProduto._formatarValorInput(estoque.ValorCompraTotal);
-
-            // calculo
-            var resultado = valorFormatado / parseInt(estoque.Quantidade);
-
-            // devolve valor calculado e formatado para tela
-            $("#valor-compra-unitario").val(instanciaProduto._formatarValorOutput(resultado));
-
-        });
-
-    }
-
-    limparCampoInput = function () {
-        $("#btn-close").click(function () {
-            $("#quantidade").val('');
-            $("#data-validade").val('');
-            $("#valor-compra-unitario").val('');
-            $("#valor-compra-total").val('');
-        });
-    }
-
-    // metodos privados
-    _formatarValorInput = function (valor) {
-        var valorSemCaracteres = valor.replace(',', '').replace('.', '');
-
-        var duasUltimasCasas = valorSemCaracteres.substring(valorSemCaracteres.length, valorSemCaracteres.length - 2);
-
-        var valorInvertido = valorSemCaracteres.split('').reverse().join('');
-
-        var demaisCasasInvertido = valorInvertido.substring(valorInvertido.length, 2);
-
-        var demaisCasas = demaisCasasInvertido.split('').reverse().join('');
-
-        return parseFloat(demaisCasas + '.' + duasUltimasCasas);
-    }
-
-    _formatarValorOutput = function (valor) {
-        var valorSemCaracteres = valor.toFixed(2).toString().replace('.', '');
-
-        if (valorSemCaracteres.length <= 5)
-            return valor.toFixed(2).toString().replace('.', ',');
-
-        var duasUltimasCasas = valorSemCaracteres.substring(valorSemCaracteres.length, valorSemCaracteres.length - 2);
-
-        var valorInvertido = valorSemCaracteres.split('').reverse().join('');
-
-        var demaisCasasInvertido = valorInvertido.substring(valorInvertido.length, 2);
-
-        var concatSequencia = '';
-        var concatSequenciaPonto = '';
-        var concatResultado = '';
-
-        demaisCasasInvertido.split('').forEach(function (numero) {
-
-            concatSequencia += numero;
-
-            if (concatSequencia.length == 3) {
-                concatSequenciaPonto += concatSequencia + ".";
-                concatSequencia = "";
-            }
-
-            concatResultado = concatSequenciaPonto + concatSequencia;
-        });
-
-        var demaisCasas = concatResultado.split('').reverse().join('');
-
-        return demaisCasas + ',' + duasUltimasCasas;
-    }
-
-    _formatarDataOutput(data) {
-        var arrayData = data.substring(0, 10).split('-');
-        return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
     }
 }

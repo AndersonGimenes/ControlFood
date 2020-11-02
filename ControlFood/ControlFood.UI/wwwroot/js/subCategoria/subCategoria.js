@@ -2,7 +2,7 @@
     var subCategoria = new SubCategoria();
     subCategoria.cadastrar(subCategoria);
     subCategoria.deletar(subCategoria);
-    subCategoria.editar(subCategoria);
+    subCategoria.popularModalAtualizar(subCategoria);
     subCategoria.atualizar(subCategoria);
 });
 
@@ -29,7 +29,7 @@ class SubCategoria {
                 Indicador: $(elemento).find("input[name='indicador']:checked").val()
             }
 
-            instanciaSubCategoria._helper.realizarChamadaAjax("SubCategoria/Cadastrar", data, "POST");
+            instanciaSubCategoria._helper.realizarChamadaAjax("SubCategoria/Cadastrar", data, "POST", instanciaSubCategoria._helper);
         });
     }
 
@@ -42,11 +42,11 @@ class SubCategoria {
                 Tipo: instanciaSubCategoria._helper.obterTextoPorClasse(elementoTr, "tipo")
             }
 
-            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Deletar", data, "DELETE");           
+            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Deletar", data, "DELETE", instanciaSubCategoria._helper);           
         });
     }
 
-    editar = function (instanciaSubCategoria) {
+    popularModalAtualizar = function (instanciaSubCategoria) {
         $(".btn-editar").click(function () {
             var elementoTr = this.parentNode.parentNode;
             var indicadorCozinha = "0";
@@ -92,7 +92,7 @@ class SubCategoria {
                 IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
             }
                         
-            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Atualizar", data, "PUT");  
+            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Atualizar", data, "PUT", instanciaSubCategoria._helper);  
 
         });
     }

@@ -6,7 +6,6 @@ using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
 using System;
-using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
@@ -34,10 +33,9 @@ namespace ControlFood.UnitTest.UseCase
         {
             var dataInicio = DateTime.Now;
 
-            var estoqueCocaCola = new Produto();
+            var estoqueCocaCola = new Produto { IdentificadorUnico = 1 };
             estoqueCocaCola.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 06, 10), ValorCompraTotal = 50.90M, ValorCompraUnidade = 5.09M };
-            estoqueCocaCola.Estoque.AtribuirIdentificadorUnicoProduto(1);
-
+      
             _cadastroEstoqueUseCase.InserirEstoque(estoqueCocaCola);
 
             var dataFim = DateTime.Now;
@@ -48,10 +46,9 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void SeNaoHouverProdutoCadastradoDeveLancarUmaException()
         {
-            var estoqueCocaCola = new Produto();
+            var estoqueCocaCola = new Produto { IdentificadorUnico = 99 };
             estoqueCocaCola.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 06, 10), ValorCompraTotal = 50.90M, ValorCompraUnidade = 5.09M };
-            estoqueCocaCola.Estoque.AtribuirIdentificadorUnicoProduto(99);
-
+            
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(estoqueCocaCola));
 
             Assert.Equal("Não é possivel cadastrar o estoque: Produto inexistente", ex.Message);
@@ -62,10 +59,9 @@ namespace ControlFood.UnitTest.UseCase
         {
             var mensagemErro = string.Format("A data de validade do produto deve ser maior que {0}", DateTime.Today.ToString("dd/MM/yyyy"));
 
-            var sorvete = new Produto();
+            var sorvete = new Produto { IdentificadorUnico = 5 };
             sorvete.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2020, 05, 15), ValorCompraTotal = 30.00M, ValorCompraUnidade = 3.00M };
-            sorvete.Estoque.AtribuirIdentificadorUnicoProduto(5);
-
+            
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(sorvete));
 
             Assert.Equal(mensagemErro, ex.Message);
@@ -74,10 +70,9 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void SeAQauntidadeVezesValorUnitarioForDiferenteDoValorTotalDeveSerLancadaUmaException()
         {
-            var sorvete = new Produto();
+            var sorvete = new Produto { IdentificadorUnico = 5 };
             sorvete.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 05, 15), ValorCompraTotal = 35.00M, ValorCompraUnidade = 3.00M };
-            sorvete.Estoque.AtribuirIdentificadorUnicoProduto(5);
-
+    
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(sorvete));
 
             Assert.Equal("A quantidade X valor unitario é diferente do valor total do lote.", ex.Message);

@@ -1,4 +1,16 @@
-﻿class Estoque {
+﻿$(document).ready(function () {
+    var estoque = new Estoque();
+    estoque.popularModalCadastro(estoque);
+    estoque.cadastrar(estoque);
+
+    estoque.ajustarValorCompra(estoque, "cadastro");
+    estoque.limparCampoInput();
+
+    estoque.consultar(estoque);
+    
+});
+
+class Estoque {
 
     constructor() {
         this._helper = new ComumHelper();
@@ -13,6 +25,7 @@
     static setInstancia(instancia) { this._instanciaProduto = instancia };
     static getInstancia() { return this._instanciaProduto };
 
+    // Novo cadastro estoque
     popularModalCadastro = function (instanciaEstoque) {
 
         $(".btn-cadastro-estoque").click(function () {
@@ -65,7 +78,9 @@
         });
     }
 
+    // Consulta estoque
     consultar = function (instanciaEstoque) {
+
         $(".btn-consulta-estoque").click(function () {
 
             var elemento = this.parentNode.parentNode;
@@ -78,26 +93,67 @@
             Estoque.setNome(data.Nome);
             Estoque.setInstancia(instanciaEstoque);
 
-            instanciaEstoque._helper.realizarChamadaAjax("Produto/BuscarEstoque", data, "GET", null, instanciaEstoque.acaoSucesso);
+            instanciaEstoque._helper.realizarChamadaAjax("Produto/BuscarEstoque", data, "GET", null, instanciaEstoque._acaoSucesso);
+
         });
 
     }
 
-    ajustarValorCompra = function (instanciaEstoque) {
+    // Atualizar estoque
+    popularModalAtualizar = function (instanciaEstoque) {
+
+        $(".btn-editar-estoque").click(function () {
+            var elemento = this.parentNode.parentNode;
+            var elementoModalPai = elemento.parentNode.parentNode.parentNode.parentNode;
+            
+            //montar objeto produto
+            var estoque = {
+                Quantidade: instanciaEstoque._helper.obterTextoPorClasse(elemento, "quantidade-atualiza"),
+                IdentificadorUnico: instanciaEstoque._helper.obterValorPorClasse(elemento, "identificador-unico-atualiza"),
+                DataValidade: instanciaEstoque._helper.obterTextoPorClasse(elemento, "data-validade-atualiza"),
+                ValorCompraUnidade: instanciaEstoque._helper.obterTextoPorClasse(elemento, "valor-compra-unitario-atualiza"), 
+                ValorCompraTotal: instanciaEstoque._helper.obterTextoPorClasse(elemento, "valor-compra-total-atualiza"),
+                NomeProduto: instanciaEstoque._helper.obterTextoPorId(elementoModalPai, "titulo-modal-consulta-estoque") 
+            }
+
+            var valorUnitario = instanciaEstoque._helper.formatarValorOutput(parseFloat(estoque.ValorCompraUnidade.replace('R$ ', '').replace(',', '.')));
+            var valorTotal = instanciaEstoque._helper.formatarValorOutput(parseFloat(estoque.ValorCompraTotal.replace('R$ ', '').replace(',', '.')));
+            var dataValidade = instanciaEstoque._helper.formatarDataOutput(estoque.DataValidade, "/", "-");
+
+            // mostrar modal
+            $("#modal-atualizar-estoque").modal("show");
+
+            // preenche os inputs formatados com os valores ***
+            $("#quantidade-atualiza").val(parseInt(estoque.Quantidade));
+            $("#valor-compra-unitario-atualiza").val(valorUnitario);
+            $("#valor-compra-total-atualiza ").val(valorTotal);
+            $("#data-validade-atualiza").val(dataValidade);
+            $("#span-estoque-identificador-unico").html("<input id='estoque-identificador-unico' type='hidden' value='" + estoque.IdentificadorUnico + "'/>");
+
+            instanciaEstoque._helper.mascaraValorMonetario($("#valor-compra-unitario-atualiza"));
+            instanciaEstoque._helper.mascaraValorMonetario($("#valor-compra-total-atualiza "));
+
+            instanciaEstoque.ajustarValorCompra(instanciaEstoque, "atualiza");
+
+        });
+    }
+
+    // Metodos publicos complementares
+    ajustarValorCompra = function (instanciaEstoque, complementoId) {
         // autocompleta o valor de compra total com base no valor unitario
-        $("#valor-compra-unitario-cadastro").blur(function () {
+        $("#valor-compra-unitario-" + complementoId).blur(function () {
 
             var elemento = this.parentNode.parentNode;
 
             // monta objeto estoque
             var estoque = {
-                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-cadastro"),
-                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-cadastro"),
-                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-cadastro")
+                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-" + complementoId),
+                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-" + complementoId),
+                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-" + complementoId)
             }
 
             // validar campo quantidade antes do calculo
-            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade-cadastro"), $("#valor-compra-unitario-cadastro")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario")]))
+            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade-" + complementoId), $("#valor-compra-unitario-" + complementoId)], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario")]))
                 return;
 
             // formata valor para calculo 
@@ -107,24 +163,24 @@
             var resultado = parseInt(estoque.Quantidade) * valorFormatado;
 
             // devolve valor calculado e formatado para tela
-            $("#valor-compra-total-cadastro").val(instanciaEstoque._helper.formatarValorOutput(resultado));
+            $("#valor-compra-total-" + complementoId).val(instanciaEstoque._helper.formatarValorOutput(resultado));
 
         });
 
         // autocompleta o valor de compra unitario com base no valor total
-        $("#valor-compra-total-cadastro").blur(function () {
+        $("#valor-compra-total-" + complementoId).blur(function () {
 
             var elemento = this.parentNode.parentNode;
 
             // monta objeto estoque
             var estoque = {
-                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-cadastro"),
-                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-cadastro"),
-                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-cadastro")
+                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-" + complementoId),
+                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-" + complementoId),
+                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-" + complementoId)
             }
 
             // validar campo quantidade antes do calculo
-            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade-cadastro"), $("#valor-compra-total-cadastro")], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-total")]))
+            if (!instanciaEstoque._helper.validarCamposObrigatorios([$("#quantidade-" + complementoId), $("#valor-compra-total-" + complementoId)], [$("#span-valida-quantidade"), $("#span-valida-valor-compra-total")]))
                 return;
 
             // formata valor para calculo
@@ -134,7 +190,7 @@
             var resultado = valorFormatado / parseInt(estoque.Quantidade);
 
             // devolve valor calculado e formatado para tela
-            $("#valor-compra-unitario-cadastro").val(instanciaEstoque._helper.formatarValorOutput(resultado));
+            $("#valor-compra-unitario-" + complementoId).val(instanciaEstoque._helper.formatarValorOutput(resultado));
 
         });
 
@@ -149,7 +205,8 @@
         });
     }
 
-    acaoSucesso = function (response) {
+    // metodos privados
+    _acaoSucesso = function (response) {
         var html = "";
         var somaQuantidade = 0;
         var instanciaEstoque = Estoque.getInstancia();
@@ -161,20 +218,23 @@
         response.forEach(function (estoque) {
 
             html += "<tr>" +
-                        "<td>" + estoque.quantidade + "</td>" +
-                        "<td>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraUnidade) + "</td>" +
-                        "<td>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraTotal) + "</td>" +
-                        "<td>" + instanciaEstoque._helper.formatarDataOutput(estoque.dataValidade) + "</td>" +
+                        "<td class='quantidade-atualiza'>" + estoque.quantidade + "</td>" +
+                        "<td class='valor-compra-unitario-atualiza'>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraUnidade) + "</td>" +
+                        "<td class='valor-compra-total-atualiza'>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraTotal) + "</td>" +
+                        "<td class='data-validade-atualiza'>" + instanciaEstoque._helper.formatarDataOutput(estoque.dataValidade, "-", "/") + "</td>" +
                         "<td><button type='button' class='btn btn-primary btn-editar-estoque'>Editar</button></td>" +
                         "<td><button type='button' class='btn btn-danger btn-deletar-estoque'> Deletar</button></td>" +
-                    "</tr>";
+                        "<td><input type = 'hidden' class='identificador-unico-atualiza' value = '" + estoque.identificadorUnico + "' /></td>" +
+                    "</tr>"                     
 
             somaQuantidade += parseInt(estoque.quantidade);
-
+                        
         });
 
         $("#quantidade-total").text(somaQuantidade);
 
         $("#render-lista-estoque").html(html);
+
+        instanciaEstoque.popularModalAtualizar(instanciaEstoque);
     }
 }

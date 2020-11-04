@@ -1,18 +1,10 @@
 ﻿$(document).ready(function () {
     var produto = new Produto();
-    var estoque = new Estoque();
 
     produto.cadastrar(produto);
     produto.deletar(produto);
     produto.popularModalAtualizar(produto);
     produto.atualizar(produto);
-
-    estoque.popularModalCadastro(estoque);
-    estoque.cadastrar(estoque);
-    estoque.ajustarValorCompra(estoque);
-    estoque.consultar(estoque);
-    estoque.limparCampoInput();
-
 });
 
 class Produto {

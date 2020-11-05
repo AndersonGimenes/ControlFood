@@ -143,6 +143,26 @@ namespace ControlFood.UI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPut]
+        public IActionResult AtualizarEstoque(Produto produto)
+        {
+            try
+            {
+                produto.Estoque.IsValid();
+
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+
+                //_cadastroEstoqueUseCase.InserirEstoque(produtoDominio);
+
+                produto.Mensagem = Constantes.Mensagem.EStoque.EStoqueCadastrado;
+                return Json(produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 
 }

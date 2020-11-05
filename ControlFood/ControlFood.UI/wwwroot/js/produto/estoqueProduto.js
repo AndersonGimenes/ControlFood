@@ -7,6 +7,7 @@
     estoque.limparCampoInput();
 
     estoque.consultar(estoque);
+    estoque.atualizar(estoque);
     
 });
 
@@ -123,7 +124,7 @@ class Estoque {
             // mostrar modal
             $("#modal-atualizar-estoque").modal("show");
 
-            // preenche os inputs formatados com os valores ***
+            // preenche os inputs formatados com os valores
             $("#quantidade-atualiza").val(parseInt(estoque.Quantidade));
             $("#valor-compra-unitario-atualiza").val(valorUnitario);
             $("#valor-compra-total-atualiza ").val(valorTotal);
@@ -138,6 +139,38 @@ class Estoque {
         });
     }
 
+    atualizar = function (instanciaEstoque) {
+
+        $("#btn-atualiza-estoque").click(function () {
+            var elemento = this.parentNode.parentNode;
+
+            // validar campos obrigatorios
+            var arrayElementos = [$("#quantidade-atualiza"), $("#valor-compra-unitario-atualiza"), $("#valor-compra-total-atualiza"), $("#data-validade-atualiza")];
+            var arraySpans = [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario"), $("#span-valida-valor-compra-total"), $("#span-valida-data-validade")];
+
+            if (!instanciaEstoque._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
+                return;
+
+            // montar objetos request
+            var estoque = {
+                IdentificadorUnico: instanciaEstoque._helper.obterValorPorId(elemento, "estoque-identificador-unico"),
+                Quantidade: instanciaEstoque._helper.obterValorPorId(elemento, "quantidade-atualiza"),
+                DataValidade: instanciaEstoque._helper.obterValorPorId(elemento, "data-validade-atualiza"),
+                ValorCompraUnidade: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-unitario-atualiza"),
+                ValorCompraTotal: instanciaEstoque._helper.obterValorPorId(elemento, "valor-compra-total-atualiza")
+            }
+
+            var data = {
+                Estoque: estoque
+            }
+
+            console.log(estoque);
+
+            // realizar requisição
+            instanciaEstoque._helper.realizarChamadaAjax("Produto/AtualizarEstoque", data, "PUT", instanciaEstoque._helper);
+
+        });
+    }
     // Metodos publicos complementares
     ajustarValorCompra = function (instanciaEstoque, complementoId) {
         // autocompleta o valor de compra total com base no valor unitario

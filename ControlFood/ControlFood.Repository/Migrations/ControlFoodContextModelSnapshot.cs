@@ -43,6 +43,9 @@ namespace ControlFood.Repository.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
                     b.Property<DateTime?>("DataEntrada")
                         .HasColumnType("date");
 

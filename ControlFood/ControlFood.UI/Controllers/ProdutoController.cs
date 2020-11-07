@@ -134,9 +134,9 @@ namespace ControlFood.UI.Controllers
             {
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
-                var estoques = _cadastroEstoqueUseCase.BuscarDadosProdutoXEstoques(produtoDominio);
+                var produtos = _cadastroEstoqueUseCase.BuscarDadosProdutoXEstoques(produtoDominio);
 
-                return Json(_mapper.Map<List<Estoque>>(estoques));
+                return Json(_mapper.Map<List<Produto>>(produtos));
             }
             catch (Exception ex)
             {
@@ -153,9 +153,9 @@ namespace ControlFood.UI.Controllers
 
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
-                //_cadastroEstoqueUseCase.InserirEstoque(produtoDominio);
+                _cadastroEstoqueUseCase.AtualizarEstoque(produtoDominio);
 
-                produto.Mensagem = Constantes.Mensagem.EStoque.EStoqueCadastrado;
+                produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
                 return Json(produto);
             }
             catch (Exception ex)

@@ -7,6 +7,7 @@ namespace ControlFood.UseCase.Interface.UseCase
     public interface ICadastroEstoqueUseCase : IGenericCadastroUseCase<Estoque>
     {
         Produto InserirEstoque(Produto produto);
-        List<Estoque> BuscarDadosProdutoXEstoques(Produto produto);
+        List<Produto> BuscarDadosProdutoXEstoques(Produto produto);
+        Produto AtualizarEstoque(Produto produto);
     }
 }

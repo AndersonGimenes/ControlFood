@@ -38,7 +38,10 @@ namespace ControlFood.Repository.Configuration
             builder
                 .Property(x => x.ValorCompraTotal)
                 .HasColumnType("decimal");
-
+            builder
+               .Property(x => x.DataAlteracao)
+               .HasColumnType("date");
+            
             builder
                 .HasOne(x => x.Produto)
                 .WithMany(x => x.Estoques)

@@ -6,6 +6,7 @@ using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
@@ -26,6 +27,10 @@ namespace ControlFood.UnitTest.UseCase
             _mockProdutoRepository
                 .Setup(x => x.BuscarTodos())
                 .Returns(HelperMock.MockListaProdutosPersistidos());
+
+            _mockEstoqueRepository
+                .Setup(x => x.BuscarTodosPorProduto(It.IsAny<Produto>()))
+                .Returns(HelperMock.MockListaEstoque());
         }
 
         [Fact]
@@ -35,7 +40,7 @@ namespace ControlFood.UnitTest.UseCase
 
             var estoqueCocaCola = new Produto { IdentificadorUnico = 1 };
             estoqueCocaCola.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 06, 10), ValorCompraTotal = 50.90M, ValorCompraUnidade = 5.09M };
-      
+
             _cadastroEstoqueUseCase.InserirEstoque(estoqueCocaCola);
 
             var dataFim = DateTime.Now;
@@ -48,7 +53,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             var estoqueCocaCola = new Produto { IdentificadorUnico = 99 };
             estoqueCocaCola.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 06, 10), ValorCompraTotal = 50.90M, ValorCompraUnidade = 5.09M };
-            
+
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(estoqueCocaCola));
 
             Assert.Equal("Não é possivel cadastrar o estoque: Produto inexistente", ex.Message);
@@ -61,7 +66,7 @@ namespace ControlFood.UnitTest.UseCase
 
             var sorvete = new Produto { IdentificadorUnico = 5 };
             sorvete.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2020, 05, 15), ValorCompraTotal = 30.00M, ValorCompraUnidade = 3.00M };
-            
+
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(sorvete));
 
             Assert.Equal(mensagemErro, ex.Message);
@@ -72,7 +77,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             var sorvete = new Produto { IdentificadorUnico = 5 };
             sorvete.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 05, 15), ValorCompraTotal = 35.00M, ValorCompraUnidade = 3.00M };
-    
+
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroEstoqueUseCase.InserirEstoque(sorvete));
 
             Assert.Equal("A quantidade X valor unitario é diferente do valor total do lote.", ex.Message);
@@ -83,14 +88,30 @@ namespace ControlFood.UnitTest.UseCase
         {
             var produto = HelperMock.MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1);
 
-            _mockEstoqueRepository
-                .Setup(x => x.BuscarTodosPorProduto(It.IsAny<Produto>()))
-                .Returns(HelperMock.MockListaEstoque());
-
             var estoquesXProduto = _cadastroEstoqueUseCase.BuscarDadosProdutoXEstoques(produto);
 
-            Assert.DoesNotContain(estoquesXProduto, e => e.DataValidade < DateTime.Today);
+            Assert.DoesNotContain(estoquesXProduto, p => p.Estoque.DataValidade < DateTime.Today);
         }
 
+        [Fact]
+        public void DeveAtualizarOItemDoEstoqueComSucesso()
+        {
+            var itemAntesAtualizacao = HelperMock.MockListaEstoque().First(p => p.IdentificadorUnico == 5);
+            var itemAtualizacao = new Estoque { IdentificadorUnico = 5, Quantidade = 20, DataValidade = DateTime.Now.AddDays(200), ValorCompraTotal = 60.00M, ValorCompraUnidade = 6.00M };
+            var produto = new Produto { Estoque = itemAtualizacao };
+
+            _mockEstoqueRepository
+                .Setup(x => x.Atualizar(It.IsAny<Estoque>()))
+                .Callback(() =>
+                {
+                    itemAntesAtualizacao = itemAtualizacao;
+                });
+
+            _cadastroEstoqueUseCase.AtualizarEstoque(produto);
+
+            Assert.Equal(produto.Estoque, itemAntesAtualizacao);
+            Assert.True(itemAtualizacao.DataAlteracao > DateTime.MinValue && itemAtualizacao.DataAlteracao != null);
+
+        }
     }
 }

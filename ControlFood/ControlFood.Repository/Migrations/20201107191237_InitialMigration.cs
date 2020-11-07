@@ -76,7 +76,8 @@ namespace ControlFood.Repository.Migrations
                     DataEntrada = table.Column<DateTime>(type: "date", nullable: true),
                     ValorCompraUnidade = table.Column<decimal>(type: "decimal", nullable: false, defaultValue: 0m),
                     ValorCompraTotal = table.Column<decimal>(type: "decimal", nullable: false),
-                    IdProduto = table.Column<int>(nullable: false)
+                    IdProduto = table.Column<int>(nullable: false),
+                    DataAlteracao = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {

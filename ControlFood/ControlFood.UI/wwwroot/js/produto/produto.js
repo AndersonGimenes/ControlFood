@@ -13,7 +13,7 @@ class Produto {
         this._helper = new ComumHelper();
 
         // input valor venda produto
-        this._helper.mascaraValorMonetario($("#valor-venda-cadastro"));
+        this._helper.mascaraValorMonetario($("#valor-venda"));
 
         // modal cadastro estoque
         // input valor compra unitario
@@ -21,6 +21,8 @@ class Produto {
 
         // input valor compra total
         this._helper.mascaraValorMonetario($("#valor-compra-total-cadastro"));
+
+
     }
 
     cadastrar = function (instanciaProduto) {

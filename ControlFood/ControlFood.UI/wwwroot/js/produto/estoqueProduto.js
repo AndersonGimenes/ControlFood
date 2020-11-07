@@ -111,6 +111,7 @@ class Estoque {
             var estoque = {
                 Quantidade: instanciaEstoque._helper.obterTextoPorClasse(elemento, "quantidade-atualiza"),
                 IdentificadorUnico: instanciaEstoque._helper.obterValorPorClasse(elemento, "identificador-unico-atualiza"),
+                IdentificadorUnicoProduto: instanciaEstoque._helper.obterValorPorClasse(elemento, "identificador-unico-produto"),
                 DataValidade: instanciaEstoque._helper.obterTextoPorClasse(elemento, "data-validade-atualiza"),
                 ValorCompraUnidade: instanciaEstoque._helper.obterTextoPorClasse(elemento, "valor-compra-unitario-atualiza"), 
                 ValorCompraTotal: instanciaEstoque._helper.obterTextoPorClasse(elemento, "valor-compra-total-atualiza"),
@@ -129,7 +130,8 @@ class Estoque {
             $("#valor-compra-unitario-atualiza").val(valorUnitario);
             $("#valor-compra-total-atualiza ").val(valorTotal);
             $("#data-validade-atualiza").val(dataValidade);
-            $("#span-estoque-identificador-unico").html("<input id='estoque-identificador-unico' type='hidden' value='" + estoque.IdentificadorUnico + "'/>");
+            $("#span-estoque-identificador-unico-atualiza").html("<input id='estoque-identificador-unico' type='hidden' value='" + estoque.IdentificadorUnico + "'/>");
+            $("#span-produto-identificador-unico-atualiza").html("<input id='produto-identificador-unico-atualiza' type='hidden' value='" + estoque.IdentificadorUnicoProduto + "'/>");
 
             instanciaEstoque._helper.mascaraValorMonetario($("#valor-compra-unitario-atualiza"));
             instanciaEstoque._helper.mascaraValorMonetario($("#valor-compra-total-atualiza "));
@@ -161,10 +163,11 @@ class Estoque {
             }
 
             var data = {
+                IdentificadorUnico: instanciaEstoque._helper.obterValorPorId(elemento, "produto-identificador-unico-atualiza"),
                 Estoque: estoque
             }
 
-            console.log(estoque);
+            console.log(data);
 
             // realizar requisição
             instanciaEstoque._helper.realizarChamadaAjax("Produto/AtualizarEstoque", data, "PUT", instanciaEstoque._helper);
@@ -248,19 +251,20 @@ class Estoque {
 
         $("#titulo-modal-consulta-estoque").text("Consulta estoque " + Estoque.getNome());
 
-        response.forEach(function (estoque) {
+        response.forEach(function (produto) {
 
             html += "<tr>" +
-                        "<td class='quantidade-atualiza'>" + estoque.quantidade + "</td>" +
-                        "<td class='valor-compra-unitario-atualiza'>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraUnidade) + "</td>" +
-                        "<td class='valor-compra-total-atualiza'>R$ " + instanciaEstoque._helper.formatarValorOutput(estoque.valorCompraTotal) + "</td>" +
-                        "<td class='data-validade-atualiza'>" + instanciaEstoque._helper.formatarDataOutput(estoque.dataValidade, "-", "/") + "</td>" +
+                        "<td class='quantidade-atualiza'>" + produto.estoque.quantidade + "</td>" +
+                        "<td class='valor-compra-unitario-atualiza'>R$ " + instanciaEstoque._helper.formatarValorOutput(produto.estoque.valorCompraUnidade) + "</td>" +
+                        "<td class='valor-compra-total-atualiza'>R$ " + instanciaEstoque._helper.formatarValorOutput(produto.estoque.valorCompraTotal) + "</td>" +
+                        "<td class='data-validade-atualiza'>" + instanciaEstoque._helper.formatarDataOutput(produto.estoque.dataValidade, "-", "/") + "</td>" +
                         "<td><button type='button' class='btn btn-primary btn-editar-estoque'>Editar</button></td>" +
                         "<td><button type='button' class='btn btn-danger btn-deletar-estoque'> Deletar</button></td>" +
-                        "<td><input type = 'hidden' class='identificador-unico-atualiza' value = '" + estoque.identificadorUnico + "' /></td>" +
+                        "<td><input type = 'hidden' class='identificador-unico-atualiza' value = '" + produto.estoque.identificadorUnico + "' /></td>" +
+                        "<td><input type = 'hidden' class='identificador-unico-produto' value = '" + produto.identificadorUnico + "' /></td>" +
                     "</tr>"                     
 
-            somaQuantidade += parseInt(estoque.quantidade);
+            somaQuantidade += parseInt(produto.estoque.quantidade);
                         
         });
 

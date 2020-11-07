@@ -11,6 +11,7 @@ namespace ControlFood.Domain.Entidades
         public DateTime DataEntrada { get; private set; }
         public decimal ValorCompraUnidade { get; set; }
         public decimal ValorCompraTotal { get; set; }
+        public DateTime? DataAlteracao { get; private set; }
 
         public void AtribuirIdentificadorUnicoProduto(int identificadorUnico)
         {
@@ -20,6 +21,11 @@ namespace ControlFood.Domain.Entidades
         public void AtribuirDataDeEntrada()
         {
             DataEntrada = DateTime.Now;
+        }
+
+        public void AtribuirDataDeAlteracao()
+        {
+            DataAlteracao = DateTime.Now;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace ControlFood.Repository.Entidades
         public decimal ValorCompraUnidade { get; set; }
         public decimal ValorCompraTotal { get; set; }
         public int IdProduto { get; set; }
+        public DateTime? DataAlteracao { get; set; }
         public Produto Produto { get; set; }
     }
 }

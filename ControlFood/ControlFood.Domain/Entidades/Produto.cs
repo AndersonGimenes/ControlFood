@@ -1,8 +1,7 @@
 ﻿namespace ControlFood.Domain.Entidades
 {
-    public class Produto
+    public class Produto: Comum
     {
-        public int IdentificadorUnico { get; set; }
         public string CodigoInterno { get; set; }
         public string Nome { get; set; }
         public decimal ValorVenda { get; set; }

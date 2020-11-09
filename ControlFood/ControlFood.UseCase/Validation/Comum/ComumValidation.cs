@@ -39,25 +39,6 @@ namespace ControlFood.UseCase.Validation.Comum
 
         }
 
-        internal static void VerificarTiposAtaulizacao(T entidadePersistida, T entidade, string propertyName, Action lancarException)
-        {
-            var propriedadeValorPersistido = ObterValorReflection(entidadePersistida, propertyName);
-            var propriedadeValor = ObterValorReflection(entidade, propertyName);
-
-            var propriedade = entidade.GetType().GetProperties().First(p => p.Name == propertyName);
-
-            if (propriedade.PropertyType.Name is string)
-            {
-                if (propriedadeValorPersistido.ToString() != propriedadeValor.ToString())
-                    lancarException.Invoke();
-
-                return;
-            }
-            
-            if ((int)propriedadeValorPersistido != (int)propriedadeValor)
-                    lancarException.Invoke();
-        }
-
         #region[ PRIVADOS ]
         private static object ObterValorReflection(object entidade, string propertyName) => entidade
                                                                                                 .GetType()

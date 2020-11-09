@@ -31,11 +31,16 @@ namespace ControlFood.Repository.Configuration
                 .IsRequired();
 
             builder
+              .Property(x => x.DataAlteracao)
+              .HasColumnType("date");
+
+            builder
                 .HasOne(x => x.SubCategoria)
                 .WithMany(x => x.Produtos)
                 .HasForeignKey(x => x.SubCategoriaId)
-                .HasConstraintName("Produto_SubCategoria");
-           
+                .HasConstraintName("Produto_SubCategoria")
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

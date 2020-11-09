@@ -48,7 +48,12 @@ namespace ControlFood.UseCase.Implementation
             produto.Estoque.AtribuirDataDeAlteracao();
             produto.Estoque.AtribuirIdentificadorUnicoProduto(produto.IdentificadorUnico);
 
-            base.Atualizar(produto.Estoque);
+            base.Atualizar(
+                produto.Estoque, 
+                new List<string> 
+                {
+                    nameof(produto.Estoque.DataAlteracao), nameof(produto.Estoque.DataValidade), nameof(produto.Estoque.Quantidade), nameof(produto.Estoque.ValorCompraTotal), nameof(produto.Estoque.ValorCompraUnidade) 
+                });
 
             return produto;
         }

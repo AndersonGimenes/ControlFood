@@ -14,15 +14,6 @@ class Produto {
 
         // input valor venda produto
         this._helper.mascaraValorMonetario($("#valor-venda"));
-
-        // modal cadastro estoque
-        // input valor compra unitario
-        this._helper.mascaraValorMonetario($("#valor-compra-unitario-cadastro"));
-
-        // input valor compra total
-        this._helper.mascaraValorMonetario($("#valor-compra-total-cadastro"));
-
-
     }
 
     cadastrar = function (instanciaProduto) {
@@ -69,7 +60,6 @@ class Produto {
 
             //montar objeto produto
             var subCategoria = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico-sub-categoria"),
                 Tipo: instanciaProduto._helper.obterTextoPorClasse(elemento, "tipo-sub-categoria")
             }
 
@@ -91,8 +81,7 @@ class Produto {
             $("#span-produto-codigo-atualizar").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
             $("#span-valor-venda-atualizar").html("<span id='span-valida-valor-venda'></span><input type='text' class='form-control valor-venda' value='" + valor + "'/>");
             $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value='" + produto.IdentificadorUnico + "'/>");
-            $("#span-identificador-unico-sub-categoria").html("<input type='hidden' class='form-control identificador-unico-sub-categoria' value='" + subCategoria.IdentificadorUnico + "'/>");
-
+            
             // input valor venda produto
             instanciaProduto._helper.mascaraValorMonetario($(".valor-venda"));
         });
@@ -104,16 +93,11 @@ class Produto {
 
             console.log(elemento);
 
-            var subCategoria = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico-sub-categoria")
-            }
-
             var data = {
                 IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
                 CodigoInterno: instanciaProduto._helper.obterValorPorClasse(elemento, "codigo-interno"),
                 Nome: instanciaProduto._helper.obterValorPorClasse(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda"),
-                SubCategoria: subCategoria
+                ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda")
             }
 
             if (!instanciaProduto._helper.validarCamposObrigatorios([$(elemento).find(".valor-venda")], $(elemento).find("#span-valida-valor-venda")))

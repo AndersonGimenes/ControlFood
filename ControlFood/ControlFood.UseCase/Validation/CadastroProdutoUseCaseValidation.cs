@@ -31,19 +31,6 @@ namespace ControlFood.UseCase.Validation
             VerificarEstoqueVinculado(produto, estoques);
         }
 
-        internal static void ValidarRegrasParaAtualizar(Produto produto, Produto produtoPersistido)
-        {
-            // validar campos que não podem ser atualizados
-            ComumValidation<Produto>
-                .VerificarTiposAtaulizacao(produtoPersistido, produto, nameof(produto.Nome), () => throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(produto.Nome))));
-
-            ComumValidation<Produto>
-                .VerificarTiposAtaulizacao(produtoPersistido, produto, nameof(produto.CodigoInterno), () => throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(produto.CodigoInterno))));
-
-            ComumValidation<SubCategoria>
-                .VerificarTiposAtaulizacao(produtoPersistido.SubCategoria, produto.SubCategoria, nameof(produto.SubCategoria.IdentificadorUnico), () => throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Comum.EdicaoInvalida, nameof(produto.SubCategoria.IdentificadorUnico))));
-        }
-
         #region[ PRIVADOS ]
         private static void VerificarEstoqueVinculado(Produto produto, List<Estoque> estoques)
         {

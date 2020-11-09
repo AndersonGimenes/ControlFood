@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ControlFood.Repository.Migrations
 {
     [DbContext(typeof(ControlFoodContext))]
-    [Migration("20201107191237_InitialMigration")]
+    [Migration("20201109001819_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace ControlFood.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Tipo")
                         .IsRequired()
@@ -89,6 +92,9 @@ namespace ControlFood.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -116,6 +122,9 @@ namespace ControlFood.Repository.Migrations
 
                     b.Property<int>("CategoriaId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
 
                     b.Property<bool>("IndicadorItemBar")
                         .ValueGeneratedOnAdd()
@@ -145,7 +154,7 @@ namespace ControlFood.Repository.Migrations
                         .WithMany("Estoques")
                         .HasForeignKey("IdProduto")
                         .HasConstraintName("Estoque_Produto")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -155,7 +164,7 @@ namespace ControlFood.Repository.Migrations
                         .WithMany("Produtos")
                         .HasForeignKey("SubCategoriaId")
                         .HasConstraintName("Produto_SubCategoria")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -165,7 +174,7 @@ namespace ControlFood.Repository.Migrations
                         .WithMany("SubCategorias")
                         .HasForeignKey("CategoriaId")
                         .HasConstraintName("SubCategoria_Categoria")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

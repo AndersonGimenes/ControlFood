@@ -1,4 +1,5 @@
 ﻿using ControlFood.Repository.Context;
+using ControlFood.Repository.Entidades;
 using System.Collections.Generic;
 
 namespace ControlFood.Repository.Base
@@ -13,11 +14,18 @@ namespace ControlFood.Repository.Base
             _context = context;
         }
 
-        public TEntity Atualizar(TEntity entity)
+        public TEntity Atualizar(TEntity entity, List<string> propertiesName)
         {
-            var objetoPersistencia = this.MapearDominioParaRepository(entity);
+            var objetoPersistencia = MapearDominioParaRepository(entity);
 
-            _context.Update(objetoPersistencia);
+            _context.Attach(objetoPersistencia);
+
+            propertiesName.ForEach(propertyName => { 
+                _context.Entry(objetoPersistencia).Property(propertyName).IsModified = true; 
+            });
+
+            _context.Entry(objetoPersistencia).Property(nameof(Comum.DataAlteracao)).IsModified = true;
+            
             _context.SaveChanges();
 
             return MapearRepositoryParaDominio(objetoPersistencia);

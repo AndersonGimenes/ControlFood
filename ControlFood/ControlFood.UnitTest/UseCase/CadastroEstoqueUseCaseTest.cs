@@ -6,6 +6,7 @@ using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -101,7 +102,7 @@ namespace ControlFood.UnitTest.UseCase
             var produto = new Produto { Estoque = itemAtualizacao };
 
             _mockEstoqueRepository
-                .Setup(x => x.Atualizar(It.IsAny<Estoque>()))
+                .Setup(x => x.Atualizar(It.IsAny<Estoque>(), It.IsAny<List<string>>()))
                 .Callback(() =>
                 {
                     itemAntesAtualizacao = itemAtualizacao;
@@ -110,7 +111,7 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroEstoqueUseCase.AtualizarEstoque(produto);
 
             Assert.Equal(produto.Estoque, itemAntesAtualizacao);
-            Assert.True(itemAtualizacao.DataAlteracao > DateTime.MinValue && itemAtualizacao.DataAlteracao != null);
+            Assert.True(itemAtualizacao.DataAlteracao > DateTime.MinValue && itemAtualizacao.DataAlteracao < DateTime.Now);
 
         }
     }

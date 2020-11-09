@@ -30,12 +30,17 @@ namespace ControlFood.Repository.Configuration
                 .Property(x => x.IndicadorItemBar)
                 .HasColumnType("boolean")
                 .HasDefaultValue(false);
+            
+            builder
+              .Property(x => x.DataAlteracao)
+              .HasColumnType("date");
 
             builder
                 .HasOne(x => x.Categoria)
                 .WithMany(x => x.SubCategorias)
                 .HasForeignKey(x => x.CategoriaId)
-                .HasConstraintName("SubCategoria_Categoria");
+                .HasConstraintName("SubCategoria_Categoria")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

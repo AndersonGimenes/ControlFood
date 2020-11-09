@@ -5,5 +5,6 @@ namespace ControlFood.UseCase.Interface.UseCase
 {
     public interface ICadastroProdutoUseCase : IGenericCadastroUseCase<Produto>
     {
+        void AtualizarProduto(Produto produto);
     }
 }

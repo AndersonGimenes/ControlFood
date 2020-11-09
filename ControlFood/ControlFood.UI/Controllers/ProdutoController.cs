@@ -115,7 +115,7 @@ namespace ControlFood.UI.Controllers
 
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
-                _cadastroProdutoUseCase.Atualizar(produtoDominio);
+                _cadastroProdutoUseCase.AtualizarProduto(produtoDominio);
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
                 produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;

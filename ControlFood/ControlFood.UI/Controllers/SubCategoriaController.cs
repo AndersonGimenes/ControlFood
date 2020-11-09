@@ -82,7 +82,7 @@ namespace ControlFood.UI.Controllers
             {
                 var subCategoriaDominio = _mapper.Map<Dominio.SubCategoria>(subCategoria);
 
-                _cadastroSubCategoriaUseCase.Atualizar(subCategoriaDominio);
+                _cadastroSubCategoriaUseCase.AtualizarSubCategoria(subCategoriaDominio);
                 _subcategoriaHelper.CacheSubCategorias(renovaCache: true);
 
                 subCategoria.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;

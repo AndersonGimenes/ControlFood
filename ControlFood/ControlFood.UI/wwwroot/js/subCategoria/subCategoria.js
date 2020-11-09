@@ -42,7 +42,7 @@ class SubCategoria {
                 Tipo: instanciaSubCategoria._helper.obterTextoPorClasse(elementoTr, "tipo")
             }
 
-            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Deletar", data, "DELETE", instanciaSubCategoria._helper);           
+            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Deletar", data, "DELETE", instanciaSubCategoria._helper);
         });
     }
 
@@ -50,13 +50,12 @@ class SubCategoria {
         $(".btn-editar").click(function () {
             var elementoTr = this.parentNode.parentNode;
             var indicadorCozinha = "0";
-           
+
             var data = {
                 Tipo: instanciaSubCategoria._helper.obterTextoPorClasse(elementoTr, "tipo"),
                 TipoCategoria: instanciaSubCategoria._helper.obterTextoPorClasse(elementoTr, "tipo-categoria"),
                 Indicador: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "indicador"),
                 IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-                IdentificadorUnicoCategoria: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico-categoria")
             }
 
             $("#modal-atualizar").modal("show");
@@ -64,8 +63,7 @@ class SubCategoria {
             $("#categoria-tipo").html("<input type='text' class='form-control tipo-categoria' disabled='disabled' value='" + data.TipoCategoria + "'/>");
             $("#sub-categoria-tipo").html("<input type='text' class='form-control tipo' disabled='disabled' value='" + data.Tipo + "'/>");
             $("#identificador-unico").html("<input type='hidden' class='identificador-unico' value='" + data.IdentificadorUnico + "'/>");
-            $("#identificador-unico-categoria").html("<input type='hidden' class='identificador-unico-categoria' value='" + data.IdentificadorUnicoCategoria + "'/>");
-            
+
             if (data.Indicador === indicadorCozinha) {
                 $("#indicador-cozinha").prop("checked", true);
                 $("#indicador-bar").prop("checked", false);
@@ -81,18 +79,13 @@ class SubCategoria {
         $("#btn-atualizar").click(function () {
             var elementoTr = this.parentNode.parentNode;
 
-            var categoria = {
-                IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico-categoria")
-            }
-
             var data = {
                 Tipo: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "tipo"),
-                Categoria: categoria,
                 Indicador: $(elementoTr).find("input[name='indicador']:checked").val(),
                 IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
             }
-                        
-            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Atualizar", data, "PUT", instanciaSubCategoria._helper);  
+
+            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Atualizar", data, "PUT", instanciaSubCategoria._helper);
 
         });
     }

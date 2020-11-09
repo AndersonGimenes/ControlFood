@@ -2,9 +2,8 @@
 
 namespace ControlFood.Repository.Entidades
 {
-    public class Categoria
+    public class Categoria: Comum
     {
-        public int Id { get; set; }
         public string Tipo { get; set; }
         public List<SubCategoria> SubCategorias { get; set; }
 

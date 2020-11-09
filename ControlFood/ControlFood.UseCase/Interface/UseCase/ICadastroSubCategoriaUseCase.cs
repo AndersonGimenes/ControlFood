@@ -6,5 +6,6 @@ namespace ControlFood.UseCase.Interface.UseCase
 {
     public interface ICadastroSubCategoriaUseCase : IGenericCadastroUseCase<SubCategoria>
     {
+        void AtualizarSubCategoria(SubCategoria subCategoria);
     }
 }

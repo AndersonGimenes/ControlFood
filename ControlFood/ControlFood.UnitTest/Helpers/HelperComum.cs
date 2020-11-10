@@ -14,14 +14,17 @@ namespace ControlFood.UnitTest.Helpers
                                         .First(p => p.Name == propertyName)
                                         .GetValue(entidade);
 
-            indice = listaEntidades.FindIndex((x) => (int)x
-                                                        .GetType()
-                                                        .GetProperties()
-                                                        .First(p => p.Name == propertyName)
-                                                        .GetValue(x) == propriedadeValor);
+            indice = listaEntidades
+                        .FindIndex((x) => 
+                            (int)x
+                                .GetType()
+                                .GetProperties()
+                                .First(p => p.Name == propertyName)
+                                .GetValue(x) == propriedadeValor
+                        );
 
             listaEntidades.RemoveAt(indice);
-            
+
             return listaEntidades.Count;
         }
     }

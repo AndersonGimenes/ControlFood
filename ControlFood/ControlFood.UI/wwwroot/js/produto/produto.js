@@ -70,7 +70,7 @@ class Produto {
                 ValorVenda: instanciaProduto._helper.obterTextoPorClasse(elemento, "valor-venda")
             }
 
-            var valor = instanciaProduto._helper.formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '')));
+            var valor = instanciaProduto._helper.formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '').replace(',', '.')));
 
             // mostrar modal
             $("#modal-atualizar").modal("show");

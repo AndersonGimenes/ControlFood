@@ -163,6 +163,24 @@ namespace ControlFood.UI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpDelete]
+        public IActionResult DeletarEstoque(Produto produto)
+        {
+            try
+            {
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+
+                _cadastroEstoqueUseCase.Deletar(produtoDominio.Estoque);
+
+                produto.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
+                return Json(produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 
 }

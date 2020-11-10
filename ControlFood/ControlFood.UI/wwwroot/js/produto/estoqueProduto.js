@@ -8,7 +8,7 @@
 
     estoque.consultar(estoque);
     estoque.atualizar(estoque);
-    
+
 });
 
 class Estoque {
@@ -153,7 +153,7 @@ class Estoque {
 
             // validar campos obrigatorios
             var arrayElementos = [$("#quantidade-atualiza"), $("#valor-compra-unitario-atualiza"), $("#valor-compra-total-atualiza"), $("#data-validade-atualiza")];
-            var arraySpans = [$("#span-valida-quantidade"), $("#span-valida-valor-compra-unitario"), $("#span-valida-valor-compra-total"), $("#span-valida-data-validade")];
+            var arraySpans = [$("#span-valida-quantidade-atualiza"), $("#span-valida-valor-compra-unitario-atualiza"), $("#span-valida-valor-compra-total-atualiza"), $("#span-valida-data-validade-atualiza")];
 
             if (!instanciaEstoque._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
                 return;
@@ -171,13 +171,29 @@ class Estoque {
                 Estoque: estoque
             }
 
-            console.log(data);
-
             // realizar requisição
             instanciaEstoque._helper.realizarChamadaAjax("Produto/AtualizarEstoque", data, "PUT", instanciaEstoque._helper);
 
         });
     }
+
+    deletar = function (instanciaEstoque) {
+        $(".btn-deletar-estoque").click(function () {
+            var elemento = this.parentNode.parentNode;
+
+            var estoque = {
+                IdentificadorUnico: instanciaEstoque._helper.obterValorPorClasse(elemento, "identificador-unico-atualiza")
+            }
+
+            var data = {
+                Estoque: estoque
+            }
+            console.log(elemento);
+
+            instanciaEstoque._helper.realizarChamadaAjax("/Produto/DeletarEstoque", data, "DELETE", instanciaEstoque._helper);
+        });
+    }
+
     // Metodos publicos complementares
     ajustarValorCompra = function (instanciaEstoque, complementoId) {
         // autocompleta o valor de compra total com base no valor unitario
@@ -276,5 +292,7 @@ class Estoque {
         $("#render-lista-estoque").html(html);
 
         instanciaEstoque.popularModalAtualizar(instanciaEstoque);
+
+        instanciaEstoque.deletar(instanciaEstoque);
     }
 }

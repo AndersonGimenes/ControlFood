@@ -1,4 +1,5 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.UnitTest.Helpers;
 using ControlFood.UnitTest.UseCase.Helpers;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Implementation;
@@ -17,6 +18,7 @@ namespace ControlFood.UnitTest.UseCase
         private readonly Mock<IEstoqueRepository> _mockEstoqueRepository;
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
         private readonly ICadastroEstoqueUseCase _cadastroEstoqueUseCase;
+        private int listaEstoqueDepois;
 
         public CadastroEstoqueUseCaseTest()
         {
@@ -118,6 +120,22 @@ namespace ControlFood.UnitTest.UseCase
             Assert.Equal(produto.Estoque, itemAntesAtualizacao);
             Assert.True(itemAtualizacao.DataAlteracao > DateTime.MinValue && itemAtualizacao.DataAlteracao < DateTime.Now);
 
+        }
+
+        [Fact]
+        public void AoEnviarUmaSolicitacaoDeDelecaoOEstoqueDoProdutoDeveSerDeletadoComSucesso()
+        {
+            var produtoRequest = new Produto { Estoque = new Estoque { IdentificadorUnico = 5 } };
+            var listaEstoque = HelperMock.MockListaEstoque();
+            var listaEstoqueAntes = listaEstoque.Count;
+
+            _mockEstoqueRepository
+                .Setup(x => x.Deletar(It.IsAny<Estoque>()))
+                .Callback(() => listaEstoqueDepois = HelperComum<Estoque>.DeletarRegistro(produtoRequest.Estoque, listaEstoque, nameof(produtoRequest.Estoque.IdentificadorUnico)));
+
+            _cadastroEstoqueUseCase.Deletar(produtoRequest.Estoque);
+
+            Assert.True(listaEstoqueAntes > listaEstoqueDepois);
         }
     }
 }

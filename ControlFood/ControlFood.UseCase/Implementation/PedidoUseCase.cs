@@ -4,7 +4,6 @@ using ControlFood.Domain.Enuns;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
-using System.Linq;
 
 namespace ControlFood.UseCase.Implementation
 {
@@ -38,7 +37,7 @@ namespace ControlFood.UseCase.Implementation
             pedido.PedidoPago = true;
             pedido.FormaPagamento = formaPagamento;
             
-            _genericRepository.Atualizar(pedido);
+            _genericRepository.Atualizar(pedido, null);
 
             return pedido;
         }

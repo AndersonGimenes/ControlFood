@@ -6,6 +6,7 @@ using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -55,6 +56,7 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroSubCategoriaUseCase.Inserir(subCategoria);
 
             Assert.Equal(1, subCategoria.IdentificadorUnico);
+            Assert.True(subCategoria.DataCadastro > DateTime.MinValue && subCategoria.DataCadastro < DateTime.Now);
         }
 
         [Fact]
@@ -101,7 +103,7 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void DeveAtualizarUmaSubCategoriaExistenteComSucesso()
+        public void DeveAtualizarApenasOsCamposIndicadorBarIndicadorCozinhaDataAlteracaoDeUmaSubCategoriaExistente()
         {
             var subCategoria = HelperMock.MockSubCategoria("Suco", 2, tipoCategoria: "Bebida", idSubCategoria: 3);
             subCategoria.IndicadorItemBar = true;
@@ -110,50 +112,19 @@ namespace ControlFood.UnitTest.UseCase
             var subCategoriaPersistida = HelperMock.MockListaSubCategoriasPersistidas().First(x => x.IdentificadorUnico == subCategoria.IdentificadorUnico);
 
             _mockSubCategoriaRepository
-                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
-                .Returns(subCategoriaPersistida);
-
-            _mockSubCategoriaRepository
-                .Setup(x => x.Atualizar(It.IsAny<SubCategoria>()))
+                .Setup(x => x.Atualizar(It.IsAny<SubCategoria>(), It.IsAny<List<string>>()))
                 .Callback(() =>
                 {
                     subCategoriaPersistida.IndicadorItemBar = subCategoria.IndicadorItemBar;
                     subCategoriaPersistida.IndicadorItemCozinha = subCategoria.IndicadorItemCozinha;
                 });            
 
-            _cadastroSubCategoriaUseCase.Atualizar(subCategoria);
+            _cadastroSubCategoriaUseCase.AtualizarSubCategoria(subCategoria);
 
             Assert.True(subCategoriaPersistida.IndicadorItemBar);
             Assert.False(subCategoriaPersistida.IndicadorItemCozinha);
+            Assert.True(subCategoria.DataAlteracao > DateTime.MinValue && subCategoria.DataAlteracao < DateTime.Now);
 
-        }
-
-        [Fact]
-        public void DadoIdentificadorUnicoDaCategoriaDoObjetoDeRequesicaoDiferenteAoIdentificadoUnicoDaCategoriaPersistidaDeveSerLancadaUmaException()
-        {
-            var subCategoria = HelperMock.MockSubCategoria("Suco", 5, tipoCategoria: "Bebida", idSubCategoria: 3);
-            var subCategoriaPersistida = HelperMock.MockListaSubCategoriasPersistidas().First(x => x.IdentificadorUnico == subCategoria.IdentificadorUnico);
-
-            _mockSubCategoriaRepository
-                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
-                .Returns(subCategoriaPersistida);
-
-            var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _cadastroSubCategoriaUseCase.Atualizar(subCategoria));
-            Assert.Equal("O campo IdentificadorUnico não pode ser atualizado.", ex.Message);            
-        }
-
-        [Fact]
-        public void DadoTipoDaSubCategoriaDoObjetoDeRequesicaoDiferenteAoTipoDaSubCategoriaPersistidaDeveSerLancadaUmaException()
-        {
-            var subCategoria = HelperMock.MockSubCategoria("Suquinho", 2, tipoCategoria: "Bebida", idSubCategoria: 3);
-            var subCategoriaPersistida = HelperMock.MockListaSubCategoriasPersistidas().First(x => x.IdentificadorUnico == subCategoria.IdentificadorUnico);
-
-            _mockSubCategoriaRepository
-                .Setup(x => x.BuscarPorId(It.IsAny<int>()))
-                .Returns(subCategoriaPersistida);
-
-            var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _cadastroSubCategoriaUseCase.Atualizar(subCategoria));
-            Assert.Equal("O campo Tipo não pode ser atualizado.", ex.Message);
         }
 
         [Fact]
@@ -163,7 +134,7 @@ namespace ControlFood.UnitTest.UseCase
 
             var ex = Assert.Throws<SubCategoriaIncorretaUseCaseException>(() => _cadastroSubCategoriaUseCase.Deletar(subCategoria));
 
-            Assert.Equal("Existe Produto vinculada a Sub-Categoria Lanche.", ex.Message);
+            Assert.Equal("Existe Produto vinculado a Sub-Categoria Lanche.", ex.Message);
         }
 
     }

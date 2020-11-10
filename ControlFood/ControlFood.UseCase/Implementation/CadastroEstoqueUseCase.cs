@@ -14,7 +14,7 @@ namespace ControlFood.UseCase.Implementation
         private readonly IProdutoRepository _produtoRepository;
         private readonly IEstoqueRepository _estoqueRepository;
 
-        public CadastroEstoqueUseCase(IEstoqueRepository estoqueRepository, IProdutoRepository produtoRepository) 
+        public CadastroEstoqueUseCase(IEstoqueRepository estoqueRepository, IProdutoRepository produtoRepository)
             : base(estoqueRepository)
         {
             _produtoRepository = produtoRepository;
@@ -25,22 +25,46 @@ namespace ControlFood.UseCase.Implementation
         {
             var produtos = _produtoRepository.BuscarTodos();
 
-            produto.Estoque.AtribuirDataDeEntrada();
             produto.Estoque.AtribuirIdentificadorUnicoProduto(produto.IdentificadorUnico);
 
-            CadastroEstoqueUseCaseValidation.ValidarRegrasParaInserir(produto, produtos);            
+            CadastroEstoqueUseCaseValidation.ValidarRegrasParaInserir(produto, produtos);
 
             base.Inserir(produto.Estoque);
-                         
+
             return produto;
         }
 
-        public List<Estoque> BuscarDadosProdutoXEstoques(Produto produto)
+        public List<Produto> BuscarDadosProdutoXEstoques(Produto produto)
         {
             var lista = _estoqueRepository.BuscarTodosPorProduto(produto);
             var listaFiltrada = lista.Where(e => e.DataValidade >= DateTime.Today).ToList();
 
-            return listaFiltrada;
+            return RetonarListaProdutoXEstoque(listaFiltrada);
+        }
+
+        public Produto AtualizarEstoque(Produto produto)
+        {
+            produto.Estoque.AtribuirIdentificadorUnicoProduto(produto.IdentificadorUnico);
+
+            base.Atualizar(
+                produto.Estoque,
+                new List<string>
+                {
+                    nameof(produto.Estoque.DataAlteracao), nameof(produto.Estoque.DataValidade), nameof(produto.Estoque.Quantidade), nameof(produto.Estoque.ValorCompraTotal), nameof(produto.Estoque.ValorCompraUnidade)
+                });
+
+            return produto;
+        }
+
+        private List<Produto> RetonarListaProdutoXEstoque(List<Estoque> estoques)
+        {
+            var produtos = new List<Produto>();
+            estoques.ForEach(estoque =>
+            {
+                produtos.Add(new Produto { IdentificadorUnico = estoque.IdentificadorUnicoProduto, Estoque = estoque });
+            });
+
+            return produtos;
         }
     }
 }

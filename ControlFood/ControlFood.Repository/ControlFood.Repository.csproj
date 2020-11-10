@@ -1,25 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20200909235925_MigracaoInicial.cs" />
-    <Compile Remove="Migrations\20200909235925_MigracaoInicial.Designer.cs" />
-    <Compile Remove="Migrations\20200910000704_MigracaoInicial.cs" />
-    <Compile Remove="Migrations\20200910000704_MigracaoInicial.Designer.cs" />
-    <Compile Remove="Migrations\20200910041835_MigracaoInicial.cs" />
-    <Compile Remove="Migrations\20200910041835_MigracaoInicial.Designer.cs" />
-    <Compile Remove="Migrations\20200914014522_inicial.cs" />
-    <Compile Remove="Migrations\20200914014522_inicial.Designer.cs" />
-    <Compile Remove="Migrations\20200914021335_inicial.cs" />
-    <Compile Remove="Migrations\20200914021335_inicial.Designer.cs" />
-    <Compile Remove="Migrations\20200914022714_inicial.cs" />
-    <Compile Remove="Migrations\20200914022714_inicial.Designer.cs" />
-    <Compile Remove="Migrations\20200914235230_inicial.cs" />
-    <Compile Remove="Migrations\20200914235230_inicial.Designer.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
@@ -37,6 +20,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ControlFood.UseCase\ControlFood.UseCase.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

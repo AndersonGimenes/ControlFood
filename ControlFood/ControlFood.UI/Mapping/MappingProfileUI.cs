@@ -25,8 +25,7 @@ namespace ControlFood.UI.Mapping
             CreateMap<Dominio.SubCategoria, Models.SubCategoria>()
                 .ForMember(dest => dest.Indicador, opts => opts.MapFrom(x => x.IndicadorItemCozinha ? 0 : 1));
 
-            CreateMap<Dominio.Estoque, Models.Estoque>()
-                .ForMember(dest => dest.DataValidade, opts => opts.MapFrom(x => x.DataValidade.ToString("dd/MM/yyyy")));
+            CreateMap<Dominio.Estoque, Models.Estoque>();
 
             CreateMap<Dominio.Produto, Models.Produto>();
         }

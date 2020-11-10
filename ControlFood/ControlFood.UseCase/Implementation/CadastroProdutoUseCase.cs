@@ -3,6 +3,7 @@ using ControlFood.UseCase.Implementation.Base;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using ControlFood.UseCase.Validation;
+using System.Collections.Generic;
 
 namespace ControlFood.UseCase.Implementation
 {
@@ -39,13 +40,9 @@ namespace ControlFood.UseCase.Implementation
             base.Deletar(produto);
         }
 
-        public override void Atualizar(Produto produto)
+        public void AtualizarProduto(Produto produto)
         {
-            var produtoPersistido = base.BuscarPorIdentificacao(produto, nameof(produto.IdentificadorUnico));
-
-            CadastroProdutoUseCaseValidation.ValidarRegrasParaAtualizar(produto, produtoPersistido);
-
-            base.Atualizar(produto);
+            base.Atualizar(produto, new List<string> { nameof(produto.ValorVenda) });
         }
     }
 }

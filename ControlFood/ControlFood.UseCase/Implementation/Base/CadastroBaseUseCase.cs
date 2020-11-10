@@ -1,4 +1,5 @@
-﻿using ControlFood.UseCase.Interface.Repository;
+﻿using ControlFood.Domain.Entidades;
+using ControlFood.UseCase.Interface.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,17 @@ namespace ControlFood.UseCase.Implementation.Base
             _genericRepository = genericRepository;
         }
 
-        public virtual T Inserir(T entidade) => _genericRepository.Inserir(entidade);
-
-        public virtual void Atualizar(T entidade)
+        public virtual T Inserir(T entidade)
         {
-            _genericRepository.Atualizar(entidade);
+            entidade.GetType().GetProperties().First(p => p.Name == nameof(Comum.DataCadastro)).SetValue(entidade, DateTime.Now);
+            return _genericRepository.Inserir(entidade); 
+        }
+
+        public void Atualizar(T entidade, List<string> propertiesName)
+        {
+            entidade.GetType().GetProperties().First(p => p.Name == nameof(Comum.DataAlteracao)).SetValue(entidade, DateTime.Now);
+
+            _genericRepository.Atualizar(entidade, propertiesName);
         }
 
         public T BuscarPorIdentificacao(T entidade, string propertyName)

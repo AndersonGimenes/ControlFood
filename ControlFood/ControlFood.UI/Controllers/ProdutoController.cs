@@ -115,7 +115,7 @@ namespace ControlFood.UI.Controllers
 
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
-                _cadastroProdutoUseCase.Atualizar(produtoDominio);
+                _cadastroProdutoUseCase.AtualizarProduto(produtoDominio);
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
                 produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
@@ -134,9 +134,47 @@ namespace ControlFood.UI.Controllers
             {
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
-                var estoques = _cadastroEstoqueUseCase.BuscarDadosProdutoXEstoques(produtoDominio);
+                var produtos = _cadastroEstoqueUseCase.BuscarDadosProdutoXEstoques(produtoDominio);
 
-                return Json(_mapper.Map<List<Estoque>>(estoques));
+                return Json(_mapper.Map<List<Produto>>(produtos));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult AtualizarEstoque(Produto produto)
+        {
+            try
+            {
+                produto.Estoque.IsValid();
+
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+
+                _cadastroEstoqueUseCase.AtualizarEstoque(produtoDominio);
+
+                produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
+                return Json(produto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult DeletarEstoque(Produto produto)
+        {
+            try
+            {
+                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+
+                _cadastroEstoqueUseCase.Deletar(produtoDominio.Estoque);
+
+                produto.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
+                return Json(produto);
             }
             catch (Exception ex)
             {

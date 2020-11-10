@@ -6,6 +6,7 @@ using ControlFood.UseCase.Implementation;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -50,6 +51,7 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroCategoria.Inserir(categoria);
 
             Assert.Equal(1, categoria.IdentificadorUnico);
+            Assert.True(categoria.DataCadastro > DateTime.MinValue && categoria.DataCadastro < DateTime.Now);
         }
 
         [Fact]

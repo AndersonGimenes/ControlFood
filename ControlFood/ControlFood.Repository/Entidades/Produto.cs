@@ -2,13 +2,12 @@
 
 namespace ControlFood.Repository.Entidades
 {
-    public class Produto
+    public class Produto : Comum
     {
         public Produto()
         {
             Estoques = new List<Estoque>();
         }
-        public int Id { get; set; }
         public string CodigoInterno { get; set; }
         public string Nome { get; set; }
         public decimal ValorVenda { get; set; }

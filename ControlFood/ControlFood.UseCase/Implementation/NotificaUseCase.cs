@@ -19,7 +19,7 @@ namespace ControlFood.UseCase.Implementation
         public void NotificarPedidoPreparo(Pedido pedido)
         {
             pedido.StatusPedido = StatusPedido.EmPreparo;
-            _genericRepository.Atualizar(pedido);
+            _genericRepository.Atualizar(pedido, null);
 
             this.SepararPedido(pedido);
         }

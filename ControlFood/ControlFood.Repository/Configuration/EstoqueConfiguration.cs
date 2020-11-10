@@ -26,8 +26,9 @@ namespace ControlFood.Repository.Configuration
                 .IsRequired();
 
             builder
-                .Property(x => x.DataEntrada)
-                .HasColumnType("date");
+                .Property(x => x.DataCadastro)
+                .HasColumnType("date")
+                .IsRequired();
 
             builder
                 .Property(x => x.ValorCompraUnidade)
@@ -37,13 +38,19 @@ namespace ControlFood.Repository.Configuration
 
             builder
                 .Property(x => x.ValorCompraTotal)
-                .HasColumnType("decimal");
-
+                .HasColumnType("decimal")
+                .IsRequired();
+            
+            builder
+               .Property(x => x.DataAlteracao)
+               .HasColumnType("date");
+            
             builder
                 .HasOne(x => x.Produto)
                 .WithMany(x => x.Estoques)
                 .HasForeignKey(x => x.IdProduto)
-                .HasConstraintName("Estoque_Produto");
+                .HasConstraintName("Estoque_Produto")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

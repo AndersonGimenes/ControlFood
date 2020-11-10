@@ -4,6 +4,10 @@
         return $(elemento).find("." + classe).text();
     }
 
+    obterTextoPorId = function (elemento, classe) {
+        return $(elemento).find("#" + classe).text();
+    }
+
     obterValorPorClasse = function (elemento, classe) {
         return $(elemento).find("." + classe).val();
     }
@@ -39,7 +43,7 @@
     realizarChamadaAjax = function (url, data, acao, instanciaComumHelper, acaoSucesso) {
 
         if (acaoSucesso == null)
-            acaoSucesso = instanciaComumHelper._acaoSucessoDefault
+            acaoSucesso = instanciaComumHelper._acaoSucessoDefault;
 
         $.ajax({
             url: url,
@@ -113,9 +117,9 @@
         return demaisCasas + ',' + duasUltimasCasas;
     }
 
-    formatarDataOutput(data) {
-        var arrayData = data.substring(0, 10).split('-');
-        return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
+    formatarDataOutput(data, separadorSplit, separadorData ) {
+        var arrayData = data.substring(0, 10).split(separadorSplit);
+        return arrayData[2] + separadorData + arrayData[1] + separadorData + arrayData[0];
     }
 
     //metodos privados

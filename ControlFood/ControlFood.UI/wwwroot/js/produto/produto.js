@@ -1,18 +1,10 @@
 ﻿$(document).ready(function () {
     var produto = new Produto();
-    var estoque = new Estoque();
 
     produto.cadastrar(produto);
     produto.deletar(produto);
     produto.popularModalAtualizar(produto);
     produto.atualizar(produto);
-
-    estoque.popularModalCadastro(estoque);
-    estoque.cadastrar(estoque);
-    estoque.ajustarValorCompra(estoque);
-    estoque.consultar(estoque);
-    estoque.limparCampoInput();
-
 });
 
 class Produto {
@@ -22,13 +14,6 @@ class Produto {
 
         // input valor venda produto
         this._helper.mascaraValorMonetario($("#valor-venda"));
-
-        // modal cadastro estoque
-        // input valor compra unitario
-        this._helper.mascaraValorMonetario($("#valor-compra-unitario"));
-
-        // input valor compra total
-        this._helper.mascaraValorMonetario($("#valor-compra-total"));
     }
 
     cadastrar = function (instanciaProduto) {
@@ -75,7 +60,6 @@ class Produto {
 
             //montar objeto produto
             var subCategoria = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico-sub-categoria"),
                 Tipo: instanciaProduto._helper.obterTextoPorClasse(elemento, "tipo-sub-categoria")
             }
 
@@ -86,19 +70,18 @@ class Produto {
                 ValorVenda: instanciaProduto._helper.obterTextoPorClasse(elemento, "valor-venda")
             }
 
-            var valor = instanciaProduto._helper.formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '')));
+            var valor = instanciaProduto._helper.formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '').replace(',', '.')));
 
             // mostrar modal
             $("#modal-atualizar").modal("show");
 
             // preencher nome produto e identificador do produto
-            $("#span-sub-categoria-tipo").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
+            $("#span-sub-categoria-tipo-atualizar").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
             $("#span-produto-nome-atualizar").html("<input type='text' class='form-control nome' disabled='disabled' value='" + produto.Nome + "'/>");
-            $("#span-produto-codigo").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
+            $("#span-produto-codigo-atualizar").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
             $("#span-valor-venda-atualizar").html("<span id='span-valida-valor-venda'></span><input type='text' class='form-control valor-venda' value='" + valor + "'/>");
             $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value='" + produto.IdentificadorUnico + "'/>");
-            $("#span-identificador-unico-sub-categoria").html("<input type='hidden' class='form-control identificador-unico-sub-categoria' value='" + subCategoria.IdentificadorUnico + "'/>");
-
+            
             // input valor venda produto
             instanciaProduto._helper.mascaraValorMonetario($(".valor-venda"));
         });
@@ -110,16 +93,11 @@ class Produto {
 
             console.log(elemento);
 
-            var subCategoria = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico-sub-categoria")
-            }
-
             var data = {
                 IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
                 CodigoInterno: instanciaProduto._helper.obterValorPorClasse(elemento, "codigo-interno"),
                 Nome: instanciaProduto._helper.obterValorPorClasse(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda"),
-                SubCategoria: subCategoria
+                ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda")
             }
 
             if (!instanciaProduto._helper.validarCamposObrigatorios([$(elemento).find(".valor-venda")], $(elemento).find("#span-valida-valor-venda")))

@@ -3,10 +3,11 @@ using ControlFood.UseCase.Implementation.Base;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using ControlFood.UseCase.Validation;
+using System.Collections.Generic;
 
 namespace ControlFood.UseCase.Implementation
 {
-    public class CadastroSubCategoriaUseCase : CadastroBaseUseCase<SubCategoria>,  ICadastroSubCategoriaUseCase
+    public class CadastroSubCategoriaUseCase : CadastroBaseUseCase<SubCategoria>, ICadastroSubCategoriaUseCase
     {
         private ICategoriaRepository _categoriaRepository;
         private readonly IProdutoRepository _produtoRepository;
@@ -28,13 +29,9 @@ namespace ControlFood.UseCase.Implementation
             return base.Inserir(subCategoria);
         }
 
-        public override void Atualizar(SubCategoria subCategoria)
+        public void AtualizarSubCategoria(SubCategoria subCategoria)
         {
-            var subCategoriaPersistida = base.BuscarPorIdentificacao(subCategoria, nameof(subCategoria.IdentificadorUnico));
-
-            CadastroSubCategoriaUseCaseValidation.ValidarRegrasParaAtualizar(subCategoria, subCategoriaPersistida);
-
-            base.Atualizar(subCategoria);
+            base.Atualizar(subCategoria, new List<string> { nameof(subCategoria.IndicadorItemBar), nameof(subCategoria.IndicadorItemCozinha) });
         }
 
         public override void Deletar(SubCategoria subCategoria)
@@ -42,10 +39,10 @@ namespace ControlFood.UseCase.Implementation
             var produtos = _produtoRepository.BuscarTodos();
 
             CadastroSubCategoriaUseCaseValidation.ValidarRegrasParaDeletar(subCategoria, produtos);
-            
+
             base.Deletar(subCategoria);
         }
 
-        
+
     }
 }

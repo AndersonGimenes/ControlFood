@@ -14,6 +14,8 @@ namespace ControlFood.Repository.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     Tipo = table.Column<string>(type: "varchar(200)", nullable: false)
                 },
                 constraints: table =>
@@ -27,6 +29,8 @@ namespace ControlFood.Repository.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
+                    DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     Tipo = table.Column<string>(type: "Varchar(200)", nullable: false),
                     IndicadorItemCozinha = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     IndicadorItemBar = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
@@ -49,6 +53,8 @@ namespace ControlFood.Repository.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
+                    DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     CodigoInterno = table.Column<string>(type: "varchar(50)", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
                     ValorVenda = table.Column<decimal>(type: "decimal", nullable: false),
@@ -71,9 +77,10 @@ namespace ControlFood.Repository.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
+                    DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     Quantidade = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     DataValidade = table.Column<DateTime>(type: "date", nullable: false),
-                    DataEntrada = table.Column<DateTime>(type: "date", nullable: true),
                     ValorCompraUnidade = table.Column<decimal>(type: "decimal", nullable: false, defaultValue: 0m),
                     ValorCompraTotal = table.Column<decimal>(type: "decimal", nullable: false),
                     IdProduto = table.Column<int>(nullable: false)

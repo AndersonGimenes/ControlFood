@@ -134,10 +134,8 @@ namespace ControlFood.UnitTest.UseCase
                         var condicao = p.IdentificadorUnico == produtoRequest.IdentificadorUnico;
 
                         if (condicao)
-                        {
                             p.ValorVenda = produtoRequest.ValorVenda;
-                            p.AtribuirDataAlteracao();
-                        }
+
                         return condicao;
                     });
                 });

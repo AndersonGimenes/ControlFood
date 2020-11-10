@@ -117,7 +117,6 @@ namespace ControlFood.UnitTest.UseCase
                 {
                     subCategoriaPersistida.IndicadorItemBar = subCategoria.IndicadorItemBar;
                     subCategoriaPersistida.IndicadorItemCozinha = subCategoria.IndicadorItemCozinha;
-                    subCategoriaPersistida.AtribuirDataAlteracao();
                 });            
 
             _cadastroSubCategoriaUseCase.AtualizarSubCategoria(subCategoria);

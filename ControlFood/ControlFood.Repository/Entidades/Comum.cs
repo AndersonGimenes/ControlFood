@@ -6,5 +6,6 @@ namespace ControlFood.Repository.Entidades
     {
         public int Id { get; set; }
         public DateTime? DataAlteracao { get; protected set; }
+        public DateTime DataCadastro { get; protected set; }
     }
 }

@@ -15,7 +15,11 @@ namespace ControlFood.UseCase.Implementation.Base
             _genericRepository = genericRepository;
         }
 
-        public virtual T Inserir(T entidade) => _genericRepository.Inserir(entidade);
+        public virtual T Inserir(T entidade)
+        {
+            entidade.GetType().GetProperties().First(p => p.Name == nameof(Comum.DataCadastro)).SetValue(entidade, DateTime.Now);
+            return _genericRepository.Inserir(entidade); 
+        }
 
         public void Atualizar(T entidade, List<string> propertiesName)
         {

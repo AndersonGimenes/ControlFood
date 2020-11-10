@@ -25,7 +25,6 @@ namespace ControlFood.UseCase.Implementation
         {
             var produtos = _produtoRepository.BuscarTodos();
 
-            produto.Estoque.AtribuirDataDeEntrada();
             produto.Estoque.AtribuirIdentificadorUnicoProduto(produto.IdentificadorUnico);
 
             CadastroEstoqueUseCaseValidation.ValidarRegrasParaInserir(produto, produtos);
@@ -45,14 +44,13 @@ namespace ControlFood.UseCase.Implementation
 
         public Produto AtualizarEstoque(Produto produto)
         {
-            produto.Estoque.AtribuirDataDeAlteracao();
             produto.Estoque.AtribuirIdentificadorUnicoProduto(produto.IdentificadorUnico);
 
             base.Atualizar(
-                produto.Estoque, 
-                new List<string> 
+                produto.Estoque,
+                new List<string>
                 {
-                    nameof(produto.Estoque.DataAlteracao), nameof(produto.Estoque.DataValidade), nameof(produto.Estoque.Quantidade), nameof(produto.Estoque.ValorCompraTotal), nameof(produto.Estoque.ValorCompraUnidade) 
+                    nameof(produto.Estoque.DataAlteracao), nameof(produto.Estoque.DataValidade), nameof(produto.Estoque.Quantidade), nameof(produto.Estoque.ValorCompraTotal), nameof(produto.Estoque.ValorCompraUnidade)
                 });
 
             return produto;

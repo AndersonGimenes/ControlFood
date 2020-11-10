@@ -59,6 +59,7 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroProduto.Inserir(produto);
 
             Assert.Equal(4, produto.IdentificadorUnico);
+            Assert.True(produto.DataCadastro > DateTime.MinValue && produto.DataCadastro < DateTime.Now);
         }
 
         [Theory]
@@ -135,7 +136,7 @@ namespace ControlFood.UnitTest.UseCase
                         if (condicao)
                         {
                             p.ValorVenda = produtoRequest.ValorVenda;
-                            p.DataAlteracao = produtoRequest.DataAlteracao;
+                            p.AtribuirDataAlteracao();
                         }
                         return condicao;
                     });

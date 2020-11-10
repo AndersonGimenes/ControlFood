@@ -56,6 +56,7 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroSubCategoriaUseCase.Inserir(subCategoria);
 
             Assert.Equal(1, subCategoria.IdentificadorUnico);
+            Assert.True(subCategoria.DataCadastro > DateTime.MinValue && subCategoria.DataCadastro < DateTime.Now);
         }
 
         [Fact]
@@ -116,7 +117,7 @@ namespace ControlFood.UnitTest.UseCase
                 {
                     subCategoriaPersistida.IndicadorItemBar = subCategoria.IndicadorItemBar;
                     subCategoriaPersistida.IndicadorItemCozinha = subCategoria.IndicadorItemCozinha;
-                    subCategoriaPersistida.DataAlteracao = subCategoria.DataAlteracao;
+                    subCategoriaPersistida.AtribuirDataAlteracao();
                 });            
 
             _cadastroSubCategoriaUseCase.AtualizarSubCategoria(subCategoria);

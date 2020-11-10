@@ -37,16 +37,21 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveInserirOEstoqueDadoProdutoExistente()
         {
-            var dataInicio = DateTime.Now;
-
             var estoqueCocaCola = new Produto { IdentificadorUnico = 1 };
             estoqueCocaCola.Estoque = new Estoque { Quantidade = 10, DataValidade = new DateTime(2021, 06, 10), ValorCompraTotal = 50.90M, ValorCompraUnidade = 5.09M };
 
+            _mockEstoqueRepository
+                .Setup(x => x.Inserir(It.IsAny<Estoque>()))
+                .Returns(() =>
+                {
+                    estoqueCocaCola.Estoque.IdentificadorUnico = 1;
+                    return estoqueCocaCola.Estoque;
+                });
+
             _cadastroEstoqueUseCase.InserirEstoque(estoqueCocaCola);
 
-            var dataFim = DateTime.Now;
-
-            Assert.True(estoqueCocaCola.Estoque.DataEntrada > dataInicio && estoqueCocaCola.Estoque.DataEntrada < dataFim);
+            Assert.Equal(1, estoqueCocaCola.Estoque.IdentificadorUnico);
+            Assert.True(estoqueCocaCola.Estoque.DataCadastro > DateTime.MinValue && estoqueCocaCola.Estoque.DataCadastro < DateTime.Now);
         }
 
         [Fact]

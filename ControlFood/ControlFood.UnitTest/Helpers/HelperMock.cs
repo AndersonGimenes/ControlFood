@@ -68,24 +68,19 @@ namespace ControlFood.UnitTest.UseCase.Helpers
 
         public static List<Estoque> MockListaEstoque()
         {
-            var itemLoteHum = new Estoque { IdentificadorUnico = 1,  Quantidade = 10, DataValidade = DateTime.Now.AddDays(-10), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
-            itemLoteHum.AtribuirDataDeEntrada();
+            var itemLoteHum = new Estoque { IdentificadorUnico = 1, Quantidade = 10, DataValidade = DateTime.Now.AddDays(-10), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
             itemLoteHum.AtribuirIdentificadorUnicoProduto(1);
 
             var itemLoteDois = new Estoque { IdentificadorUnico = 2, Quantidade = 10, DataValidade = DateTime.Now.AddDays(-7), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
-            itemLoteDois.AtribuirDataDeEntrada();
             itemLoteDois.AtribuirIdentificadorUnicoProduto(1);
 
             var itemLoteTres = new Estoque { IdentificadorUnico = 3, Quantidade = 10, DataValidade = DateTime.Now.AddDays(150), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
-            itemLoteTres.AtribuirDataDeEntrada();
             itemLoteTres.AtribuirIdentificadorUnicoProduto(1);
 
             var itemLoteQautro = new Estoque { IdentificadorUnico = 4, Quantidade = 10, DataValidade = DateTime.Now.AddDays(170), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
-            itemLoteQautro.AtribuirDataDeEntrada();
             itemLoteQautro.AtribuirIdentificadorUnicoProduto(1);
 
             var itemLoteCinco = new Estoque { IdentificadorUnico = 5, Quantidade = 10, DataValidade = DateTime.Now.AddDays(190), ValorCompraTotal = 50.00M, ValorCompraUnidade = 5.00M };
-            itemLoteCinco.AtribuirDataDeEntrada();
             itemLoteCinco.AtribuirIdentificadorUnicoProduto(1);
 
             return new List<Estoque>

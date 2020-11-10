@@ -21,6 +21,11 @@ namespace ControlFood.Repository.Configuration
                .HasColumnType("varchar(200)")
                .IsRequired();
 
+            builder
+                .Property(x => x.DataCadastro)
+                .HasColumnType("date")
+                .IsRequired();
+
         }
     }
 }

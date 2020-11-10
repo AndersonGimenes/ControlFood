@@ -29,6 +29,9 @@ namespace ControlFood.Repository.Migrations
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("date");
+
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -49,7 +52,7 @@ namespace ControlFood.Repository.Migrations
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("date");
 
-                    b.Property<DateTime?>("DataEntrada")
+                    b.Property<DateTime>("DataCadastro")
                         .HasColumnType("date");
 
                     b.Property<DateTime>("DataValidade")
@@ -93,6 +96,9 @@ namespace ControlFood.Repository.Migrations
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("date");
 
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("date");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -122,6 +128,9 @@ namespace ControlFood.Repository.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCadastro")
                         .HasColumnType("date");
 
                     b.Property<bool>("IndicadorItemBar")

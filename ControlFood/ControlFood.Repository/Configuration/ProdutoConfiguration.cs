@@ -35,6 +35,11 @@ namespace ControlFood.Repository.Configuration
               .HasColumnType("date");
 
             builder
+                .Property(x => x.DataCadastro)
+                .HasColumnType("date")
+                .IsRequired();
+
+            builder
                 .HasOne(x => x.SubCategoria)
                 .WithMany(x => x.Produtos)
                 .HasForeignKey(x => x.SubCategoriaId)

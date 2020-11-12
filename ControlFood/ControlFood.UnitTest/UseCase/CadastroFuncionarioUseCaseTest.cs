@@ -20,7 +20,7 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroFuncionario = new CadastroFuncionarioUseCase(_mockGeneciRepository.Object);
         }
 
-        [Fact]
+        [Fact(Skip = "Ajustar quando implementar fluxo")]
         public void DeveInserirUmFuncionarioNoSistemaComSucesso()
         {
             var funcionario = MockNovoFuncionario();
@@ -54,7 +54,7 @@ namespace ControlFood.UnitTest.UseCase
             Assert.Equal("19111111111", funcionarioBase.TelefoneCelular);
         }
 
-        [Fact]
+        [Fact(Skip = "Ajustar quando implementar fluxo")]
         public void DeveBuscarOsDadosDoFuncionarioNoSistemaComSucesso()
         {
             Funcionario funcionarioRequest = MockFuncionarioPersistido();
@@ -107,7 +107,7 @@ namespace ControlFood.UnitTest.UseCase
                 DataNascimento = new DateTime(1983, 06, 14),
                 Email = "nd@nd.com",
                 TelefoneCelular = "19989898989",
-                TelefoneResidencial = "1932323232",
+                TelefoneFixo = "1932323232",
                 Cargo = "Garçon"
             };
 

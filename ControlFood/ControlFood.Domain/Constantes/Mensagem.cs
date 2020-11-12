@@ -41,6 +41,11 @@
 
                 public const string EstoqueVinculado = "Existe estoque vinculado ao Produto {0}";
             }
+
+            public static class Pessoa
+            {
+                public const string CpfDuplicado = "O CPF {0} ja existe no sistema";
+            }
         }
 
     }

@@ -1,0 +1,70 @@
+﻿@model List<Cliente>
+
+<form>
+
+    @if (Model.Count > 0)
+    {
+        <label>Clientes cadastrados</label>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Telefone Celular</th>
+                    <th scope="col">Telefone Fixo</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model)
+                {
+                    <tr>
+                        <td class="nome">@cliente.Nome</td>
+                        <td class="telefone-celular">@cliente.TelefoneCelular</td>
+                        <td class="telefone-fixo">@cliente.TelefoneCelular</td>
+                        <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
+                        <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
+                        <input type="hidden" class="identificador-unico" value="@cliente.IdentificadorUnico" />
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <div class="form-group">
+        <label>Nome do Cliente</label>
+        <span id="span-valida-nome"></span>
+        <input type="text" class="form-control" id="nome" placeholder="Digite o novo cliente">
+    </div>
+
+    <div class="form-group">
+        <label>CPF</label>
+        <span id="span-valida-cpf"></span>
+        <input type="text" class="form-control" id="cpf" placeholder="Digite o CPF">
+    </div>
+
+    <div class="form-group">
+        <label>Telefone Fixo</label>
+        <span id="span-valida-telefone-fixo"></span>
+        <input type="text" class="form-control" id="telefone-fixo" placeholder="Digite o telefone fixo">
+    </div>
+
+    <div class="form-group">
+        <label>Telefone Celular</label>
+        <span id="span-valida-telefone-celular"></span>
+        <input type="text" class="form-control" id="telefone-celular" placeholder="Digite o telefone fixo">
+    </div>
+
+    <div class="form-group">
+        <label>Data Nascimento</label>
+        <span id="span-valida-telefone-fixo"></span>
+        <input type="date" class="form-control" id="data-nascimento" placeholder="Digite a data de nascimento">
+    </div>
+
+    <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
+
+</form>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/comumHelper.js"></script>
+}

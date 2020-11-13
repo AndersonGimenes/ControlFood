@@ -14,15 +14,15 @@ namespace ControlFood.UnitTest.UseCase
 {
     public class CadastroClienteUseCaseTest
     {
-        private readonly Mock<IGenericRepository<Cliente>> _mockGeneciRepository;
+        private readonly Mock<IClienteRepository> _mockClienteRepository;
         private readonly ICadastroClienteUseCase _cadastroCliente;
 
         public CadastroClienteUseCaseTest()
         {
-            _mockGeneciRepository = new Mock<IGenericRepository<Cliente>>();
-            _cadastroCliente = new CadastroClienteUseCase(_mockGeneciRepository.Object);
+            _mockClienteRepository = new Mock<IClienteRepository>();
+            _cadastroCliente = new CadastroClienteUseCase(_mockClienteRepository.Object);
 
-            _mockGeneciRepository
+            _mockClienteRepository
                 .Setup(x => x.BuscarTodos())
                 .Returns(HelperMock.MockListaCliente());
         }
@@ -33,7 +33,7 @@ namespace ControlFood.UnitTest.UseCase
             var cliente = HelperMock.MockCliente("12345678910");
 
             //Substituir por ClienteRepository
-            _mockGeneciRepository
+            _mockClienteRepository
                 .Setup(x => x.Inserir(It.IsAny<Cliente>()))
                 .Returns(() =>
                 {
@@ -63,7 +63,7 @@ namespace ControlFood.UnitTest.UseCase
             clienteRequest.TelefoneCelular = "19111111111";
             Cliente clienteBase = default;
 
-            _mockGeneciRepository
+            _mockClienteRepository
                 .Setup(x => x.Atualizar(It.IsAny<Cliente>(), It.IsAny<List<string>>()))
                 .Callback(() =>
                 {
@@ -81,7 +81,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             Cliente clienteRequest = HelperMock.MockCliente("12345678909", 1);
 
-            _mockGeneciRepository
+            _mockClienteRepository
                 .Setup(x => x.BuscarPorId(It.IsAny<int>()))
                 .Returns(HelperMock.MockListaCliente().First(c => c.IdentificadorUnico == clienteRequest.IdentificadorUnico));
 

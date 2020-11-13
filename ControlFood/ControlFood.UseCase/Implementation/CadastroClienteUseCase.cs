@@ -9,14 +9,13 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroClienteUseCase : CadastroBaseUseCase<Cliente>, ICadastroClienteUseCase
     {
-        public CadastroClienteUseCase(IGenericRepository<Cliente> genericRepository)
-           : base(genericRepository)
+        public CadastroClienteUseCase(IClienteRepository clienteRepository)
+           : base(clienteRepository)
         {
         }
 
         public override Cliente Inserir(Cliente cliente)
         {
-            // validar CPF um para cada cliente
             var clientes = base.BuscarTodos();
 
             var clientesCast = clientes

@@ -15,7 +15,6 @@ namespace ControlFood.Repository
         private readonly IMapper _mapper;
         private readonly ControlFoodContext _context;
 
-
         public EstoqueRepository(ControlFoodContext context, IMapper mapper)
             : base(context)
         {

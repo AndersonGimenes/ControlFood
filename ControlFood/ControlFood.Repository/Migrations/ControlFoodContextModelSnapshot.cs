@@ -42,6 +42,45 @@ namespace ControlFood.Repository.Migrations
                     b.ToTable("Categoria");
                 });
 
+            modelBuilder.Entity("ControlFood.Repository.Entidades.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DataNascimento")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("TelefoneCelular")
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<string>("TelefoneFixo")
+                        .HasColumnType("varchar(14)");
+
+                    b.HasKey("Id")
+                        .HasName("Pk_cliente_id");
+
+                    b.ToTable("Cliente");
+                });
+
             modelBuilder.Entity("ControlFood.Repository.Entidades.Estoque", b =>
                 {
                     b.Property<int>("Id")

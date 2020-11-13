@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ControlFood.Repository.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +21,26 @@ namespace ControlFood.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("Pk_categoria_id", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cliente",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
+                    DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
+                    Nome = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Cpf = table.Column<string>(type: "varchar(14)", nullable: false),
+                    TelefoneFixo = table.Column<string>(type: "varchar(14)", nullable: true),
+                    TelefoneCelular = table.Column<string>(type: "varchar(14)", nullable: true),
+                    Email = table.Column<string>(type: "varchar(14)", nullable: true),
+                    DataNascimento = table.Column<DateTime>(type: "date", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("Pk_cliente_id", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,6 +134,9 @@ namespace ControlFood.Repository.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Cliente");
+
             migrationBuilder.DropTable(
                 name: "Estoque");
 

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ControlFood.Repository.Migrations
 {
     [DbContext(typeof(ControlFoodContext))]
-    [Migration("20201110001252_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20201113021809_InitalMigration")]
+    partial class InitalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,45 @@ namespace ControlFood.Repository.Migrations
                         .HasName("Pk_categoria_id");
 
                     b.ToTable("Categoria");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Entidades.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DataNascimento")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("TelefoneCelular")
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<string>("TelefoneFixo")
+                        .HasColumnType("varchar(14)");
+
+                    b.HasKey("Id")
+                        .HasName("Pk_cliente_id");
+
+                    b.ToTable("Cliente");
                 });
 
             modelBuilder.Entity("ControlFood.Repository.Entidades.Estoque", b =>

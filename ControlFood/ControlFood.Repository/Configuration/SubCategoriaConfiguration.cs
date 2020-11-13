@@ -17,6 +17,15 @@ namespace ControlFood.Repository.Configuration
                 .HasName("Pk_subCategoria_id");
 
             builder
+                .Property(x => x.DataCadastro)
+                .HasColumnType("date")
+                .IsRequired();
+
+            builder
+              .Property(x => x.DataAlteracao)
+              .HasColumnType("date");
+
+            builder
                 .Property(x => x.Tipo)
                 .HasColumnType("Varchar(200)")
                 .IsRequired();
@@ -31,15 +40,6 @@ namespace ControlFood.Repository.Configuration
                 .HasColumnType("boolean")
                 .HasDefaultValue(false);
             
-            builder
-              .Property(x => x.DataAlteracao)
-              .HasColumnType("date");
-
-            builder
-                .Property(x => x.DataCadastro)
-                .HasColumnType("date")
-                .IsRequired();
-
             builder
                 .HasOne(x => x.Categoria)
                 .WithMany(x => x.SubCategorias)

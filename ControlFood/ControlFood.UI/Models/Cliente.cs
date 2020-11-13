@@ -2,5 +2,6 @@
 {
     public class Cliente : Pessoa
     {
+        public Endereco Endereco { get; set; }
     }
 }

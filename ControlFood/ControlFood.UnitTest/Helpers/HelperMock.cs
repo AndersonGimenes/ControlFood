@@ -93,7 +93,7 @@ namespace ControlFood.UnitTest.UseCase.Helpers
             };
         }
 
-        public static Cliente MockCliente(string cpf, int identificadorUnico = default)
+        public static Cliente MockCliente(string cpf = default, int identificadorUnico = default)
         {
             var cliente = new Cliente
             {

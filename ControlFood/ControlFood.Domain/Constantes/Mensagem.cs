@@ -45,6 +45,8 @@
             public static class Pessoa
             {
                 public const string CpfDuplicado = "O CPF {0} ja existe no sistema";
+                public const string NomeDuplicado = "O Nome {0} ja existe no sistema";
+                public const string EnderecoSemPreenchimento = "O Endereço deve ser preenchido";
             }
         }
 

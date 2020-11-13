@@ -31,6 +31,8 @@ namespace ControlFood.UnitTest.UseCase
         public void DeveInserirUmClienteNoSistemaComSucesso()
         {
             var cliente = HelperMock.MockCliente("12345678910");
+            cliente.Nome = "Jose Aldo";            
+            cliente.Endereco = new Endereco();
 
             //Substituir por ClienteRepository
             _mockClienteRepository
@@ -48,12 +50,32 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void CasoCpfJaTenhaSidoCadastradoDeveSerLancadaExcepetion()
+        public void CasoCpfNaoSejaNuloNemVazioEJaTenhaSidoCadastradoDeveSerLancadaExcepetion()
         {
             var cliente = HelperMock.MockCliente("12345678909");
 
             var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
             Assert.Equal("O CPF 12345678909 ja existe no sistema", ex.Message);
+        }
+
+        [Fact]
+        public void CasoNomeJaTenhaSidoCadastradoDeveSerLancadaExcepetion()
+        {
+            var cliente = HelperMock.MockCliente();
+
+            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
+            Assert.Equal("O Nome Jose do teste ja existe no sistema", ex.Message);
+        }
+
+        [Fact]
+        public void CasoEnderecoSejaNuloDeveLancarUmaException()
+        {
+            var cliente = HelperMock.MockCliente("12345678910");
+            cliente.Nome = "Roberto Carlos";
+            cliente.Endereco = null;
+
+            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
+            Assert.Equal("O Endereço deve ser preenchido", ex.Message);
         }
 
         [Fact(Skip = "Ajustar quando implementar")]

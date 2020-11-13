@@ -47,6 +47,13 @@ namespace ControlFood.Repository.Configuration
             builder
                 .Property(x => x.Estado)
                 .HasColumnType("varchar(2)");
+
+            builder
+                .HasOne(x => x.Cliente)
+                .WithMany(x => x.Enderecos)
+                .HasForeignKey(x => x.IndetificadorUnicoCliente)
+                .HasConstraintName("cliente_endereco")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

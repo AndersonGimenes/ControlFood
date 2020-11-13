@@ -48,13 +48,6 @@ namespace ControlFood.Repository.Configuration
             builder
                 .Property(x => x.DataNascimento)
                 .HasColumnType("date");
-
-            builder
-                .HasMany(x => x.Enderecos)
-                .WithOne(x => x.Cliente)
-                .HasForeignKey(x => x.IndetificadorUnicoCliente)
-                .HasConstraintName("cliente_endereco")
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

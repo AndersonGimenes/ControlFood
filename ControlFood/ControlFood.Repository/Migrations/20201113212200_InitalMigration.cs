@@ -76,12 +76,14 @@ namespace ControlFood.Repository.Migrations
                     DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     IndetificadorUnicoCliente = table.Column<int>(nullable: false),
-                    Numero = table.Column<string>(type: "varchar(10)", nullable: false),
+                    Numero = table.Column<string>(type: "varchar(10)", nullable: true),
                     Cep = table.Column<string>(type: "varchar(8)", nullable: true),
                     Logradouro = table.Column<string>(type: "varchar(500)", nullable: true),
                     Bairro = table.Column<string>(type: "varchar(50)", nullable: true),
                     Cidade = table.Column<string>(type: "varchar(20)", nullable: true),
-                    Estado = table.Column<string>(type: "varchar(2)", nullable: true)
+                    Estado = table.Column<string>(type: "varchar(2)", nullable: true),
+                    InfoApartamentoCondominio = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Complemento = table.Column<string>(type: "varchar(250)", nullable: true)
                 },
                 constraints: table =>
                 {

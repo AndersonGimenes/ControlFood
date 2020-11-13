@@ -2,6 +2,7 @@
 using ControlFood.Domain.Entidades;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Validation.Comum;
+using System;
 using System.Collections.Generic;
 
 namespace ControlFood.UseCase.Validation
@@ -22,7 +23,12 @@ namespace ControlFood.UseCase.Validation
             if(pessoa.Endereco is null)
                 throw new PessoaIncorretaUseCaseException(Mensagem.Validacao.Pessoa.EnderecoSemPreenchimento);
 
-            // Verificar regras para obrigatoriedade dos campos do endereço
+            if(pessoa.DataNascimento >= DateTime.Today.AddYears(-10))
+                throw new PessoaIncorretaUseCaseException(Mensagem.Validacao.Pessoa.DataNascimentoInavalida);
+
+            if((pessoa.TelefoneCelular is null || pessoa.TelefoneCelular == string.Empty) && (pessoa.TelefoneFixo is null || pessoa.TelefoneFixo == string.Empty))
+                throw new PessoaIncorretaUseCaseException(Mensagem.Validacao.Pessoa.TelefoneObrigatorio);
+
         }
     }
 }

@@ -112,7 +112,7 @@ namespace ControlFood.UnitTest.UseCase
             };
 
             funcionario.Endereco.Logradouro = "Rua hum";
-            funcionario.Endereco.Numero = 2;
+            funcionario.Endereco.Numero = "2";
             funcionario.Endereco.Bairro = "Maria bonita";
             funcionario.Endereco.Cep = "13010020";
             funcionario.Endereco.Cidade = "São José";

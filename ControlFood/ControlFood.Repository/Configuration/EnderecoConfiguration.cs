@@ -49,6 +49,14 @@ namespace ControlFood.Repository.Configuration
                 .HasColumnType("varchar(2)");
 
             builder
+                .Property(x => x.InfoApartamentoCondominio)
+                .HasColumnType("varchar(100)");
+
+            builder
+                .Property(x => x.Complemento)
+                .HasColumnType("varchar(250)");
+
+            builder
                 .HasOne(x => x.Cliente)
                 .WithMany(x => x.Enderecos)
                 .HasForeignKey(x => x.IndetificadorUnicoCliente)

@@ -102,14 +102,13 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                 Cpf = cpf,
                 DataNascimento = new DateTime(1983, 06, 14),
                 Email = "nd@nd.com",
-                TelefoneCelular = "19989898989",
-                TelefoneFixo = "1932323232"
+                TelefoneCelular = "19989898989"
             };
 
             cliente.Endereco = new Endereco
             {
                 Logradouro = "Rua hum",
-                Numero = 2,
+                Numero = "2",
                 Bairro = "Maria bonita",
                 Cep = "13010020",
                 Cidade = "São José",

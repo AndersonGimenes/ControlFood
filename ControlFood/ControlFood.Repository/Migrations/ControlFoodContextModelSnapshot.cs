@@ -96,6 +96,9 @@ namespace ControlFood.Repository.Migrations
                     b.Property<string>("Cidade")
                         .HasColumnType("varchar(20)");
 
+                    b.Property<string>("Complemento")
+                        .HasColumnType("varchar(250)");
+
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("date");
 
@@ -108,11 +111,13 @@ namespace ControlFood.Repository.Migrations
                     b.Property<int>("IndetificadorUnicoCliente")
                         .HasColumnType("integer");
 
+                    b.Property<string>("InfoApartamentoCondominio")
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("Logradouro")
                         .HasColumnType("varchar(500)");
 
                     b.Property<string>("Numero")
-                        .IsRequired()
                         .HasColumnType("varchar(10)");
 
                     b.HasKey("Id")

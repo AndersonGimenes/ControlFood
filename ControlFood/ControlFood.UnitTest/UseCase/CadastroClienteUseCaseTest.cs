@@ -49,22 +49,15 @@ namespace ControlFood.UnitTest.UseCase
             Assert.True(cliente.DataCadastro > DateTime.MinValue && cliente.DataCadastro < DateTime.Now);
         }
 
-        [Fact]
-        public void CasoCpfNaoSejaNuloNemVazioEJaTenhaSidoCadastradoDeveSerLancadaExcepetion()
+        [Theory]
+        [InlineData("12345678909", "O CPF 12345678909 ja existe no sistema")]
+        [InlineData("", "O Nome Jose do teste ja existe no sistema")]
+        public void CasoAlgumCampoNaoPassePelaValidacaoDeveLancarUmaException(string cpf, string resultado)
         {
-            var cliente = HelperMock.MockCliente("12345678909");
-
+            var cliente = HelperMock.MockCliente(cpf);
+            
             var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
-            Assert.Equal("O CPF 12345678909 ja existe no sistema", ex.Message);
-        }
-
-        [Fact]
-        public void CasoNomeJaTenhaSidoCadastradoDeveSerLancadaExcepetion()
-        {
-            var cliente = HelperMock.MockCliente();
-
-            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
-            Assert.Equal("O Nome Jose do teste ja existe no sistema", ex.Message);
+            Assert.Equal(resultado, ex.Message);
         }
 
         [Fact]
@@ -76,6 +69,29 @@ namespace ControlFood.UnitTest.UseCase
 
             var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
             Assert.Equal("O Endereço deve ser preenchido", ex.Message);
+        }
+
+        [Fact]
+        public void CasoDataDeNascimentoForMenorQueDezAnosDeveLancarUmaException()
+        {
+            var cliente = HelperMock.MockCliente("12345678910");
+            cliente.Nome = "Roberto Carlos";
+            cliente.DataNascimento = DateTime.Today.AddYears(-9);
+
+            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
+            Assert.Equal("O Data de nascimento esta invalida. Cliente deve ter ao menos 10 anos", ex.Message);
+        }
+
+        [Fact]
+        public void CasoNaoInformeNenhumTeleFoneDeveLancarUmaException()
+        {
+            var cliente = HelperMock.MockCliente("12345678910");
+            cliente.Nome = "Roberto Carlos";
+            cliente.TelefoneCelular = string.Empty;
+            cliente.TelefoneFixo = null;
+
+            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
+            Assert.Equal("Ao Menos um telefone deve ser preenchido", ex.Message);
         }
 
         [Fact(Skip = "Ajustar quando implementar")]

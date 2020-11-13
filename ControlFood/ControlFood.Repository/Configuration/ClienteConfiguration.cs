@@ -31,8 +31,7 @@ namespace ControlFood.Repository.Configuration
 
             builder
                 .Property(x => x.Cpf)
-                .HasColumnType("varchar(14)")
-                .IsRequired();
+                .HasColumnType("varchar(14)");
 
             builder
                 .Property(x => x.TelefoneFixo)
@@ -50,6 +49,12 @@ namespace ControlFood.Repository.Configuration
                 .Property(x => x.DataNascimento)
                 .HasColumnType("date");
 
+            builder
+                .HasMany(x => x.Enderecos)
+                .WithOne(x => x.Cliente)
+                .HasForeignKey(x => x.IndetificadorUnicoCliente)
+                .HasConstraintName("cliente_endereco")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

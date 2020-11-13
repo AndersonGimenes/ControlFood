@@ -28,6 +28,8 @@ namespace ControlFood.Repository.Mapping
             CreateMap<Dominio.Cliente, Entidades.Cliente>()
                 .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.IdentificadorUnico));
 
+            CreateMap<Dominio.Endereco, Entidades.Endereco>();
+
             // mapear repository para dominio
             CreateMap<Entidades.Categoria, Dominio.Categoria>()
                .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id));
@@ -44,6 +46,8 @@ namespace ControlFood.Repository.Mapping
 
             CreateMap<Entidades.Cliente, Dominio.Cliente>()
               .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id));
+
+            CreateMap<Entidades.Endereco, Dominio.Endereco>();
         }
 
         // Seta nulo para não gravar Categoria por triger quando inserir uma subcategoria

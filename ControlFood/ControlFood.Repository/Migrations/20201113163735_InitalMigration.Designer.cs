@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ControlFood.Repository.Migrations
 {
     [DbContext(typeof(ControlFoodContext))]
-    [Migration("20201113021809_InitalMigration")]
+    [Migration("20201113163735_InitalMigration")]
     partial class InitalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,6 @@ namespace ControlFood.Repository.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Cpf")
-                        .IsRequired()
                         .HasColumnType("varchar(14)");
 
                     b.Property<DateTime?>("DataAlteracao")
@@ -81,6 +80,49 @@ namespace ControlFood.Repository.Migrations
                         .HasName("Pk_cliente_id");
 
                     b.ToTable("Cliente");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Entidades.Endereco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Bairro")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Cep")
+                        .HasColumnType("varchar(8)");
+
+                    b.Property<string>("Cidade")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Estado")
+                        .HasColumnType("varchar(2)");
+
+                    b.Property<int>("IndetificadorUnicoCliente")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Logradouro")
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("Id")
+                        .HasName("Pk_endereco_id");
+
+                    b.HasIndex("IndetificadorUnicoCliente");
+
+                    b.ToTable("Endereco");
                 });
 
             modelBuilder.Entity("ControlFood.Repository.Entidades.Estoque", b =>
@@ -194,6 +236,16 @@ namespace ControlFood.Repository.Migrations
                     b.HasIndex("CategoriaId");
 
                     b.ToTable("SubCategoria");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Entidades.Endereco", b =>
+                {
+                    b.HasOne("ControlFood.Repository.Entidades.Cliente", "Cliente")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("IndetificadorUnicoCliente")
+                        .HasConstraintName("cliente_endereco")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ControlFood.Repository.Entidades.Estoque", b =>

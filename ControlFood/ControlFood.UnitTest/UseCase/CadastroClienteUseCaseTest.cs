@@ -61,17 +61,6 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void CasoEnderecoSejaNuloDeveLancarUmaException()
-        {
-            var cliente = HelperMock.MockCliente("12345678910");
-            cliente.Nome = "Roberto Carlos";
-            cliente.Endereco = null;
-
-            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
-            Assert.Equal("O Endereço deve ser preenchido", ex.Message);
-        }
-
-        [Fact]
         public void CasoDataDeNascimentoForMenorQueDezAnosDeveLancarUmaException()
         {
             var cliente = HelperMock.MockCliente("12345678910");
@@ -80,18 +69,6 @@ namespace ControlFood.UnitTest.UseCase
 
             var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
             Assert.Equal("O Data de nascimento esta invalida. Cliente deve ter ao menos 10 anos", ex.Message);
-        }
-
-        [Fact]
-        public void CasoNaoInformeNenhumTeleFoneDeveLancarUmaException()
-        {
-            var cliente = HelperMock.MockCliente("12345678910");
-            cliente.Nome = "Roberto Carlos";
-            cliente.TelefoneCelular = string.Empty;
-            cliente.TelefoneFixo = null;
-
-            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
-            Assert.Equal("Ao Menos um telefone deve ser preenchido", ex.Message);
         }
 
         [Fact(Skip = "Ajustar quando implementar")]

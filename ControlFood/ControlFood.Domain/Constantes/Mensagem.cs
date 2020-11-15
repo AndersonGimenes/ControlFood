@@ -46,9 +46,7 @@
             {
                 public const string CpfDuplicado = "O CPF {0} ja existe no sistema";
                 public const string NomeDuplicado = "O Nome {0} ja existe no sistema";
-                public const string EnderecoSemPreenchimento = "O Endereço deve ser preenchido";
                 public const string DataNascimentoInavalida = "O Data de nascimento esta invalida. Cliente deve ter ao menos 10 anos";
-                public const string TelefoneObrigatorio = "Ao Menos um telefone deve ser preenchido";
             }
         }
 

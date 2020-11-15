@@ -11,24 +11,16 @@ namespace ControlFood.UseCase.Validation
     {
         internal static void ValidarRegrasParaInserir(Pessoa pessoa, List<Pessoa> pessoas)
         {
-
             // Verifica se existe outro cpf cadastrado
-            if(pessoa.Cpf != null && pessoa.Cpf != string.Empty)
+            if (pessoa.Cpf != null && pessoa.Cpf != string.Empty)
                 ComumValidation<Pessoa>
                     .VerificarDuplicidade(pessoa, pessoas, nameof(pessoa.Cpf), () => throw new PessoaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Pessoa.CpfDuplicado, pessoa.Cpf)));
 
             ComumValidation<Pessoa>
                 .VerificarDuplicidade(pessoa, pessoas, nameof(pessoa.Nome), () => throw new PessoaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Pessoa.NomeDuplicado, pessoa.Nome)));
 
-            if(pessoa.Endereco is null)
-                throw new PessoaIncorretaUseCaseException(Mensagem.Validacao.Pessoa.EnderecoSemPreenchimento);
-
-            if(pessoa.DataNascimento >= DateTime.Today.AddYears(-10))
+            if (pessoa.DataNascimento >= DateTime.Today.AddYears(-10))
                 throw new PessoaIncorretaUseCaseException(Mensagem.Validacao.Pessoa.DataNascimentoInavalida);
-
-            if((pessoa.TelefoneCelular is null || pessoa.TelefoneCelular == string.Empty) && (pessoa.TelefoneFixo is null || pessoa.TelefoneFixo == string.Empty))
-                throw new PessoaIncorretaUseCaseException(Mensagem.Validacao.Pessoa.TelefoneObrigatorio);
-
         }
     }
 }

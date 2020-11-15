@@ -17,5 +17,11 @@
         {
             public const string EStoqueCadastrado = "Estoque cadastrado";
         }
+
+        public static class Cliente
+        {
+            public const string EnderecoSemPreenchimento = "O Endereço deve ser preenchido";
+            public const string TelefoneObrigatorio = "Ao Menos um telefone deve ser preenchido";
+        }
     }
 }

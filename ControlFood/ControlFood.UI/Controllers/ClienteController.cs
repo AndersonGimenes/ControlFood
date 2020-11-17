@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Dominio = ControlFood.Domain.Entidades;
+using ControlFood.UI.Helpers.Interface;
 using ControlFood.UI.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
+using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.UI.Controllers
 {
@@ -12,17 +12,19 @@ namespace ControlFood.UI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICadastroClienteUseCase _cadastroClienteUseCase;
+        private readonly IClienteHelper _clienteHelper;
 
-        public ClienteController(IMapper mapper, ICadastroClienteUseCase cadastroClienteUseCase)
+        public ClienteController(IMapper mapper, ICadastroClienteUseCase cadastroClienteUseCase, IClienteHelper clienteHelper)
         {
             _mapper = mapper;
             _cadastroClienteUseCase = cadastroClienteUseCase;
+            _clienteHelper = clienteHelper;
         }
 
         [HttpGet]
         public IActionResult Cadastrar()
         {
-            var clientes = new List<Cliente>();
+            var clientes = _clienteHelper.CacheClientes();
             return View(clientes);
         }
 
@@ -36,7 +38,7 @@ namespace ControlFood.UI.Controllers
 
                 _cadastroClienteUseCase.Inserir(clienteDominio);
 
-                return View();
+                return View(_clienteHelper.CacheClientes(renovaCache: true));
             }
             catch (Exception ex)
             {

@@ -49,6 +49,7 @@ namespace ControlFood.UI
             services.AddScoped<ICategoriaHelper, CategoriaHelper>();
             services.AddScoped<ISubCategoriaHelper, SubcategoriaHelper>();
             services.AddScoped<IProdutoHelper, ProdutoHelper>();
+            services.AddScoped<IClienteHelper, ClienteHelper>();
 
             services.AddControllersWithViews();
 

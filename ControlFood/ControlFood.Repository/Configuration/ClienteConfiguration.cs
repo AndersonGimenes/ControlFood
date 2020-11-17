@@ -43,7 +43,7 @@ namespace ControlFood.Repository.Configuration
 
             builder
                 .Property(x => x.Email)
-                .HasColumnType("varchar(14)");
+                .HasColumnType("varchar(200)");
 
             builder
                 .Property(x => x.DataNascimento)

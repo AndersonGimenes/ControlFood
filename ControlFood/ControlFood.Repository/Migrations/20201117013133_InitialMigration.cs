@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ControlFood.Repository.Migrations
 {
-    public partial class InitalMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,7 +35,7 @@ namespace ControlFood.Repository.Migrations
                     Cpf = table.Column<string>(type: "varchar(14)", nullable: true),
                     TelefoneFixo = table.Column<string>(type: "varchar(14)", nullable: true),
                     TelefoneCelular = table.Column<string>(type: "varchar(14)", nullable: true),
-                    Email = table.Column<string>(type: "varchar(14)", nullable: true),
+                    Email = table.Column<string>(type: "varchar(200)", nullable: true),
                     DataNascimento = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>

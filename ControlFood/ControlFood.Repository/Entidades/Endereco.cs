@@ -1,4 +1,6 @@
-﻿namespace ControlFood.Repository.Entidades
+﻿using System;
+
+namespace ControlFood.Repository.Entidades
 {
     public class Endereco : Comum
     {
@@ -12,5 +14,6 @@
         public string InfoApartamentoCondominio { get; set; }
         public string Complemento { get; set; }
         public Cliente Cliente { get; set; }
+
     }
 }

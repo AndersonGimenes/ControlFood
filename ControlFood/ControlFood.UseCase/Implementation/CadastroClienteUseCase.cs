@@ -20,9 +20,11 @@ namespace ControlFood.UseCase.Implementation
 
             var clientesCast = clientes
                                 .Cast<Pessoa>()
+                                .Where(x => x.Cpf != null)
                                 .ToList();
 
             CadastroPessoaUseCaseValidation.ValidarRegrasParaInserir(cliente, clientesCast);
+            cliente.Endereco.AtribuirDataCadastro();
 
             return base.Inserir(cliente);
         }

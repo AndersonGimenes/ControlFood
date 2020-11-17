@@ -1,4 +1,6 @@
-﻿namespace ControlFood.UI.Models
+﻿using ControlFood.UI.Validation;
+
+namespace ControlFood.UI.Models
 {
     public class Endereco
     {

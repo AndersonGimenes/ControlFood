@@ -1,6 +1,8 @@
-﻿namespace ControlFood.Domain.Entidades
+﻿using System;
+
+namespace ControlFood.Domain.Entidades
 {
-    public class Endereco
+    public class Endereco : Comum
     {
         public string Numero { get; set; }
         public string Cep { get; set; }
@@ -11,5 +13,9 @@
         public string InfoApartamentoCondominio { get; set; }
         public string Complemento { get; set; }
 
+        public void AtribuirDataCadastro()
+        {
+            DataCadastro = DateTime.Now;
+        }
     }
 }

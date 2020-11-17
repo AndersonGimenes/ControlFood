@@ -4,7 +4,8 @@
     {
         public static class Validacao
         {
-            public const string CampoVazio = "O campo não pode ser vazio ou com espaço no começo";
+            public const string CampoVazio = "O campo {PropertyName} não pode ser vazio ou com espaço no começo";
+            public const string CampoForaDoTamanho = "O campo {0} deve ser preenchido com {1} caracteres";
         }
 
         public static class Comum

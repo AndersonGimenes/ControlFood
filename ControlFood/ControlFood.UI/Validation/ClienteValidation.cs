@@ -13,13 +13,17 @@ namespace ControlFood.UI.Validation
                 .NotEmpty()
                 .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
 
+            RuleFor(x => x)
+                .Must(x => x.TelefoneCelular != null && x.TelefoneCelular != string.Empty || x.TelefoneFixo != null && x.TelefoneFixo != string.Empty)
+                .WithMessage(Constantes.Mensagem.Cliente.TelefoneObrigatorio);
+
             RuleFor(x => x.Endereco)
                 .NotNull()
                 .WithMessage(Constantes.Mensagem.Cliente.EnderecoSemPreenchimento);
 
-            RuleFor(x => x)
-                .Must(x => x.TelefoneCelular != null && x.TelefoneCelular != string.Empty && x.TelefoneFixo != null && x.TelefoneFixo != string.Empty)
-                .WithMessage(Constantes.Mensagem.Cliente.TelefoneObrigatorio);
+            RuleFor(x => x.Endereco)
+                .Must(x => x != null)
+                .SetValidator(new EnderecoValidation());
         }
 
         public void Validar(Cliente cliente)

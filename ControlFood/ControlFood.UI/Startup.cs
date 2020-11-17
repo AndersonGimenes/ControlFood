@@ -36,6 +36,7 @@ namespace ControlFood.UI
             services.AddTransient<ICadastroSubCategoriaUseCase, CadastroSubCategoriaUseCase>();
             services.AddTransient<ICadastroProdutoUseCase, CadastroProdutoUseCase>();
             services.AddTransient<ICadastroEstoqueUseCase, CadastroEstoqueUseCase>();
+            services.AddTransient<ICadastroClienteUseCase, CadastroClienteUseCase>();
 
             // Repository
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();

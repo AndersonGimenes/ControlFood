@@ -78,8 +78,8 @@ body {
     border-color: #e2e6ea;
 }
 
-    .btn-light-custom:hover {
-        color: #212529;
-        background-color: #dce0e4;
-        border-color: #dce0e4;
-    }
+.btn-light-custom:hover {
+    color: #212529;
+    background-color: #dce0e4;
+    border-color: #dce0e4;
+}

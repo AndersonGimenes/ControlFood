@@ -45,5 +45,11 @@ namespace ControlFood.UI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet]
+        public void ConsultarEndereco()
+        {
+
+        }
     }
 }

@@ -1,7 +1,8 @@
 ﻿$(document).ready(function () {
     var cliente = new Cliente();
-    cliente.cadastrar(cliente);
 
+    cliente.cadastrar(cliente);
+    cliente.consultarEndereco(cliente);
 });
 
 
@@ -18,7 +19,7 @@ class Cliente {
             var elemento = this.parentNode;
 
             // validar campos obrigatorios
-            var arrayElementos = [$("#nome"), $("#logradouro"), $("#cep"), $("#bairro"), $("#cidade") ];
+            var arrayElementos = [$("#nome"), $("#logradouro"), $("#cep"), $("#bairro"), $("#cidade")];
             var arraySpans = [$("#span-valida-nome"), $("#span-valida-logradouro"), $("#span-valida-cep"), $("#span-valida-bairro"), $("#span-valida-cidade")];
 
             if (!instanciaCliente._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
@@ -51,5 +52,31 @@ class Cliente {
             // realizar requisição
             instanciaCliente._helper.realizarChamadaAjax("Cliente/Cadastrar", data, "POST", instanciaCliente._helper);
         });
+    }
+
+    // Consulta estoque
+    consultarEndereco = function (instanciaCliente) {
+
+        $(".btn-consulta-endereco").click(function () {
+
+            var elemento = this.parentNode.parentNode;
+
+            //var data = {
+            //    Nome: instanciaEstoque._helper.obterTextoPorClasse(elemento, "nome"),
+            //    IdentificadorUnico: instanciaEstoque._helper.obterValorPorClasse(elemento, "identificador-unico")
+            //}
+
+            //Estoque.setNome(data.Nome);
+            //Estoque.setInstancia(instanciaEstoque);
+
+            var data;
+
+            // mostrar modal
+            $("#modal-consultar-endereco").modal("show");
+
+            //instanciaCliente._helper.realizarChamadaAjax("Cliente/BuscarEndereco", data, "GET", instanciaCliente._helper);
+
+        });
+
     }
 }

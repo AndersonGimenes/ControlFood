@@ -20,16 +20,16 @@
             <tbody>
                 @foreach (var cliente in Model)
                 {
-                <tr>
-                    <td class="nome">@cliente.Nome</td>
-                    <td class="telefone-celular">@cliente.TelefoneCelular</td>
-                    <td class="telefone-fixo">@cliente.TelefoneFixo</td>
-                    <td><button type="button" class="btn btn-success btn-cadastro-endereco">Novo Endereço</button></td>
-                    <td><button type="button" class="btn btn-warning btn-consulta-endereco">Consultar Endereço</button></td>
-                    <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
-                    <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
-                    <input type="hidden" class="identificador-unico" value="@cliente.IdentificadorUnico" />
-                </tr>
+                    <tr>
+                        <td class="nome">@cliente.Nome</td>
+                        <td class="telefone-celular">@cliente.TelefoneCelular</td>
+                        <td class="telefone-fixo">@cliente.TelefoneFixo</td>
+                        <td><button type="button" class="btn btn-success btn-cadastro-endereco">Novo Endereço</button></td>
+                        <td><button type="button" class="btn btn-warning btn-consulta-endereco">Consultar Endereço</button></td>
+                        <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
+                        <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
+                        <input type="hidden" class="identificador-unico" value="@cliente.IdentificadorUnico" />
+                    </tr>
                 }
             </tbody>
         </table>
@@ -115,6 +115,12 @@
     <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
 
 </form>
+
+<partial name="_ModalConsultarEndereco" />
+
+@section Css {
+    <link rel="stylesheet" type="text/css" href="~/css/cliente/cliente.css" />
+}
 
 @section Scripts {
     <script type="text/javascript" src="~/js/comumHelper.js"></script>

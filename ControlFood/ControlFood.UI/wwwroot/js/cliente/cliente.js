@@ -61,22 +61,46 @@ class Cliente {
 
             var elemento = this.parentNode.parentNode;
 
-            //var data = {
-            //    Nome: instanciaEstoque._helper.obterTextoPorClasse(elemento, "nome"),
-            //    IdentificadorUnico: instanciaEstoque._helper.obterValorPorClasse(elemento, "identificador-unico")
-            //}
+            var data = {
+                IdentificadorUnico: instanciaCliente._helper.obterValorPorClasse(elemento, "identificador-unico")
+            }
 
-            //Estoque.setNome(data.Nome);
-            //Estoque.setInstancia(instanciaEstoque);
-
-            var data;
-
-            // mostrar modal
-            $("#modal-consultar-endereco").modal("show");
-
-            //instanciaCliente._helper.realizarChamadaAjax("Cliente/BuscarEndereco", data, "GET", instanciaCliente._helper);
+            instanciaCliente._helper.realizarChamadaAjax("Cliente/BuscarEndereco", data, "GET", null, instanciaCliente._acaoSucesso);
 
         });
-
+      
     }
+
+    // metodos privados
+    _acaoSucesso = function (response) {
+        var html = "";
+        //var instanciaEstoque = Estoque.getInstancia();
+
+        // mostrar modal
+        $("#modal-consultar-endereco").modal("show");
+
+        response.forEach(function (cliente) {
+
+            html += "<tr>" +
+                "<td class='cep'>" + cliente.endereco.cep + "</td>" +
+                "<td class='logradouro'>" + cliente.endereco.logradouro + "</td>" +
+                "<td class='numero'>" + cliente.endereco.numero + "</td>" +
+                "<td class='complemento'>" + cliente.endereco.complemento + "</td>" +
+                "<td class='info-apartamento-condominio'>" + cliente.endereco.infoApartamentoCondominio + "</td>" +
+                "<td class='bairro'>" + cliente.endereco.bairro + "</td>" +
+                "<td class='cidade'> " + cliente.endereco.cidade + "</td>" +
+                "<td class='estado'>" + cliente.endereco.estado + "</td>" +
+                "<td><button type='button' class='btn btn-primary btn-editar'>Editar</button></td>" +
+                "<td><button type='button' class='btn btn-danger btn-deletar'> Deletar</button></td>" +
+                "<td><input type = 'hidden' class='identificador-unico' value = '" + cliente.endereco.identificadorUnico + "' /></td>" +
+                "</tr>"
+        });
+
+        $("#render-lista-endereco").html(html);
+
+        //instanciaEstoque.popularModalAtualizar(instanciaEstoque);
+
+        //instanciaEstoque.deletar(instanciaEstoque);
+    }
+
 }

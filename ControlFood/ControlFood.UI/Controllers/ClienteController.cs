@@ -4,6 +4,7 @@ using ControlFood.UI.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.UI.Controllers
@@ -47,9 +48,45 @@ namespace ControlFood.UI.Controllers
         }
 
         [HttpGet]
-        public void ConsultarEndereco()
+        public IActionResult BuscarEndereco(Cliente cliente)
         {
+            return Json(MockListCliente());
+        }
 
+        // remover
+        private List<Cliente> MockListCliente()
+        {
+            var clienteHum = new Cliente
+            {
+                Endereco = new Endereco
+                {
+                    Bairro = "Jd teste",
+                    Cep = "13010020",
+                    Cidade = "Campinas",
+                    Complemento = "Sem complemento",
+                    Estado = "SP",
+                    InfoApartamentoCondominio = "Sem informação",
+                    Logradouro = "Rua teste da silva",
+                    Numero = "123"
+                }
+            };
+
+            var clienteDois = new Cliente
+            {
+                Endereco = new Endereco
+                {
+                    Bairro = "Vila padre anchieta",
+                    Cep = "13010020",
+                    Cidade = "Campinas",
+                    Complemento = "Prox. mercadinho da silva",
+                    Estado = "SP",
+                    InfoApartamentoCondominio = "Condominio passaros negros - bloco 1 ap 33",
+                    Logradouro = "Avenida marechal theodoro da fonseca",
+                    Numero = "12345"
+                }
+            };
+
+            return new List<Cliente> { clienteHum, clienteDois };
         }
     }
 }

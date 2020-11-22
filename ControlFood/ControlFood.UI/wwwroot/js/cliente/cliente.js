@@ -74,7 +74,6 @@ class Cliente {
     // metodos privados
     _acaoSucesso = function (response) {
         var html = "";
-        //var instanciaEstoque = Estoque.getInstancia();
 
         // mostrar modal
         $("#modal-consultar-endereco").modal("show");
@@ -98,9 +97,6 @@ class Cliente {
 
         $("#render-lista-endereco").html(html);
 
-        //instanciaEstoque.popularModalAtualizar(instanciaEstoque);
-
-        //instanciaEstoque.deletar(instanciaEstoque);
     }
 
 }

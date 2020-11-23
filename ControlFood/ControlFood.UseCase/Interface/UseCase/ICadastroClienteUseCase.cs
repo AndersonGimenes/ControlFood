@@ -5,5 +5,6 @@ namespace ControlFood.UseCase.Interface.UseCase
 {
     public interface ICadastroClienteUseCase : IGenericCadastroUseCase<Cliente>
     {
+        Cliente BuscarPorIdentificacao(Cliente cliente);
     }
 }

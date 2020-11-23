@@ -25,7 +25,12 @@ namespace ControlFood.Repository
 
         public override Dominio.Cliente BuscarPorId(int id)
         {
-            throw new System.NotImplementedException();
+            var clientePersistido = _context.Cliente
+                                                .AsNoTracking()
+                                                .Include(x => x.Enderecos)
+                                                .First(x => x.Id == id);
+                                    
+            return MapearRepositoryParaDominio(clientePersistido);
         }
 
         public override List<Dominio.Cliente> BuscarTodos()
@@ -37,15 +42,8 @@ namespace ControlFood.Repository
             return _mapper.Map<List<Dominio.Cliente>>(clientesPersistidos);
         }
 
-        protected override object MapearDominioParaRepository(Dominio.Cliente cliente) =>
-            _mapper.Map<Dominio.Cliente, Cliente>(cliente, opts => 
-                opts.AfterMap((src, dest) => {
-                    dest.Enderecos = new List<Endereco>
-                    {
-                        _mapper.Map<Endereco>(src.Endereco)
-                    };
-                }));
-        
-       protected override Dominio.Cliente MapearRepositoryParaDominio(object cliente) => _mapper.Map<Dominio.Cliente>(cliente);
+        protected override object MapearDominioParaRepository(Dominio.Cliente cliente) => _mapper.Map<Cliente>(cliente);
+
+        protected override Dominio.Cliente MapearRepositoryParaDominio(object cliente) => _mapper.Map<Dominio.Cliente>(cliente);
     }
 }

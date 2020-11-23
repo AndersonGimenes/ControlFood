@@ -35,6 +35,7 @@ namespace ControlFood.UI.Controllers
             try
             {
                 cliente.IsValid();
+
                 var clienteDominio = _mapper.Map<Dominio.Cliente>(cliente);
 
                 _cadastroClienteUseCase.Inserir(clienteDominio);
@@ -50,43 +51,11 @@ namespace ControlFood.UI.Controllers
         [HttpGet]
         public IActionResult BuscarEndereco(Cliente cliente)
         {
-            return Json(MockListCliente());
-        }
+            var clienteDominio = _mapper.Map<Dominio.Cliente>(cliente);
 
-        // remover
-        private List<Cliente> MockListCliente()
-        {
-            var clienteHum = new Cliente
-            {
-                Endereco = new Endereco
-                {
-                    Bairro = "Jd teste",
-                    Cep = "13010020",
-                    Cidade = "Campinas",
-                    Complemento = "Sem complemento",
-                    Estado = "SP",
-                    InfoApartamentoCondominio = "Sem informação",
-                    Logradouro = "Rua teste da silva",
-                    Numero = "123"
-                }
-            };
+            var clienteResponse = _cadastroClienteUseCase.BuscarPorIdentificacao(clienteDominio);
 
-            var clienteDois = new Cliente
-            {
-                Endereco = new Endereco
-                {
-                    Bairro = "Vila padre anchieta",
-                    Cep = "13010020",
-                    Cidade = "Campinas",
-                    Complemento = "Prox. mercadinho da silva",
-                    Estado = "SP",
-                    InfoApartamentoCondominio = "Condominio passaros negros - bloco 1 ap 33",
-                    Logradouro = "Avenida marechal theodoro da fonseca",
-                    Numero = "12345"
-                }
-            };
-
-            return new List<Cliente> { clienteHum, clienteDois };
+            return Json(_mapper.Map<Cliente>(clienteResponse));
         }
     }
 }

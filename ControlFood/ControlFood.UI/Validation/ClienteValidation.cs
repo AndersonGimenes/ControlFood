@@ -17,11 +17,11 @@ namespace ControlFood.UI.Validation
                 .Must(x => x.TelefoneCelular != null && x.TelefoneCelular != string.Empty || x.TelefoneFixo != null && x.TelefoneFixo != string.Empty)
                 .WithMessage(Constantes.Mensagem.Cliente.TelefoneObrigatorio);
 
-            RuleFor(x => x.Endereco)
-                .NotNull()
+            RuleFor(x => x.Enderecos)
+                .Must(e => e.Count > 0)
                 .WithMessage(Constantes.Mensagem.Cliente.EnderecoSemPreenchimento);
 
-            RuleFor(x => x.Endereco)
+            RuleForEach(x => x.Enderecos)
                 .Must(x => x != null)
                 .SetValidator(new EnderecoValidation());
         }

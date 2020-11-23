@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ControlFood.Domain.Entidades
 {
@@ -10,6 +11,6 @@ namespace ControlFood.Domain.Entidades
         public string TelefoneCelular { get; set; }
         public string Email { get; set; }
         public DateTime? DataNascimento { get; set; }
-        public Endereco Endereco { get; set; }
+        public List<Endereco> Enderecos { get; set; }
     }
 }

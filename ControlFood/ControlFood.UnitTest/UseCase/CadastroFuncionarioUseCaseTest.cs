@@ -111,12 +111,18 @@ namespace ControlFood.UnitTest.UseCase
                 Cargo = "Garçon"
             };
 
-            funcionario.Endereco.Logradouro = "Rua hum";
-            funcionario.Endereco.Numero = "2";
-            funcionario.Endereco.Bairro = "Maria bonita";
-            funcionario.Endereco.Cep = "13010020";
-            funcionario.Endereco.Cidade = "São José";
-            funcionario.Endereco.Estado = "SP";
+            funcionario.Enderecos = new List<Endereco>
+            {
+                new Endereco
+                {
+                    Logradouro = "Rua hum",
+                    Numero = "2",
+                    Bairro = "Maria bonita",
+                    Cep = "13010020",
+                    Cidade = "São José",
+                    Estado = "SP"
+                }
+            };
 
             return funcionario;
         }

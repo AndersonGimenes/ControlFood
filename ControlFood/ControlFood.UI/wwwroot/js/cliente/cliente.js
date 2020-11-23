@@ -44,10 +44,8 @@ class Cliente {
                 TelefoneCelular: instanciaCliente._helper.obterValorPorId(elemento, "telefone-celular"),
                 DataNascimento: instanciaCliente._helper.obterValorPorId(elemento, "data-nascimento"),
                 Email: instanciaCliente._helper.obterValorPorId(elemento, "email"),
-                Endereco: endereco
+                Enderecos: [endereco]
             }
-
-            console.log(data);
 
             // realizar requisição
             instanciaCliente._helper.realizarChamadaAjax("Cliente/Cadastrar", data, "POST", instanciaCliente._helper);
@@ -62,13 +60,13 @@ class Cliente {
             var elemento = this.parentNode.parentNode;
 
             var data = {
-                IdentificadorUnico: instanciaCliente._helper.obterValorPorClasse(elemento, "identificador-unico")
+                IdentificadorUnico: instanciaCliente._helper.obterValorPorClasse(elemento, "identificador-unico"),
             }
 
             instanciaCliente._helper.realizarChamadaAjax("Cliente/BuscarEndereco", data, "GET", null, instanciaCliente._acaoSucesso);
 
         });
-      
+
     }
 
     // metodos privados
@@ -78,20 +76,20 @@ class Cliente {
         // mostrar modal
         $("#modal-consultar-endereco").modal("show");
 
-        response.forEach(function (cliente) {
+        response.enderecos.forEach(function (endereco) {
 
             html += "<tr>" +
-                "<td class='cep'>" + cliente.endereco.cep + "</td>" +
-                "<td class='logradouro'>" + cliente.endereco.logradouro + "</td>" +
-                "<td class='numero'>" + cliente.endereco.numero + "</td>" +
-                "<td class='complemento'>" + cliente.endereco.complemento + "</td>" +
-                "<td class='info-apartamento-condominio'>" + cliente.endereco.infoApartamentoCondominio + "</td>" +
-                "<td class='bairro'>" + cliente.endereco.bairro + "</td>" +
-                "<td class='cidade'> " + cliente.endereco.cidade + "</td>" +
-                "<td class='estado'>" + cliente.endereco.estado + "</td>" +
+                "<td class='cep'>" + endereco.cep + "</td>" +
+                "<td class='logradouro'>" + endereco.logradouro + "</td>" +
+                "<td class='numero'>" + endereco.numero + "</td>" +
+                "<td class='complemento'>" + endereco.complemento + "</td>" +
+                "<td class='info-apartamento-condominio'>" + endereco.infoApartamentoCondominio + "</td>" +
+                "<td class='bairro'>" + endereco.bairro + "</td>" +
+                "<td class='cidade'> " + endereco.cidade + "</td>" +
+                "<td class='estado'>" + endereco.estado + "</td>" +
                 "<td><button type='button' class='btn btn-primary btn-editar'>Editar</button></td>" +
                 "<td><button type='button' class='btn btn-danger btn-deletar'> Deletar</button></td>" +
-                "<td><input type = 'hidden' class='identificador-unico' value = '" + cliente.endereco.identificadorUnico + "' /></td>" +
+                "<td><input type = 'hidden' class='identificador-unico' value = '" + endereco.identificadorUnico + "' /></td>" +
                 "</tr>"
         });
 

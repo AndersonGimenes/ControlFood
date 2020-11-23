@@ -32,7 +32,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             var cliente = HelperMock.MockCliente("12345678910");
             cliente.Nome = "Jose Aldo";            
-            cliente.Endereco = new Endereco();
+            cliente.Enderecos = new List<Endereco>();
 
             //Substituir por ClienteRepository
             _mockClienteRepository
@@ -94,7 +94,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveBuscarOsDadosDoClienteNoSistemaComSucesso()
         {
-            Cliente clienteRequest = HelperMock.MockCliente("12345678909", 1);
+            var clienteRequest = HelperMock.MockCliente(identificadorUnico: 1);
 
             _mockClienteRepository
                 .Setup(x => x.BuscarPorId(It.IsAny<int>()))
@@ -104,6 +104,22 @@ namespace ControlFood.UnitTest.UseCase
 
             Assert.True(retorno != null);
             Assert.Equal(clienteRequest.IdentificadorUnico, retorno.IdentificadorUnico);
+        }
+
+        [Fact]
+        public void DeveBuscarTodosOsEnderecosCadastradosParaOCliente()
+        {
+            var clienteRequest = HelperMock.MockCliente(identificadorUnico: 1);
+
+            _mockClienteRepository
+               .Setup(x => x.BuscarPorId(It.IsAny<int>()))
+               .Returns(HelperMock.MockListaCliente().First(c => c.IdentificadorUnico == clienteRequest.IdentificadorUnico));
+
+            var retorno = _cadastroCliente.BuscarPorIdentificacao(clienteRequest, nameof(clienteRequest.IdentificadorUnico));
+
+            Assert.NotNull(retorno);
+            Assert.Equal(clienteRequest.IdentificadorUnico, retorno.IdentificadorUnico);
+            Assert.True(retorno.Enderecos.Count > 0);
         }
     }
 }

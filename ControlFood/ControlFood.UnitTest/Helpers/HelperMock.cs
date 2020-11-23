@@ -105,16 +105,27 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                 TelefoneCelular = "19989898989"
             };
 
-            cliente.Endereco = new Endereco
+            cliente.Enderecos = new List<Endereco>
             {
-                Logradouro = "Rua hum",
-                Numero = "2",
-                Bairro = "Maria bonita",
-                Cep = "13010020",
-                Cidade = "São José",
-                Estado = "SP"
+                new Endereco
+                {
+                    Logradouro = "Rua hum",
+                    Numero = "1",
+                    Bairro = "Maria bonita",
+                    Cep = "13010020",
+                    Cidade = "Campinas",
+                    Estado = "SP"
+                },
+                new Endereco
+                {
+                    Logradouro = "Rua dois",
+                    Numero = "2",
+                    Bairro = "Maria bonita",
+                    Cep = "13010020",
+                    Cidade = "São José",
+                    Estado = "SP"
+                }
             };
-
             return cliente;
         }
 

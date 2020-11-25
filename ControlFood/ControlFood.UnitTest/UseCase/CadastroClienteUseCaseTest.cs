@@ -71,11 +71,19 @@ namespace ControlFood.UnitTest.UseCase
             Assert.Equal("O Data de nascimento esta invalida. Cliente deve ter ao menos 10 anos", ex.Message);
         }
 
-        [Fact(Skip = "Ajustar quando implementar")]
+        [Fact]
         public void DeveAtualizarOsDadosDoClienteNoSistemaComSucesso()
         {
             var clienteRequest = HelperMock.MockCliente("12345678909", 2);
-            clienteRequest.TelefoneCelular = "19111111111";
+
+            // dados request atualizar
+            clienteRequest.Cpf = "12345678900";
+            clienteRequest.DataNascimento = DateTime.Today.AddYears(-20);
+            clienteRequest.Email = "nd@nd.com";
+            clienteRequest.Nome = "Jose Roberto";
+            clienteRequest.TelefoneCelular = "19998989191";
+            clienteRequest.TelefoneFixo = "1932313639";
+                                    
             Cliente clienteBase = default;
 
             _mockClienteRepository
@@ -83,12 +91,35 @@ namespace ControlFood.UnitTest.UseCase
                 .Callback(() =>
                 {
                     // Ajustar quando implementar o fluxo de atualizar
-                    clienteBase = new Cliente { TelefoneCelular = clienteRequest.TelefoneCelular };
+                    clienteBase = new Cliente 
+                    {
+                        Cpf = clienteRequest.Cpf,
+                        DataNascimento =  clienteRequest.DataNascimento,
+                        Email = clienteRequest.Email,
+                        Nome = clienteRequest.Nome,
+                        TelefoneCelular = clienteRequest.TelefoneCelular,
+                        TelefoneFixo = clienteRequest.TelefoneFixo
+                    };
                 });
 
-            _cadastroCliente.Atualizar(clienteRequest, null);
+            _cadastroCliente.AtualizarCliente(clienteRequest);
 
-            Assert.Equal("19111111111", clienteBase.TelefoneCelular);
+            Assert.Equal("12345678900", clienteBase.Cpf);
+            Assert.Equal(DateTime.Today.AddYears(-20), clienteBase.DataNascimento);
+            Assert.Equal("nd@nd.com", clienteBase.Email);
+            Assert.Equal("Jose Roberto", clienteBase.Nome);
+            Assert.Equal("19998989191", clienteBase.TelefoneCelular);
+            Assert.Equal("1932313639", clienteBase.TelefoneFixo);
+        }
+
+        [Fact]
+        public void CasoADataNascimentoForAtualizadaParaMenosDeDezAnosDeveLancarUmaException()
+        {
+            var cliente = HelperMock.MockCliente("12345678910", 2);
+            cliente.DataNascimento = DateTime.Today.AddYears(-9);
+
+            var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.AtualizarCliente(cliente));
+            Assert.Equal("O Data de nascimento esta invalida. Cliente deve ter ao menos 10 anos", ex.Message);
         }
 
         [Fact]

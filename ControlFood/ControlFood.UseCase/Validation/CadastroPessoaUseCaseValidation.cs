@@ -19,6 +19,16 @@ namespace ControlFood.UseCase.Validation
             ComumValidation<Pessoa>
                 .VerificarDuplicidade(pessoa, pessoas, nameof(pessoa.Nome), () => throw new PessoaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Pessoa.NomeDuplicado, pessoa.Nome)));
 
+            ValidarDataNascimento(pessoa);
+        }
+
+        internal static void ValidarRegrasParaAtualizar(Pessoa pessoa)
+        {
+            ValidarDataNascimento(pessoa);
+        }
+
+        private static void ValidarDataNascimento(Pessoa pessoa)
+        {
             if (pessoa.DataNascimento >= DateTime.Today.AddYears(-10))
                 throw new PessoaIncorretaUseCaseException(Mensagem.Validacao.Pessoa.DataNascimentoInavalida);
         }

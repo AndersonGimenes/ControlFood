@@ -3,6 +3,7 @@ using ControlFood.UseCase.Implementation.Base;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using ControlFood.UseCase.Validation;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ControlFood.UseCase.Implementation
@@ -13,6 +14,23 @@ namespace ControlFood.UseCase.Implementation
         public CadastroClienteUseCase(IClienteRepository clienteRepository)
            : base(clienteRepository)
         {
+        }
+
+        public void AtualizarCliente(Cliente cliente)
+        {
+            var camposAtualizacao = new List<string>
+            {
+                nameof(cliente.Cpf),
+                nameof(cliente.DataNascimento),
+                nameof(cliente.Email),
+                nameof(cliente.Nome),
+                nameof(cliente.TelefoneCelular),
+                nameof(cliente.TelefoneFixo),
+            };
+
+            CadastroPessoaUseCaseValidation.ValidarRegrasParaAtualizar(cliente);
+
+            base.Atualizar(cliente, camposAtualizacao);
         }
 
         public Cliente BuscarPorIdentificacao(Cliente cliente) =>

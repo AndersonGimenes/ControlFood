@@ -3,6 +3,7 @@
 
     cliente.cadastrar(cliente);
     cliente.consultarEndereco(cliente);
+    cliente.validarEmail();
 });
 
 
@@ -10,6 +11,18 @@ class Cliente {
 
     constructor() {
         this._helper = new ComumHelper();
+
+        // Mascara CPF
+        $('#cpf').mask('000.000.000-00', { reverse: true });
+
+        // Mascara CEP
+        $('#cep').mask('00000-000');
+
+        // Mascara Fone Fixo
+        $('#telefone-fixo').mask('(00) 0000-0000');
+
+        // Mascara Fone Celular
+        $('#telefone-celular').mask('(00) 00000-0000');
     }
 
 
@@ -68,6 +81,23 @@ class Cliente {
         });
 
     }
+
+
+    validarEmail() {
+        $("#email").blur(function () {
+            var valor = $("#email").val();
+
+            if (valor != null && valor != 'undefined' && valor != "") {
+                if (valor.indexOf('@') == -1 || valor.indexOf('.') == -1)
+                    $("#span-valida-email").html("<p class='text-danger'>O formato do e-mail esta incorreto !<p/>")
+                else {
+                    $("#span-valida-email").html("");
+                }
+            }
+
+        });
+    }
+
 
     // metodos privados
     _acaoSucesso = function (response) {

@@ -25,6 +25,9 @@ class Cliente {
         $('#telefone-celular').mask('(00) 00000-0000');
     }
 
+    static _instanciaCliente;
+    static setInstancia(instancia) { this._instanciaCliente = instancia };
+    static getInstancia() { return this._instanciaCliente };
 
     cadastrar = function (instanciaCliente) {
 
@@ -43,7 +46,7 @@ class Cliente {
                 Logradouro: instanciaCliente._helper.obterValorPorId(elemento, "logradouro"),
                 Numero: instanciaCliente._helper.obterValorPorId(elemento, "numero"),
                 InfoApartamentoCondominio: instanciaCliente._helper.obterValorPorId(elemento, "condominio-apartamento"),
-                Cep: instanciaCliente._helper.obterValorPorId(elemento, "cep"),
+                Cep: instanciaCliente._helper.obterValorPorId(elemento, "cep").replace('-', ''),
                 Complemento: instanciaCliente._helper.obterValorPorId(elemento, "complemento"),
                 Bairro: instanciaCliente._helper.obterValorPorId(elemento, "bairro"),
                 Cidade: instanciaCliente._helper.obterValorPorId(elemento, "cidade"),
@@ -52,9 +55,9 @@ class Cliente {
 
             var data = {
                 Nome: instanciaCliente._helper.obterValorPorId(elemento, "nome"),
-                Cpf: instanciaCliente._helper.obterValorPorId(elemento, "cpf"),
-                TelefoneFixo: instanciaCliente._helper.obterValorPorId(elemento, "telefone-fixo"),
-                TelefoneCelular: instanciaCliente._helper.obterValorPorId(elemento, "telefone-celular"),
+                Cpf: instanciaCliente._helper.obterValorPorId(elemento, "cpf").replace('.', '').replace('.', '').replace('-', ''),
+                TelefoneFixo: instanciaCliente._helper.obterValorPorId(elemento, "telefone-fixo").replace('(', '').replace(')', '').replace(' ', '').replace('-', ''),
+                TelefoneCelular: instanciaCliente._helper.obterValorPorId(elemento, "telefone-celular").replace('(', '').replace(')', '').replace(' ', '').replace('-', ''),
                 DataNascimento: instanciaCliente._helper.obterValorPorId(elemento, "data-nascimento"),
                 Email: instanciaCliente._helper.obterValorPorId(elemento, "email"),
                 Enderecos: [endereco]
@@ -76,12 +79,13 @@ class Cliente {
                 IdentificadorUnico: instanciaCliente._helper.obterValorPorClasse(elemento, "identificador-unico"),
             }
 
+             Cliente.setInstancia(instanciaCliente);
+
             instanciaCliente._helper.realizarChamadaAjax("Cliente/BuscarEndereco", data, "GET", null, instanciaCliente._acaoSucesso);
 
         });
 
     }
-
 
     validarEmail() {
         $("#email").blur(function () {
@@ -94,10 +98,8 @@ class Cliente {
                     $("#span-valida-email").html("");
                 }
             }
-
         });
     }
-
 
     // metodos privados
     _acaoSucesso = function (response) {
@@ -106,25 +108,33 @@ class Cliente {
         // mostrar modal
         $("#modal-consultar-endereco").modal("show");
 
+        var instanciaCliente = Cliente.getInstancia();
+
         response.enderecos.forEach(function (endereco) {
 
             html += "<tr>" +
-                "<td class='cep'>" + endereco.cep + "</td>" +
-                "<td class='logradouro'>" + endereco.logradouro + "</td>" +
-                "<td class='numero'>" + endereco.numero + "</td>" +
-                "<td class='complemento'>" + endereco.complemento + "</td>" +
-                "<td class='info-apartamento-condominio'>" + endereco.infoApartamentoCondominio + "</td>" +
-                "<td class='bairro'>" + endereco.bairro + "</td>" +
-                "<td class='cidade'> " + endereco.cidade + "</td>" +
-                "<td class='estado'>" + endereco.estado + "</td>" +
-                "<td><button type='button' class='btn btn-primary btn-editar'>Editar</button></td>" +
-                "<td><button type='button' class='btn btn-danger btn-deletar'> Deletar</button></td>" +
-                "<td><input type = 'hidden' class='identificador-unico' value = '" + endereco.identificadorUnico + "' /></td>" +
-                "</tr>"
+                        "<td class='cep'>" + instanciaCliente._formatarCep(endereco.cep) + "</td>" +
+                        "<td class='logradouro'>" + endereco.logradouro + "</td>" +
+                        "<td class='numero'>" + endereco.numero + "</td>" +
+                        "<td class='complemento'>" + endereco.complemento + "</td>" +
+                        "<td class='info-apartamento-condominio'>" + endereco.infoApartamentoCondominio + "</td>" +
+                        "<td class='bairro'>" + endereco.bairro + "</td>" +
+                        "<td class='cidade'> " + endereco.cidade + "</td>" +
+                        "<td class='estado'>" + endereco.estado + "</td>" +
+                        "<td><button type='button' class='btn btn-primary btn-editar'>Editar</button></td>" +
+                        "<td><button type='button' class='btn btn-danger btn-deletar'> Deletar</button></td>" +
+                        "<td><input type = 'hidden' class='identificador-unico' value = '" + endereco.identificadorUnico + "' /></td>" +
+                    "</tr>"
         });
 
         $("#render-lista-endereco").html(html);
 
-    }
+    } 
 
+    _formatarCep = function (cep) {
+        var primeiraSequencia = cep.substring(0, 5);
+        var segundaSequencia = cep.substring(5, 8);
+
+        return primeiraSequencia + '-' + segundaSequencia;
+    }
 }

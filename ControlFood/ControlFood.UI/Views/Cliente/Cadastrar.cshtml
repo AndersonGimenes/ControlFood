@@ -20,10 +20,20 @@
             <tbody>
                 @foreach (var cliente in Model)
                 {
+                    // Formatar telefones
+                    long.TryParse(cliente.TelefoneCelular, out long celular);
+                    long.TryParse(cliente.TelefoneFixo, out long fixo);
+
+                    if (celular == 0)
+                        celular = 99999999999;
+
+                    if (fixo == 0)
+                        fixo = 9999999999;
+
                     <tr>
                         <td class="nome">@cliente.Nome</td>
-                        <td class="telefone-celular">@cliente.TelefoneCelular</td>
-                        <td class="telefone-fixo">@cliente.TelefoneFixo</td>
+                        <td class="telefone-celular">@string.Format("{0:(##) #####-####}", celular)</td>
+                        <td class="telefone-fixo">@string.Format("{0:(##) ####-####}", fixo)</td>
                         <td><button type="button" class="btn btn-success btn-cadastro-endereco">Novo Endereço</button></td>
                         <td><button type="button" class="btn btn-warning btn-consulta-endereco">Consultar Endereço</button></td>
                         <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>

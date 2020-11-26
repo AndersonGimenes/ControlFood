@@ -35,7 +35,7 @@ namespace ControlFood.UseCase.Implementation
 
         public Cliente BuscarPorIdentificacao(Cliente cliente) =>
             base.BuscarPorIdentificacao(cliente, nameof(cliente.IdentificadorUnico));
-        
+
         public override Cliente Inserir(Cliente cliente)
         {
             var clientes = base.BuscarTodos();
@@ -46,7 +46,13 @@ namespace ControlFood.UseCase.Implementation
                                 .ToList();
 
             CadastroPessoaUseCaseValidation.ValidarRegrasParaInserir(cliente, clientesCast);
-            cliente.Enderecos.ForEach(e => e.AtribuirDataCadastro());
+
+            cliente.AtribuirMensagemCamposNaoInformado();
+            cliente.Enderecos.ForEach(e =>
+                {
+                    e.AtribuirDataCadastro();
+                    e.AtribuirMensagemCamposNaoInformado();
+                });
 
             return base.Inserir(cliente);
         }

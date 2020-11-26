@@ -53,8 +53,12 @@ class Cliente {
                 Estado: instanciaCliente._helper.obterValorPorId(elemento, "estado")
             }
 
+            var nome = instanciaCliente._helper.obterValorPorId(elemento, "nome");
+            if (!instanciaCliente._validarNomeSobreNome(nome))
+                return
+
             var data = {
-                Nome: instanciaCliente._helper.obterValorPorId(elemento, "nome"),
+                Nome: nome,
                 Cpf: instanciaCliente._helper.obterValorPorId(elemento, "cpf").replace('.', '').replace('.', '').replace('-', ''),
                 TelefoneFixo: instanciaCliente._helper.obterValorPorId(elemento, "telefone-fixo").replace('(', '').replace(')', '').replace(' ', '').replace('-', ''),
                 TelefoneCelular: instanciaCliente._helper.obterValorPorId(elemento, "telefone-celular").replace('(', '').replace(')', '').replace(' ', '').replace('-', ''),
@@ -136,5 +140,20 @@ class Cliente {
         var segundaSequencia = cep.substring(5, 8);
 
         return primeiraSequencia + '-' + segundaSequencia;
+    }
+
+    _validarNomeSobreNome = function (nome) {
+        var retorno = true;
+        var nomes = nome.split(' ');
+
+        if (nomes.length == 1 || nomes.length > 1 && nomes[1] === "" || nomes[1] == "undefined") {
+            $("#span-valida-nome").html("<p class='text-danger'>Obrigatório nome e sobrenome !<p/>");
+            retorno = false;
+        }
+        else {
+            $("#span-valida-nome").html("");
+        }
+
+        return retorno;
     }
 }

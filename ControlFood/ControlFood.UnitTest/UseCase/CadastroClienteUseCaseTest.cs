@@ -31,7 +31,7 @@ namespace ControlFood.UnitTest.UseCase
         public void DeveInserirUmClienteNoSistemaComSucesso()
         {
             var cliente = HelperMock.MockCliente("12345678910");
-            cliente.Nome = "Jose Aldo";            
+            cliente.Nome = "Jose Aldo";
             cliente.Enderecos = new List<Endereco>();
 
             //Substituir por ClienteRepository
@@ -55,7 +55,7 @@ namespace ControlFood.UnitTest.UseCase
         public void CasoAlgumCampoNaoPassePelaValidacaoDeveLancarUmaException(string cpf, string resultado)
         {
             var cliente = HelperMock.MockCliente(cpf);
-            
+
             var ex = Assert.Throws<PessoaIncorretaUseCaseException>(() => _cadastroCliente.Inserir(cliente));
             Assert.Equal(resultado, ex.Message);
         }
@@ -83,7 +83,7 @@ namespace ControlFood.UnitTest.UseCase
             clienteRequest.Nome = "Jose Roberto";
             clienteRequest.TelefoneCelular = "19998989191";
             clienteRequest.TelefoneFixo = "1932313639";
-                                    
+
             Cliente clienteBase = default;
 
             _mockClienteRepository
@@ -91,10 +91,10 @@ namespace ControlFood.UnitTest.UseCase
                 .Callback(() =>
                 {
                     // Ajustar quando implementar o fluxo de atualizar
-                    clienteBase = new Cliente 
+                    clienteBase = new Cliente
                     {
                         Cpf = clienteRequest.Cpf,
-                        DataNascimento =  clienteRequest.DataNascimento,
+                        DataNascimento = clienteRequest.DataNascimento,
                         Email = clienteRequest.Email,
                         Nome = clienteRequest.Nome,
                         TelefoneCelular = clienteRequest.TelefoneCelular,
@@ -151,6 +151,37 @@ namespace ControlFood.UnitTest.UseCase
             Assert.NotNull(retorno);
             Assert.Equal(clienteRequest.IdentificadorUnico, retorno.IdentificadorUnico);
             Assert.True(retorno.Enderecos.Count > 0);
+        }
+
+        [Fact]
+        public void CasoOsCamposNaoObrigatoriosNaoForemInformadosDevePersistirNaPropriedadeMensagemConfiguradaAntesDaPesistenciaEmBanco()
+        {
+            var mensagemConfigurada = "Não informado.";
+
+            var cliente = new Cliente
+            {
+                Nome = "Teste teste",
+                TelefoneCelular = "9999999999",
+                Enderecos = new List<Endereco>
+                {
+                    new Endereco
+                    {
+                        Bairro = "Jd do teste",
+                        Cep = "13010020",
+                        Cidade = "Campinas",
+                        Estado = "SP",
+                        Logradouro = "Rua teste teste"
+                    }
+                }
+            };
+
+            _cadastroCliente.Inserir(cliente);
+
+            Assert.Equal(mensagemConfigurada, cliente.Cpf);
+            Assert.Equal(mensagemConfigurada, cliente.Email);
+            Assert.Equal(mensagemConfigurada, cliente.Enderecos.First().Complemento);
+            Assert.Equal(mensagemConfigurada, cliente.Enderecos.First().InfoApartamentoCondominio);
+            Assert.Equal(mensagemConfigurada, cliente.Enderecos.First().Numero);
         }
     }
 }

@@ -17,5 +17,17 @@ namespace ControlFood.Domain.Entidades
         {
             DataCadastro = DateTime.Now;
         }
+
+        public void AtribuirMensagemCamposNaoInformado()
+        {
+            if (string.IsNullOrEmpty(Numero))
+                Numero = Constantes.Mensagem.CampoNaoInformado;
+
+            if (string.IsNullOrEmpty(InfoApartamentoCondominio))
+                InfoApartamentoCondominio = Constantes.Mensagem.CampoNaoInformado;
+
+            if (string.IsNullOrEmpty(Complemento))
+                Complemento = Constantes.Mensagem.CampoNaoInformado;
+        }
     }
 }

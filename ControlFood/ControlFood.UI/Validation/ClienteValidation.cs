@@ -14,7 +14,7 @@ namespace ControlFood.UI.Validation
                 .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
 
             RuleFor(x => x)
-                .Must(x => x.TelefoneCelular != null && x.TelefoneCelular != string.Empty || x.TelefoneFixo != null && x.TelefoneFixo != string.Empty)
+                .Must(x => !string.IsNullOrWhiteSpace(x.TelefoneCelular) || !string.IsNullOrWhiteSpace(x.TelefoneFixo))
                 .WithMessage(Constantes.Mensagem.Cliente.TelefoneObrigatorio);
 
             RuleFor(x => x.Enderecos)

@@ -2,6 +2,8 @@
 {
     public static class Mensagem
     {
+        public const string CampoNaoInformado = "Não informado.";
+
         public static class Validacao
         {
             public static class Comum

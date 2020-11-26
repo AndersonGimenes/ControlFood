@@ -16,7 +16,7 @@ namespace ControlFood.UI.Validation
                 .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
 
             RuleFor(x => x)
-                .Must(x => x.Cep != null && x.Cep.Length == 8)
+                .Must(x => !string.IsNullOrWhiteSpace(x.Cep) && x.Cep.Length == 8)
                 .WithMessage(string.Format(Constantes.Mensagem.Validacao.CampoForaDoTamanho, nameof(Endereco.Cep), "8"));
 
             RuleFor(x => x.Cidade)

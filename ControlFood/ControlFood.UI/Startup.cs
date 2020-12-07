@@ -70,9 +70,8 @@ namespace ControlFood.UI
             services.AddSingleton(mapper);
 
             services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoriaValidation>())
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SubCategoriaValidation>());
-        }
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoriaValidation>());
+            }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ControlFoodContext context)
         {

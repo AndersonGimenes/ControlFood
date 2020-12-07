@@ -1,12 +1,4 @@
-﻿//$(document).ready(function () {
-//    var subCategoria = new SubCategoria();
-//    subCategoria.cadastrar(subCategoria);
-//    subCategoria.deletar(subCategoria);
-//    subCategoria.popularModalAtualizar(subCategoria);
-//    subCategoria.atualizar(subCategoria);
-//});
-
-class SubCategoria {
+﻿class SubCategoria {
 
     constructor() {
         this.IdentificadorUnico;

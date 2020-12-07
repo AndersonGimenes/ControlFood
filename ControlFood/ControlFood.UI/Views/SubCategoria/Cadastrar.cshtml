@@ -22,11 +22,10 @@
                         <tr>
                             <td class="tipo">@subCategoria.Tipo</td>
                             <td class="tipo-categoria">@subCategoria.Categoria.Tipo</td>
-                            <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
-                            <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
+                            <td><button type="button" class="btn btn-primary" onclick="subCategoria.popularModalAtualizar(this);">Editar</button></td>
+                            <td><button type="button" class="btn btn-danger" onclick="subCategoria.deletar(this);">Deletar</button></td>
                             <input type="hidden" class="indicador" value="@subCategoria.Indicador" />
                             <input type="hidden" class="identificador-unico" value="@subCategoria.IdentificadorUnico" />
-                            <input type="hidden" class="identificador-unico-categoria" value="@subCategoria.Categoria.IdentificadorUnico" />
                         </tr>
                     }
                 </tbody>
@@ -35,7 +34,7 @@
 
         <div class="form-group">
             <label>Selecione a categoria</label>
-            <select class="form-control" id="identificador-unico-categoria-nova">
+            <select class="form-control" id="identificador-unico-categoria">
                 @foreach (var categoria in ViewBag.Categorias)
                 {
                     <option value="@categoria.IdentificadorUnico">@categoria.Tipo</option>
@@ -67,7 +66,8 @@
                 </div>
             </div>
         </fieldset>
-        <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
+
+        <button type="button" class="btn btn-success" onclick="subCategoria.cadastrar(this);">Cadastrar</button>
     </form>
 
     <partial name="_ModalAtualizar" />
@@ -80,6 +80,10 @@ else
 }
 
 @section Scripts {
-    <script type="text/javascript" src="~/js/subCategoria/subCategoria.js"></script>
-    <script type="text/javascript" src="~/js/comumHelper.js"></script>
+    <script type="text/javascript" src="~/js/categoria/Categoria.js"></script>
+    <script type="text/javascript" src="~/js/subCategoria/SubCategoria.js"></script>
+    <script type="text/javascript" src="~/js/Helper.js"></script>
+    <script type="text/javascript">
+        let subCategoria = new SubCategoria();
+    </script>
 }

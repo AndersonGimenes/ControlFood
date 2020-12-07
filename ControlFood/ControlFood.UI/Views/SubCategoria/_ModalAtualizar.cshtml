@@ -12,11 +12,16 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="h4">Categoria</label>
-                        <span id="categoria-tipo"></span>
+
+                        <!--renderizado via js-->
+                        <div id="categoria-tipo"></div>
+
                     </div>
                     <div class="form-group">
                         <label class="h4">Sub-Categoria</label>
-                        <span id="sub-categoria-tipo"></span>
+                        <!--renderizado via js-->
+                        <div id="sub-categoria-tipo"></div>
+
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -37,12 +42,14 @@
                         </div>
                     </div>
                 </div>
-                <span id="identificador-unico"></span>
-                
+
+                <!--renderizado via js-->
+                <div id="identificador-unico"></div>
+
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-custom" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" id="btn-atualizar">Atualizar</button>
+                    <button type="button" class="btn btn-success" onclick="subCategoria.atualizar(this);">Atualizar</button>
                 </div>
             </form>
         </div>

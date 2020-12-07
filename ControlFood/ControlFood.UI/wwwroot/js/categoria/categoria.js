@@ -1,8 +1,9 @@
 ﻿class Categoria {
 
-    // Propriedade da classe
-    identificadorUnico;
-    tipo;
+    constructor(identificadorUnico = 0) {
+        this.identificadorUnico = identificadorUnico;
+        this.tipo;
+    }
 
     cadastrar(el) {
 

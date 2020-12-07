@@ -1,30 +1,14 @@
-﻿class ComumHelper {
+﻿class Helper {
 
-    obterTextoPorClasse = function (elemento, classe) {
-        return $(elemento).find("." + classe).text();
-    }
+    static validarCamposObrigatorios(arrayElementos, arraySpan) {
 
-    obterTextoPorId = function (elemento, classe) {
-        return $(elemento).find("#" + classe).text();
-    }
-
-    obterValorPorClasse = function (elemento, classe) {
-        return $(elemento).find("." + classe).val();
-    }
-
-    obterValorPorId = function (elemento, id) {
-        return $(elemento).find("#" + id).val();
-    }
-
-    validarCamposObrigatorios = function (arrayElementos, arraySpan) {
-
-        var retorno = true;
-        var index = 0;
+        let retorno = true;
+        let index = 0;
 
         arrayElementos.forEach(function (elemento) {
 
-            var valor = $(elemento).val();
-            var span = arraySpan[index];
+            let valor = $(elemento).val();
+            let span = arraySpan[index];
 
             if ($.trim(valor) === "") {
                 $(span).html("<p class='text-danger'>Campo obrigatório !<p/>");
@@ -40,10 +24,10 @@
         return retorno;
     }
 
-    realizarChamadaAjax = function (url, data, acao, instanciaComumHelper, acaoSucesso) {
+    static realizarChamadaAjax(url, data, acao, acaoSucesso) {
 
         if (acaoSucesso == null)
-            acaoSucesso = instanciaComumHelper._acaoSucessoDefault;
+            acaoSucesso = Helper._acaoSucessoDefault;
 
         $.ajax({
             url: url,
@@ -51,13 +35,13 @@
             data: data,
             success: acaoSucesso,
 
-            error: function (XMLHttpRequest) {
+            error: (XMLHttpRequest) => {
                 $.confirm({
                     title: 'Erro',
                     type: 'red',
                     content: XMLHttpRequest.responseText,
                     buttons: {
-                        confirm: function () {
+                        confirm: () => {
                             console.log(XMLHttpRequest.responseText);
                         }
                     }
@@ -123,19 +107,19 @@
     }
 
     //metodos privados
-    _acaoSucessoDefault = function (response) {
+    static _acaoSucessoDefault(response) {
+        // inclusao de novo cadastro cai no if
         if (response.mensagem === '' || response.mensagem === undefined) {
             window.location.reload();
             return;
         }
+
         $.confirm({
             title: 'Sucesso',
             type: 'blue',
             content: response.mensagem,
             buttons: {
-                confirm: function () {
-                    window.location.reload();
-                }
+                confirm: () => window.location.reload()
             }
         });
     }

@@ -1,43 +1,28 @@
-﻿$(document).ready(function () {
-    var categoria = new Categoria();
-    categoria.cadastrar(categoria);
-    categoria.deletar(categoria);
-});
+﻿class Categoria {
 
-class Categoria {
+    // Propriedade da classe
+    identificadorUnico;
+    tipo;
 
-    constructor() {
-        this._helper = new ComumHelper();
+    cadastrar(el) {
+
+        let elemento = el.parentNode;
+
+        if (!Helper.validarCamposObrigatorios([$("#tipo")], [$("#span-valida-tipo")]))
+            return;
+
+        this.tipo = $(elemento).find("#tipo").val();
+
+        Helper.realizarChamadaAjax("Categoria/Cadastrar", this, "POST");
     }
 
-    cadastrar = function (instanciaCategoria) {
+    deletar(el) {
 
-        $("#btn-cadastrar").click(function () {
-            var elemento = this.parentNode;
+        let elemento = el.parentNode.parentNode;
 
-            if (!instanciaCategoria._helper.validarCamposObrigatorios([$("#tipo")], [$("#span-valida-tipo")]))
-                return;
+        this.identificadorUnico = $(elemento).find(".identificador-unico").val();
+        this.tipo = $(elemento).find(".tipo").text();
 
-            var data = {
-                Tipo: instanciaCategoria._helper.obterValorPorId(elemento, "tipo")
-            }
-
-            instanciaCategoria._helper.realizarChamadaAjax("Categoria/Cadastrar", data, "POST", instanciaCategoria._helper);
-        });
-    }
-
-    deletar = function (instanciaCategoria) {
-        $(".btn-deletar").click(function () {
-
-            var elementoTr = this.parentNode.parentNode;
-
-            var data = {
-                IdentificadorUnico: instanciaCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-                Tipo: instanciaCategoria._helper.obterTextoPorClasse(elementoTr, "tipo")
-            }
-
-            instanciaCategoria._helper.realizarChamadaAjax("/Categoria/Deletar", data, "DELETE", instanciaCategoria._helper);
-
-        });
+        Helper.realizarChamadaAjax("/Categoria/Deletar", this, "DELETE");
     }
 }

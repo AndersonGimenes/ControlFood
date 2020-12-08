@@ -22,8 +22,7 @@
         let elemento = el.parentNode.parentNode;
 
         this.identificadorUnico = $(elemento).find(".identificador-unico").val();
-        this.tipo = $(elemento).find(".tipo").text();
-
+        
         Helper.realizarChamadaAjax("/Categoria/Deletar", this, "DELETE");
     }
 }

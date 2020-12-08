@@ -1,15 +1,15 @@
-﻿$(document).ready(function () {
-    var estoque = new Estoque();
-    estoque.popularModalCadastro(estoque);
-    estoque.cadastrar(estoque);
+﻿//$(document).ready(function () {
+//    var estoque = new Estoque();
+//    estoque.popularModalCadastro(estoque);
+//    estoque.cadastrar(estoque);
 
-    estoque.ajustarValorCompra(estoque, "cadastro");
-    estoque.limparCampoInput();
+//    estoque.ajustarValorCompra(estoque, "cadastro");
+//    estoque.limparCampoInput();
 
-    estoque.consultar(estoque);
-    estoque.atualizar(estoque);
+//    estoque.consultar(estoque);
+//    estoque.atualizar(estoque);
 
-});
+//});
 
 class Estoque {
 

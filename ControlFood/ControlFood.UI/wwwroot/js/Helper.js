@@ -50,11 +50,7 @@
         });
     }
 
-    mascaraValorMonetario = function (element) {
-        element.mask('#.##0,00', { reverse: true });
-    }
-
-    formatarValorInput = function (valor) {
+    static formatarValorInput = function (valor) {
         var valorSemCaracteres = valor.replace(',', '').replace('.', '');
 
         var duasUltimasCasas = valorSemCaracteres.substring(valorSemCaracteres.length, valorSemCaracteres.length - 2);
@@ -68,40 +64,29 @@
         return parseFloat(demaisCasas + '.' + duasUltimasCasas);
     }
 
-    formatarValorOutput = function (valor) {
-        var valorSemCaracteres = valor.toFixed(2).toString().replace('.', '');
+    static formatarValorOutput(valorString) {
+        let valorSemCifrao = valorString.replace('R$', '').replace(' ', '');
 
-        if (valorSemCaracteres.length <= 5)
-            return valor.toFixed(2).toString().replace('.', ',');
+        if (valorSemCifrao.length <= 6)
+            return valorSemCifrao;
 
-        var duasUltimasCasas = valorSemCaracteres.substring(valorSemCaracteres.length, valorSemCaracteres.length - 2);
+        let valorFormatado = valorSemCifrao
+            .split('') // transforma string em array
+            .reverse() // inverte o array
+            .map((valor, index) => { // formatata no padrão
+                if (index == 5) {
+                    valor = '.' + valor;
+                }
 
-        var valorInvertido = valorSemCaracteres.split('').reverse().join('');
+                return valor;
 
-        var demaisCasasInvertido = valorInvertido.substring(valorInvertido.length, 2);
+            }).reverse() // inverte o array(volta posição original)
+            .join(''); // concatena array para string
 
-        var concatSequencia = '';
-        var concatSequenciaPonto = '';
-        var concatResultado = '';
-
-        demaisCasasInvertido.split('').forEach(function (numero) {
-
-            concatSequencia += numero;
-
-            if (concatSequencia.length == 3) {
-                concatSequenciaPonto += concatSequencia + ".";
-                concatSequencia = "";
-            }
-
-            concatResultado = concatSequenciaPonto + concatSequencia;
-        });
-
-        var demaisCasas = concatResultado.split('').reverse().join('');
-
-        return demaisCasas + ',' + duasUltimasCasas;
+        return valorFormatado;
     }
 
-    formatarDataOutput(data, separadorSplit, separadorData ) {
+    formatarDataOutput(data, separadorSplit, separadorData) {
         var arrayData = data.substring(0, 10).split(separadorSplit);
         return arrayData[2] + separadorData + arrayData[1] + separadorData + arrayData[0];
     }

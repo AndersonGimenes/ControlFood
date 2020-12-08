@@ -1,122 +1,86 @@
-﻿$(document).ready(function () {
-    var produto = new Produto();
-
-    produto.cadastrar(produto);
-    produto.deletar(produto);
-    produto.popularModalAtualizar(produto);
-    produto.atualizar(produto);
-});
-
-class Produto {
+﻿class Produto {
 
     constructor() {
-        this._helper = new ComumHelper();
+        this.codigoInterno;
+        this.nome;
+        this.valorVenda;
+        this.subCategoria;
 
         // input valor venda produto
-        this._helper.mascaraValorMonetario($("#valor-venda"));
+        $("#valor-venda").mask('#.##0,00', { reverse: true });
     }
 
-    cadastrar = function (instanciaProduto) {
+    cadastrar(el) {
 
-        $("#btn-cadastrar").click(function () {
-            var elemento = this.parentNode;
+        let elemento = el.parentNode;
 
-            // validar campos obrigatorios
-            var arrayElementos = [$("#nome"), $("#codigo-interno"), $("#valor-venda")];
-            var arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
+        // validar campos obrigatorios
+        var arrayElementos = [$("#nome"), $("#codigo-interno"), $("#valor-venda")];
+        var arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
 
-            if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
-                return;
+        if (!Helper.validarCamposObrigatorios(arrayElementos, arraySpans))
+            return;
 
-            // montar objetos request
-            var subCategoria = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorId(elemento, "identificador-unico-sub-categoria-nova")
-            }
+        let subCategoria = new SubCategoria($(elemento).find("#identificador-unico-sub-categoria").val());
 
-            var estoque = {
-                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-total"),
-                DataValidade: instanciaProduto._helper.obterValorPorId(elemento, "data-validade"),
-                Quantidade: instanciaProduto._helper.obterValorPorId(elemento, "quantidade")
-            }
+        this.codigoInterno = $(elemento).find("#codigo-interno").val();
+        this.nome = $(elemento).find("#nome").val();
+        this.valorVenda = $(elemento).find("#valor-venda").val();
+        this.subCategoria = subCategoria;
 
-            var data = {
-                CodigoInterno: instanciaProduto._helper.obterValorPorId(elemento, "codigo-interno"),
-                Nome: instanciaProduto._helper.obterValorPorId(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterValorPorId(elemento, "valor-venda"),
-                SubCategoria: subCategoria,
-                Estoque: estoque
-            }
-
-            // realizar requisição
-            instanciaProduto._helper.realizarChamadaAjax("Produto/Cadastrar", data, "POST", instanciaProduto._helper);
-        });
+        Helper.realizarChamadaAjax("Produto/Cadastrar", this, "POST");
     }
 
-    popularModalAtualizar = function (instanciaProduto) {
+    popularModalAtualizar(el) {
 
-        $(".btn-editar").click(function () {
-            var elemento = this.parentNode.parentNode;
+        let elemento = el.parentNode.parentNode;
 
-            //montar objeto produto
-            var subCategoria = {
-                Tipo: instanciaProduto._helper.obterTextoPorClasse(elemento, "tipo-sub-categoria")
-            }
+        let valor = Helper.formatarValorOutput($(elemento).find('.valor-venda').text());
 
-            var produto = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
-                CodigoInterno: instanciaProduto._helper.obterTextoPorClasse(elemento, "codigo-interno"),
-                Nome: instanciaProduto._helper.obterTextoPorClasse(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterTextoPorClasse(elemento, "valor-venda")
-            }
+        // mostrar modal
+        $("#modal-atualizar").modal("show");
 
-            var valor = instanciaProduto._helper.formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '').replace(',', '.')));
+        // preencher nome produto e identificador do produto
+        $("#sub-categoria-tipo-modal")
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.tipo-sub-categoria').text()}'/>`);
 
-            // mostrar modal
-            $("#modal-atualizar").modal("show");
+        $("#produto-nome-modal")
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.nome').text()}'/>`);
 
-            // preencher nome produto e identificador do produto
-            $("#span-sub-categoria-tipo-atualizar").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
-            $("#span-produto-nome-atualizar").html("<input type='text' class='form-control nome' disabled='disabled' value='" + produto.Nome + "'/>");
-            $("#span-produto-codigo-atualizar").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
-            $("#span-valor-venda-atualizar").html("<span id='span-valida-valor-venda'></span><input type='text' class='form-control valor-venda' value='" + valor + "'/>");
-            $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value='" + produto.IdentificadorUnico + "'/>");
-            
-            // input valor venda produto
-            instanciaProduto._helper.mascaraValorMonetario($(".valor-venda"));
-        });
+        $("#produto-codigo-modal")
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.codigo-interno').text()}'/>`);
+
+        $("#valor-venda-render-modal")
+            .html(`<span id='span-valida-valor-venda'></span><input type='text' class='form-control' id='valor-venda-modal' value='${valor}'/>`);
+
+        $("#identificador-unico-render-modal")
+            .html(`<input type='hidden' class='form-control' id='identificador-unico-modal' value='${$(elemento).find('.identificador-unico').val()}'/>`);
+
+        // input valor venda produto modal
+        $("#valor-venda-modal").mask('#.##0,00', { reverse: true });
     }
 
-    atualizar = function (instanciaProduto) {
-        $("#btn-atualizar").click(function () {
-            var elemento = this.parentNode.parentNode;
+    atualizar(el) {
 
-            console.log(elemento);
+        let elemento = el.parentNode.parentNode;
 
-            var data = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
-                CodigoInterno: instanciaProduto._helper.obterValorPorClasse(elemento, "codigo-interno"),
-                Nome: instanciaProduto._helper.obterValorPorClasse(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda")
-            }
+        let valorVenda = $(elemento).find("#valor-venda-modal");
 
-            if (!instanciaProduto._helper.validarCamposObrigatorios([$(elemento).find(".valor-venda")], $(elemento).find("#span-valida-valor-venda")))
-                return;
+        this.identificadorUnico = $(elemento).find('#identificador-unico-modal').val();
+        this.valorVenda = valorVenda.val();
 
-            instanciaProduto._helper.realizarChamadaAjax("/Produto/Atualizar", data, "PUT", instanciaProduto._helper);
+        if (!Helper.validarCamposObrigatorios([valorVenda], $(elemento).find("#span-valida-valor-venda")))
+            return;
 
-        });
+        Helper.realizarChamadaAjax("/Produto/Atualizar", this, "PUT");
     }
 
-    deletar = function (instanciaProduto) {
-        $(".btn-deletar").click(function () {
-            var elemento = this.parentNode.parentNode;
+    deletar(el) {
 
-            var data = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
-            }
+        var elemento = el.parentNode.parentNode;
 
-            instanciaProduto._helper.realizarChamadaAjax("/Produto/Deletar", data, "DELETE", instanciaProduto._helper);
-        });
+        this.identificadorUnico = $(elemento).find(".identificador-unico").val();
+
+        Helper.realizarChamadaAjax("/Produto/Deletar", this, "DELETE");
     }
 }

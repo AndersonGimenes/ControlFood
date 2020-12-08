@@ -1,7 +1,7 @@
 ﻿class SubCategoria {
 
-    constructor() {
-        this.IdentificadorUnico;
+    constructor(identificadorUnico = 0) {
+        this.identificadorUnico = identificadorUnico;
         this.tipo;
         this.indicador;
         this.categoria;

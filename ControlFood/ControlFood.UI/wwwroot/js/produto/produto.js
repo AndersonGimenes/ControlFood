@@ -15,8 +15,8 @@
         let elemento = el.parentNode;
 
         // validar campos obrigatorios
-        var arrayElementos = [$("#nome"), $("#codigo-interno"), $("#valor-venda")];
-        var arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
+        let arrayElementos = [$("#nome"), $("#codigo-interno"), $("#valor-venda")];
+        let arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
 
         if (!Helper.validarCamposObrigatorios(arrayElementos, arraySpans))
             return;
@@ -77,7 +77,7 @@
 
     deletar(el) {
 
-        var elemento = el.parentNode.parentNode;
+        let elemento = el.parentNode.parentNode;
 
         this.identificadorUnico = $(elemento).find(".identificador-unico").val();
 

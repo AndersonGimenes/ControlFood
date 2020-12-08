@@ -63,7 +63,7 @@
 
     atualizar(el) {
 
-        var elemento = el.parentNode.parentNode;
+        let elemento = el.parentNode.parentNode;
 
         this.indicador = $(elemento).find("input[name='indicador']:checked").val()
         this.identificadorUnico = $(elemento).find(".identificador-unico").val();

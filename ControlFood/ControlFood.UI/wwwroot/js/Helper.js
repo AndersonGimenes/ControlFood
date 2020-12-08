@@ -2,38 +2,31 @@
 
     static validarCamposObrigatorios(arrayElementos, arraySpan) {
 
-        let retorno = true;
-        let index = 0;
-
-        arrayElementos.forEach(function (elemento) {
-
-            let valor = $(elemento).val();
-            let span = arraySpan[index];
+        let valido = true;
+        
+        for (let i = 0; i < arrayElementos.length; i++) {
+            let valor = arrayElementos[i].val();
+            let span = arraySpan[i];
 
             if ($.trim(valor) === "") {
                 $(span).html("<p class='text-danger'>Campo obrigatório !<p/>");
-                retorno = false;
+                valido = false;
             }
             else {
                 $(span).html("");
             }
+        }
 
-            index++;
-        });
-
-        return retorno;
+        return valido;
     }
 
     static realizarChamadaAjax(url, data, acao, acaoSucesso) {
-
-        if (acaoSucesso == null)
-            acaoSucesso = Helper._acaoSucessoDefault;
 
         $.ajax({
             url: url,
             type: acao,
             data: data,
-            success: acaoSucesso,
+            success: acaoSucesso == null ? Helper._acaoSucessoDefault : acaoSucesso,
 
             error: (XMLHttpRequest) => {
                 $.confirm({

@@ -8,7 +8,7 @@
 
         let elemento = el.parentNode;
 
-        if (!Helper.validarCamposObrigatorios([$('#categoria-tipo')], [$('#valida-categoria-tipo')]))
+        if (!Helper.validarCamposObrigatorios([$(elemento).find('#categoria-tipo')], [$(elemento).find('#valida-categoria-tipo')]))
             return;
 
         this.categoriaModel.tipo = $(elemento).find('#categoria-tipo').val();
@@ -21,7 +21,7 @@
         let elemento = el.parentNode.parentNode;
 
         this.categoriaModel.identificadorUnico = $(elemento).find('.categoria-identificador-unico').val();
-        
+
         Helper.realizarChamadaAjax('/Categoria/Deletar', this.categoriaModel, 'DELETE');
     }
 }

@@ -24,9 +24,9 @@
 
         let elemento = el.parentNode.parentNode;
 
-        this.subCategoriaModel.identificadorUnico = $(elemento).find(".sub-categoria-identificador-unico").val();
+        this.subCategoriaModel.identificadorUnico = $(elemento).find('.sub-categoria-identificador-unico').val();
 
-        Helper.realizarChamadaAjax("/SubCategoria/Deletar", this.subCategoriaModel, "DELETE");
+        Helper.realizarChamadaAjax('/SubCategoria/Deletar', this.subCategoriaModel, 'DELETE');
 
     }
 
@@ -55,8 +55,8 @@
             return;
         }
 
-        indicadorCozinha.prop("checked", false);
-        indicadorBar.prop("checked", true);
+        indicadorCozinha.prop('checked', false);
+        indicadorBar.prop('checked', true);
     }
 
     atualizar(el) {

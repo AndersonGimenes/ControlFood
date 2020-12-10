@@ -30,6 +30,16 @@
 
     }
 
+    atualizar(el) {
+
+        let elemento = el.parentNode.parentNode;
+
+        this.subCategoriaModel.indicador = $(elemento).find('input[name="sub-categoria-indicador-modal"]:checked').val()
+        this.subCategoriaModel.identificadorUnico = $(elemento).find('#sub-categoria-identificador-unico-modal').val();
+
+        Helper.realizarChamadaAjax('/SubCategoria/Atualizar', this.subCategoriaModel, 'PUT');
+    }
+
     popularModalAtualizar(el) {
 
         let elemento = el.parentNode.parentNode;
@@ -57,15 +67,5 @@
 
         indicadorCozinha.prop('checked', false);
         indicadorBar.prop('checked', true);
-    }
-
-    atualizar(el) {
-
-        let elemento = el.parentNode.parentNode;
-
-        this.subCategoriaModel.indicador = $(elemento).find('input[name="sub-categoria-indicador-modal"]:checked').val()
-        this.subCategoriaModel.identificadorUnico = $(elemento).find('#sub-categoria-identificador-unico-modal').val();
-
-        Helper.realizarChamadaAjax('/SubCategoria/Atualizar', this.subCategoriaModel, 'PUT');
     }
 }

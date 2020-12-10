@@ -17,10 +17,10 @@
                 @foreach (var categoria in Model)
                 {
                     <tr>
-                        <td class="tipo">@categoria.Tipo</td>
+                        <td class="categoria-tipo">@categoria.Tipo</td>
                         <td colspan="2"></td>
                         <td><button type="button" class="btn btn-danger" onclick="categoria.deletar(this);">Deletar</button></td>
-                        <input type="hidden" class="identificador-unico" value="@categoria.IdentificadorUnico" />
+                        <input type="hidden" class="categoria-identificador-unico" value="@categoria.IdentificadorUnico" />
                     </tr>
                 }
             </tbody>
@@ -29,14 +29,15 @@
 
     <div class="form-group">
         <label>Digite uma nova Categoria</label>
-        <span id="span-valida-tipo"></span>
-        <input type="text" class="form-control" id="tipo" placeholder="Digite a nova categoria">
+        <span id="valida-categoria-tipo"></span>
+        <input type="text" class="form-control" id="categoria-tipo" placeholder="Digite a nova categoria">
     </div>
 
     <button type="button" class="btn btn-success" onclick="categoria.cadastrar(this);">Cadastrar</button>
 </form>
 
 @section Scripts {
+    <script type="text/javascript" src="~/js/model/CategoriaModel.js"></script>
     <script type="text/javascript" src="~/js/categoria/Categoria.js"></script>
     <script type="text/javascript" src="~/js/Helper.js"></script>
     <script type="text/javascript">

@@ -1,0 +1,4 @@
+﻿class CategoriaModel {
+    identificadorUnico;
+    tipo;
+}

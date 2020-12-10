@@ -1,28 +1,27 @@
 ﻿class Categoria {
 
-    constructor(identificadorUnico = 0) {
-        this.identificadorUnico = identificadorUnico;
-        this.tipo;
+    constructor() {
+        this.categoriaModel = new CategoriaModel();
     }
 
     cadastrar(el) {
 
         let elemento = el.parentNode;
 
-        if (!Helper.validarCamposObrigatorios([$("#tipo")], [$("#span-valida-tipo")]))
+        if (!Helper.validarCamposObrigatorios([$('#categoria-tipo')], [$('#valida-categoria-tipo')]))
             return;
 
-        this.tipo = $(elemento).find("#tipo").val();
+        this.categoriaModel.tipo = $(elemento).find('#categoria-tipo').val();
 
-        Helper.realizarChamadaAjax("Categoria/Cadastrar", this, "POST");
+        Helper.realizarChamadaAjax('Categoria/Cadastrar', this.categoriaModel, 'POST');
     }
 
     deletar(el) {
 
         let elemento = el.parentNode.parentNode;
 
-        this.identificadorUnico = $(elemento).find(".identificador-unico").val();
+        this.categoriaModel.identificadorUnico = $(elemento).find('.categoria-identificador-unico').val();
         
-        Helper.realizarChamadaAjax("/Categoria/Deletar", this, "DELETE");
+        Helper.realizarChamadaAjax('/Categoria/Deletar', this.categoriaModel, 'DELETE');
     }
 }

@@ -27,8 +27,8 @@
                             <td class="nome">@produto.Nome</td>
                             <td class="tipo-sub-categoria">@produto.SubCategoria.Tipo</td>
                             <td class="valor-venda">R$ @produto.ValorVenda</td>
-                            <td><button type="button" class="btn btn-success btn-cadastro-estoque">Cadastrar Estoque</button></td>
-                            <td><button type="button" class="btn btn-warning btn-consulta-estoque">Consultar Estoque</button></td>
+                            <td><button type="button" class="btn btn-success" onclick="produto.estoque.popularModalCadastro(this);">Cadastrar Estoque</button></td>
+                            <td><button type="button" class="btn btn-warning" onclick="produto.estoque.consultar(this);">Consultar Estoque</button></td>
                             <td><button type="button" class="btn btn-primary" onclick="produto.popularModalAtualizar(this);">Editar</button></td>
                             <td><button type="button" class="btn btn-danger" onclick="produto.deletar(this);">Deletar</button></td>
                             <input type="hidden" class="identificador-unico" value="@produto.IdentificadorUnico" />
@@ -86,9 +86,12 @@ else
 }
 
 @section Scripts {
-    <script type="text/javascript" src="~/js/subCategoria/SubCategoria.js"></script>
+    <script type="text/javascript" src="~/js/model/produto/ProdutoModel.js"></script>
+    <script type="text/javascript" src="~/js/model/produto/EstoqueModel.js"></script>
+
+    <script type="text/javascript" src="~/js/subCategoria/SubCategoria.js"></script>        
     <script type="text/javascript" src="~/js/produto/Produto.js"></script>
-    <script type="text/javascript" src="~/js/produto/estoqueProduto.js"></script>
+    <script type="text/javascript" src="~/js/produto/Estoque.js"></script>
     <script type="text/javascript" src="~/js/Helper.js"></script>
     <script type="text/javascript">
         let produto = new Produto();

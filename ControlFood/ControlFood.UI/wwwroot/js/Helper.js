@@ -43,20 +43,6 @@
         });
     }
 
-    static formatarValorInput = function (valor) {
-        var valorSemCaracteres = valor.replace(',', '').replace('.', '');
-
-        var duasUltimasCasas = valorSemCaracteres.substring(valorSemCaracteres.length, valorSemCaracteres.length - 2);
-
-        var valorInvertido = valorSemCaracteres.split('').reverse().join('');
-
-        var demaisCasasInvertido = valorInvertido.substring(valorInvertido.length, 2);
-
-        var demaisCasas = demaisCasasInvertido.split('').reverse().join('');
-
-        return parseFloat(demaisCasas + '.' + duasUltimasCasas);
-    }
-
     static formatarValorOutput(valorString) {
         let valorSemCifrao = valorString.replace('R$', '').replace(' ', '');
 
@@ -79,7 +65,7 @@
         return valorFormatado;
     }
 
-    formatarDataOutput(data, separadorSplit, separadorData) {
+    static formatarDataOutput(data, separadorSplit, separadorData) {
         var arrayData = data.substring(0, 10).split(separadorSplit);
         return arrayData[2] + separadorData + arrayData[1] + separadorData + arrayData[0];
     }

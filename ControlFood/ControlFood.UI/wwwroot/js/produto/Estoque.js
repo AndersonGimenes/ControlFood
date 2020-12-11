@@ -157,7 +157,7 @@
 
             let valorFormatado = valorUnitario.val().replace('.', '').replace(',', '.');
 
-            var resultado = parseInt(quantidade.val()) * valorFormatado;
+            let resultado = parseInt(quantidade.val()) * valorFormatado;
 
             valorTotal.val(resultado.toFixed(2).toString().replace('.', ','));
 

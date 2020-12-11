@@ -65,9 +65,12 @@
         return valorFormatado;
     }
 
-    static formatarDataOutput(data, separadorSplit, separadorData) {
-        var arrayData = data.substring(0, 10).split(separadorSplit);
-        return arrayData[2] + separadorData + arrayData[1] + separadorData + arrayData[0];
+    static formatarDataOutput(data) {
+        let novaData = new Date(data);
+        let dia = novaData.getDate() < 10 ? `0${novaData.getDate()}` : novaData.getDate();
+        let mes = novaData.getMonth() + 1 < 10 ? `0${novaData.getMonth() + 1}` : novaData.getMonth() + 1;
+
+        return `${dia}/${mes}/${novaData.getFullYear()}`;
     }
 
     //metodos privados

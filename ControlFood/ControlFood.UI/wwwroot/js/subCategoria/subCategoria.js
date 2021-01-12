@@ -1,92 +1,71 @@
-﻿$(document).ready(function () {
-    var subCategoria = new SubCategoria();
-    subCategoria.cadastrar(subCategoria);
-    subCategoria.deletar(subCategoria);
-    subCategoria.popularModalAtualizar(subCategoria);
-    subCategoria.atualizar(subCategoria);
-});
-
-class SubCategoria {
+﻿class SubCategoria {
 
     constructor() {
-        this._helper = new ComumHelper();
+        this.subCategoriaModel = new SubCategoriaModel();
     }
 
-    cadastrar = function (instanciaSubCategoria) {
-        $("#btn-cadastrar").click(function () {
-            var elemento = this.parentNode;
+    cadastrar(el) {
 
-            if (!instanciaSubCategoria._helper.validarCamposObrigatorios([$("#tipo")], [$("#span-valida-tipo")]))
-                return;
+        let elemento = el.parentNode;
 
-            var categoria = {
-                IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorId(elemento, "identificador-unico-categoria-nova")
-            }
+        let tipo = $(elemento).find('#sub-categoria-tipo');
 
-            var data = {
-                Tipo: instanciaSubCategoria._helper.obterValorPorId(elemento, "tipo"),
-                Categoria: categoria,
-                Indicador: $(elemento).find("input[name='indicador']:checked").val()
-            }
+        if (!Helper.validarCamposObrigatorios([tipo], [$(elemento).find('#valida-sub-categoria-tipo')]))
+            return;
 
-            instanciaSubCategoria._helper.realizarChamadaAjax("SubCategoria/Cadastrar", data, "POST", instanciaSubCategoria._helper);
-        });
+        this.subCategoriaModel.tipo = tipo.val();
+        this.subCategoriaModel.categoria.identificadorUnico = $(elemento).find('#categoria-identificador-unico').val();
+        this.subCategoriaModel.indicador = $(elemento).find('input[name="sub-categoria-indicador"]:checked').val();
+
+        Helper.realizarChamadaAjax('SubCategoria/Cadastrar', this.subCategoriaModel, 'POST');
     }
 
-    deletar = function (instanciaSubCategoria) {
-        $(".btn-deletar").click(function () {
-            var elementoTr = this.parentNode.parentNode;
+    deletar(el) {
 
-            var data = {
-                IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-                Tipo: instanciaSubCategoria._helper.obterTextoPorClasse(elementoTr, "tipo")
-            }
+        let elemento = el.parentNode.parentNode;
 
-            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Deletar", data, "DELETE", instanciaSubCategoria._helper);
-        });
+        this.subCategoriaModel.identificadorUnico = $(elemento).find('.sub-categoria-identificador-unico').val();
+
+        Helper.realizarChamadaAjax('/SubCategoria/Deletar', this.subCategoriaModel, 'DELETE');
+
     }
 
-    popularModalAtualizar = function (instanciaSubCategoria) {
-        $(".btn-editar").click(function () {
-            var elementoTr = this.parentNode.parentNode;
-            var indicadorCozinha = "0";
+    atualizar(el) {
 
-            var data = {
-                Tipo: instanciaSubCategoria._helper.obterTextoPorClasse(elementoTr, "tipo"),
-                TipoCategoria: instanciaSubCategoria._helper.obterTextoPorClasse(elementoTr, "tipo-categoria"),
-                Indicador: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "indicador"),
-                IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-            }
+        let elemento = el.parentNode.parentNode;
 
-            $("#modal-atualizar").modal("show");
+        this.subCategoriaModel.indicador = $(elemento).find('input[name="sub-categoria-indicador-modal"]:checked').val()
+        this.subCategoriaModel.identificadorUnico = $(elemento).find('#sub-categoria-identificador-unico-modal').val();
 
-            $("#categoria-tipo").html("<input type='text' class='form-control tipo-categoria' disabled='disabled' value='" + data.TipoCategoria + "'/>");
-            $("#sub-categoria-tipo").html("<input type='text' class='form-control tipo' disabled='disabled' value='" + data.Tipo + "'/>");
-            $("#identificador-unico").html("<input type='hidden' class='identificador-unico' value='" + data.IdentificadorUnico + "'/>");
-
-            if (data.Indicador === indicadorCozinha) {
-                $("#indicador-cozinha").prop("checked", true);
-                $("#indicador-bar").prop("checked", false);
-            }
-            else {
-                $("#indicador-cozinha").prop("checked", false);
-                $("#indicador-bar").prop("checked", true);
-            }
-        });
+        Helper.realizarChamadaAjax('/SubCategoria/Atualizar', this.subCategoriaModel, 'PUT');
     }
 
-    atualizar = function (instanciaSubCategoria) {
-        $("#btn-atualizar").click(function () {
-            var elementoTr = this.parentNode.parentNode;
+    popularModalAtualizar(el) {
 
-            var data = {
-                Tipo: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "tipo"),
-                Indicador: $(elementoTr).find("input[name='indicador']:checked").val(),
-                IdentificadorUnico: instanciaSubCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-            }
+        let elemento = el.parentNode.parentNode;
 
-            instanciaSubCategoria._helper.realizarChamadaAjax("/SubCategoria/Atualizar", data, "PUT", instanciaSubCategoria._helper);
+        $('#sub-categoria-atualizar-modal').modal('show');
 
-        });
+        $('#div-categoria-tipo-modal')
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.categoria-tipo').text()}'/>`);
+
+        $('#div-sub-categoria-tipo-modal')
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.sub-categoria-tipo').text()}'/>`);
+
+        $('#div-sub-categoria-identificador-unico-modal')
+            .html(`<input type='hidden' id='sub-categoria-identificador-unico-modal' value='${$(elemento).find(".sub-categoria-identificador-unico").val()}'/>`);
+
+        let valorIndicador = $(elemento).find('.sub-categoria-indicador').val();
+        let indicadorCozinha = $('#sub-categoria-indicador-cozinha-modal');
+        let indicadorBar = $('#sub-categoria-indicador-bar-modal');
+
+        if (valorIndicador === '0') {
+            indicadorCozinha.prop('checked', true);
+            indicadorBar.prop('checked', false);
+            return;
+        }
+
+        indicadorCozinha.prop('checked', false);
+        indicadorBar.prop('checked', true);
     }
 }

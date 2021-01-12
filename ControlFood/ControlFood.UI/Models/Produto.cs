@@ -15,7 +15,7 @@ namespace ControlFood.UI.Models
         public void IsValid()
         {
             var valida = new ProdutoValidation();
-            valida.Validar(this);
+            valida.Validar(this, this.IdentificadorUnico == 0 ? "default" : "Atualizar");
         }
     }
 }

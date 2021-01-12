@@ -19,6 +19,9 @@ namespace ControlFood.UI.Mapping
 
             CreateMap<Models.Estoque, Dominio.Estoque>();
 
+            CreateMap<Models.Cliente, Dominio.Cliente>();
+            CreateMap<Models.Endereco, Dominio.Endereco>();
+
             // mapper dominio para modelo
             CreateMap<Dominio.Categoria, Models.Categoria>();            
 
@@ -28,6 +31,9 @@ namespace ControlFood.UI.Mapping
             CreateMap<Dominio.Estoque, Models.Estoque>();
 
             CreateMap<Dominio.Produto, Models.Produto>();
+
+            CreateMap<Dominio.Cliente, Models.Cliente>();
+            CreateMap<Dominio.Endereco, Models.Endereco>();
         }
     }
 }

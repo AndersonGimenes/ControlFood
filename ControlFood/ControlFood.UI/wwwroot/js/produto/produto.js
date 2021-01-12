@@ -1,122 +1,83 @@
-﻿$(document).ready(function () {
-    var produto = new Produto();
-
-    produto.cadastrar(produto);
-    produto.deletar(produto);
-    produto.popularModalAtualizar(produto);
-    produto.atualizar(produto);
-});
-
-class Produto {
+﻿class Produto {
 
     constructor() {
-        this._helper = new ComumHelper();
 
-        // input valor venda produto
-        this._helper.mascaraValorMonetario($("#valor-venda"));
+        this.produtoModel = new ProdutoModel();
+        this.estoque = new Estoque();
+
+        $("#produto-valor-venda").mask('#.##0,00', { reverse: true });
     }
 
-    cadastrar = function (instanciaProduto) {
+    cadastrar(el) {
 
-        $("#btn-cadastrar").click(function () {
-            var elemento = this.parentNode;
+        let elemento = el.parentNode;
 
-            // validar campos obrigatorios
-            var arrayElementos = [$("#nome"), $("#codigo-interno"), $("#valor-venda")];
-            var arraySpans = [$("#span-valida-nome"), $("#span-valida-codigo-interno"), $("#span-valida-valor-venda")];
+        let nome = $(elemento).find('#produto-nome');
+        let codigoInterno = $(elemento).find('#produto-codigo-interno');
+        let valorVenda = $(elemento).find('#produto-valor-venda');
 
-            if (!instanciaProduto._helper.validarCamposObrigatorios(arrayElementos, arraySpans))
-                return;
+        let arrayElementos = [nome, codigoInterno, valorVenda];
+        let arraySpans = [$('#valida-produto-nome'), $('#valida-produto-codigo-interno'), $('#valida-produto-valor-venda')];
 
-            // montar objetos request
-            var subCategoria = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorId(elemento, "identificador-unico-sub-categoria-nova")
-            }
+        if (!Helper.validarCamposObrigatorios(arrayElementos, arraySpans))
+            return;
 
-            var estoque = {
-                ValorCompraUnidade: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-unitario"),
-                ValorCompraTotal: instanciaProduto._helper.obterValorPorId(elemento, "valor-compra-total"),
-                DataValidade: instanciaProduto._helper.obterValorPorId(elemento, "data-validade"),
-                Quantidade: instanciaProduto._helper.obterValorPorId(elemento, "quantidade")
-            }
+        this.produtoModel.codigoInterno = codigoInterno.val();
+        this.produtoModel.nome = nome.val();
+        this.produtoModel.valorVenda = valorVenda.val();
+        this.produtoModel.subCategoria.identificadorUnico = $(elemento).find('#sub-categoria-identificador-unico').val();
 
-            var data = {
-                CodigoInterno: instanciaProduto._helper.obterValorPorId(elemento, "codigo-interno"),
-                Nome: instanciaProduto._helper.obterValorPorId(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterValorPorId(elemento, "valor-venda"),
-                SubCategoria: subCategoria,
-                Estoque: estoque
-            }
-
-            // realizar requisição
-            instanciaProduto._helper.realizarChamadaAjax("Produto/Cadastrar", data, "POST", instanciaProduto._helper);
-        });
+        Helper.realizarChamadaAjax('Produto/Cadastrar', this.produtoModel, 'POST');
     }
 
-    popularModalAtualizar = function (instanciaProduto) {
+    atualizar(el) {
 
-        $(".btn-editar").click(function () {
-            var elemento = this.parentNode.parentNode;
+        let elemento = el.parentNode.parentNode;
 
-            //montar objeto produto
-            var subCategoria = {
-                Tipo: instanciaProduto._helper.obterTextoPorClasse(elemento, "tipo-sub-categoria")
-            }
+        let valorVenda = $(elemento).find('#produto-valor-venda-modal');
 
-            var produto = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
-                CodigoInterno: instanciaProduto._helper.obterTextoPorClasse(elemento, "codigo-interno"),
-                Nome: instanciaProduto._helper.obterTextoPorClasse(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterTextoPorClasse(elemento, "valor-venda")
-            }
+        this.produtoModel.identificadorUnico = $(elemento).find('#produto-identificador-unico-modal').val();
+        this.produtoModel.valorVenda = valorVenda.val();
 
-            var valor = instanciaProduto._helper.formatarValorOutput(parseFloat(produto.ValorVenda.replace('R$', '').replace(',', '.')));
+        if (!Helper.validarCamposObrigatorios([valorVenda], $(elemento).find('#valida-produto-valor-venda-modal')))
+            return;
 
-            // mostrar modal
-            $("#modal-atualizar").modal("show");
-
-            // preencher nome produto e identificador do produto
-            $("#span-sub-categoria-tipo-atualizar").html("<input type='text' class='form-control' disabled='disabled' value='" + subCategoria.Tipo + "'/>");
-            $("#span-produto-nome-atualizar").html("<input type='text' class='form-control nome' disabled='disabled' value='" + produto.Nome + "'/>");
-            $("#span-produto-codigo-atualizar").html("<input type='text' class='form-control codigo-interno' disabled='disabled' value='" + produto.CodigoInterno + "'/>");
-            $("#span-valor-venda-atualizar").html("<span id='span-valida-valor-venda'></span><input type='text' class='form-control valor-venda' value='" + valor + "'/>");
-            $("#span-identificador-unico").html("<input type='hidden' class='form-control identificador-unico' value='" + produto.IdentificadorUnico + "'/>");
-            
-            // input valor venda produto
-            instanciaProduto._helper.mascaraValorMonetario($(".valor-venda"));
-        });
+        Helper.realizarChamadaAjax('/Produto/Atualizar', this.produtoModel, 'PUT');
     }
 
-    atualizar = function (instanciaProduto) {
-        $("#btn-atualizar").click(function () {
-            var elemento = this.parentNode.parentNode;
+    deletar(el) {
 
-            console.log(elemento);
+        let elemento = el.parentNode.parentNode;
 
-            var data = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
-                CodigoInterno: instanciaProduto._helper.obterValorPorClasse(elemento, "codigo-interno"),
-                Nome: instanciaProduto._helper.obterValorPorClasse(elemento, "nome"),
-                ValorVenda: instanciaProduto._helper.obterValorPorClasse(elemento, "valor-venda")
-            }
+        this.produtoModel.identificadorUnico = $(elemento).find('.produto-identificador-unico').val();
 
-            if (!instanciaProduto._helper.validarCamposObrigatorios([$(elemento).find(".valor-venda")], $(elemento).find("#span-valida-valor-venda")))
-                return;
-
-            instanciaProduto._helper.realizarChamadaAjax("/Produto/Atualizar", data, "PUT", instanciaProduto._helper);
-
-        });
+        Helper.realizarChamadaAjax('/Produto/Deletar', this.produtoModel, 'DELETE');
     }
 
-    deletar = function (instanciaProduto) {
-        $(".btn-deletar").click(function () {
-            var elemento = this.parentNode.parentNode;
+    popularModalAtualizar(el) {
 
-            var data = {
-                IdentificadorUnico: instanciaProduto._helper.obterValorPorClasse(elemento, "identificador-unico"),
-            }
+        let elemento = el.parentNode.parentNode;
 
-            instanciaProduto._helper.realizarChamadaAjax("/Produto/Deletar", data, "DELETE", instanciaProduto._helper);
-        });
+        let valor = Helper.formatarValorOutput($(elemento).find('.produto-valor-venda').text());
+
+        $('#produto-atualizar-modal').modal('show');
+
+        $('#div-sub-categoria-tipo-modal')
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.sub-categoria-tipo').text()}'/>`);
+
+        $('#div-produto-nome-modal')
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.produto-nome').text()}'/>`);
+
+        $('#div-produto-codigo-interno-modal')
+            .html(`<input type='text' class='form-control' disabled='disabled' value='${$(elemento).find('.produto-codigo-interno').text()}'/>`);
+
+        $('#div-produto-valor-venda-modal')
+            .html(`<span id='valida-produto-valor-venda-modal'></span><input type='text' class='form-control' id='produto-valor-venda-modal' value='${valor}'/>`);
+
+        $('#div-produto-identificador-unico-modal')
+            .html(`<input type='hidden' class='form-control' id='produto-identificador-unico-modal' value='${$(elemento).find('.produto-identificador-unico').val()}'/>`);
+
+        $('#produto-valor-venda-modal').mask('#.##0,00', { reverse: true });
     }
+
 }

@@ -42,6 +42,92 @@ namespace ControlFood.Repository.Migrations
                     b.ToTable("Categoria");
                 });
 
+            modelBuilder.Entity("ControlFood.Repository.Entidades.Cliente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Cpf")
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DataNascimento")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("TelefoneCelular")
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<string>("TelefoneFixo")
+                        .HasColumnType("varchar(14)");
+
+                    b.HasKey("Id")
+                        .HasName("Pk_cliente_id");
+
+                    b.ToTable("Cliente");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Entidades.Endereco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Bairro")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Cep")
+                        .HasColumnType("varchar(8)");
+
+                    b.Property<string>("Cidade")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Complemento")
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Estado")
+                        .HasColumnType("varchar(2)");
+
+                    b.Property<int>("IndetificadorUnicoCliente")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("InfoApartamentoCondominio")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Logradouro")
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("Id")
+                        .HasName("Pk_endereco_id");
+
+                    b.HasIndex("IndetificadorUnicoCliente");
+
+                    b.ToTable("Endereco");
+                });
+
             modelBuilder.Entity("ControlFood.Repository.Entidades.Estoque", b =>
                 {
                     b.Property<int>("Id")
@@ -153,6 +239,16 @@ namespace ControlFood.Repository.Migrations
                     b.HasIndex("CategoriaId");
 
                     b.ToTable("SubCategoria");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Entidades.Endereco", b =>
+                {
+                    b.HasOne("ControlFood.Repository.Entidades.Cliente", "Cliente")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("IndetificadorUnicoCliente")
+                        .HasConstraintName("cliente_endereco")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ControlFood.Repository.Entidades.Estoque", b =>

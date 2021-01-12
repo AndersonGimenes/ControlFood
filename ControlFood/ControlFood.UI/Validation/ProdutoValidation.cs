@@ -9,6 +9,12 @@ namespace ControlFood.UI.Validation
     {
         public ProdutoValidation()
         {
+            RuleSet("Atualizar", () =>{
+                RuleFor(x => x.ValorVenda)
+                    .NotEmpty()
+                    .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
+            });
+            
             RuleFor(x => x.Nome)
                 .NotEmpty()
                 .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
@@ -18,13 +24,13 @@ namespace ControlFood.UI.Validation
                 .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
 
             RuleFor(x => x.ValorVenda)
-                .NotEmpty()
-                .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
+                    .NotEmpty()
+                    .WithMessage(Constantes.Mensagem.Validacao.CampoVazio);
         }
 
-        public void Validar(Produto produto)
+        public void Validar(Produto produto, string rule)
         {
-            var valida = this.Validate(produto);
+            var valida = this.Validate(produto, options => options.IncludeRuleSets(rule));
 
             if (!valida.IsValid)
             {

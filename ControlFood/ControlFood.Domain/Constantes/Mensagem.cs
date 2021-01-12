@@ -2,6 +2,8 @@
 {
     public static class Mensagem
     {
+        public const string CampoNaoInformado = "Não informado.";
+
         public static class Validacao
         {
             public static class Comum
@@ -40,6 +42,13 @@
                 public const string ValoresDivergentes = "A quantidade X valor unitario é diferente do valor total do lote.";
 
                 public const string EstoqueVinculado = "Existe estoque vinculado ao Produto {0}";
+            }
+
+            public static class Pessoa
+            {
+                public const string CpfDuplicado = "O CPF {0} ja existe no sistema";
+                public const string NomeDuplicado = "O Nome {0} ja existe no sistema";
+                public const string DataNascimentoInavalida = "O Data de nascimento esta invalida. Cliente deve ter ao menos 10 anos";
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿<!-- The Modal -->
-<div class="modal" id="modal-cadastro-estoque">
+<div class="modal" id="estoque-cadastrar-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
@@ -12,40 +12,40 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="h6">Produto</label>
-                        <span id="span-produto-nome-cadastro-estoque"></span>
+                        <div id="div-produto-nome-modal"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Quantidade</label>
-                        <span id="span-valida-quantidade"></span>
-                        <input type="text" class="form-control" id="quantidade-cadastro" placeholder="Digite a quantidade do produto">
+                        <span id="valida-estoque-quantidade-modal"></span>
+                        <input type="text" class="form-control" id="estoque-quantidade-modal" placeholder="Digite a quantidade do produto">
                     </div>
 
                     <div class="form-group">
                         <label>Valor de compra unitario</label>
-                        <span id="span-valida-valor-compra-unitario"></span>
-                        <input type="text" class="form-control" id="valor-compra-unitario-cadastro" placeholder="Digite o valor da compra unitario">
+                        <span id="valida-estoque-valor-compra-unitario-modal"></span>
+                        <input type="text" class="form-control" id="estoque-valor-compra-unitario-modal" placeholder="Digite o valor da compra unitario">
                     </div>
 
                     <div class="form-group">
-                        <label>Nome de compra total</label>
-                        <span id="span-valida-valor-compra-total"></span>
-                        <input type="text" class="form-control" id="valor-compra-total-cadastro" placeholder="Digite o valor da compra total">
+                        <label>Valor de compra total</label>
+                        <span id="valida-estoque-valor-compra-total-modal"></span>
+                        <input type="text" class="form-control" id="estoque-valor-compra-total-modal" placeholder="Digite o valor da compra total">
                     </div>
 
                     <div class="form-group">
                         <label>Data de validade</label>
-                        <span id="span-valida-data-validade"></span>
-                        <input type="date" class="form-control" id="data-validade-cadastro">
+                        <span id="valida-estoque-data-validade-modal"></span>
+                        <input type="date" class="form-control" id="estoque-data-validade-modal">
                     </div>
 
                 </div>
-                <span id="span-produto-identificador-unico"></span>
+                <div id="div-produto-identificador-unico-modal"></div>
                 
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-custom" id="btn-close" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" id="btn-cadastrar-estoque">Cadastrar</button>
+                    <button type="button" class="btn btn-success" onclick="produto.estoque.cadastrar(this);">Cadastrar</button>
                 </div>
             </form>
         </div>

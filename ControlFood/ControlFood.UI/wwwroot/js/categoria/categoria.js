@@ -1,43 +1,27 @@
-﻿$(document).ready(function () {
-    var categoria = new Categoria();
-    categoria.cadastrar(categoria);
-    categoria.deletar(categoria);
-});
-
-class Categoria {
+﻿class Categoria {
 
     constructor() {
-        this._helper = new ComumHelper();
+        this.categoriaModel = new CategoriaModel();
     }
 
-    cadastrar = function (instanciaCategoria) {
+    cadastrar(el) {
 
-        $("#btn-cadastrar").click(function () {
-            var elemento = this.parentNode;
+        let elemento = el.parentNode;
 
-            if (!instanciaCategoria._helper.validarCamposObrigatorios([$("#tipo")], [$("#span-valida-tipo")]))
-                return;
+        if (!Helper.validarCamposObrigatorios([$(elemento).find('#categoria-tipo')], [$(elemento).find('#valida-categoria-tipo')]))
+            return;
 
-            var data = {
-                Tipo: instanciaCategoria._helper.obterValorPorId(elemento, "tipo")
-            }
+        this.categoriaModel.tipo = $(elemento).find('#categoria-tipo').val();
 
-            instanciaCategoria._helper.realizarChamadaAjax("Categoria/Cadastrar", data, "POST", instanciaCategoria._helper);
-        });
+        Helper.realizarChamadaAjax('Categoria/Cadastrar', this.categoriaModel, 'POST');
     }
 
-    deletar = function (instanciaCategoria) {
-        $(".btn-deletar").click(function () {
+    deletar(el) {
 
-            var elementoTr = this.parentNode.parentNode;
+        let elemento = el.parentNode.parentNode;
 
-            var data = {
-                IdentificadorUnico: instanciaCategoria._helper.obterValorPorClasse(elementoTr, "identificador-unico"),
-                Tipo: instanciaCategoria._helper.obterTextoPorClasse(elementoTr, "tipo")
-            }
+        this.categoriaModel.identificadorUnico = $(elemento).find('.categoria-identificador-unico').val();
 
-            instanciaCategoria._helper.realizarChamadaAjax("/Categoria/Deletar", data, "DELETE", instanciaCategoria._helper);
-
-        });
+        Helper.realizarChamadaAjax('/Categoria/Deletar', this.categoriaModel, 'DELETE');
     }
 }

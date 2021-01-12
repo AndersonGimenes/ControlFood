@@ -36,17 +36,20 @@ namespace ControlFood.UI
             services.AddTransient<ICadastroSubCategoriaUseCase, CadastroSubCategoriaUseCase>();
             services.AddTransient<ICadastroProdutoUseCase, CadastroProdutoUseCase>();
             services.AddTransient<ICadastroEstoqueUseCase, CadastroEstoqueUseCase>();
+            services.AddTransient<ICadastroClienteUseCase, CadastroClienteUseCase>();
 
             // Repository
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<ISubCategoriaRepository, SubCategoriaRepository>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IEstoqueRepository, EstoqueRepository>();
+            services.AddTransient<IClienteRepository, ClienteRepository>();
             
             // UI
             services.AddScoped<ICategoriaHelper, CategoriaHelper>();
             services.AddScoped<ISubCategoriaHelper, SubcategoriaHelper>();
             services.AddScoped<IProdutoHelper, ProdutoHelper>();
+            services.AddScoped<IClienteHelper, ClienteHelper>();
 
             services.AddControllersWithViews();
 
@@ -67,9 +70,8 @@ namespace ControlFood.UI
             services.AddSingleton(mapper);
 
             services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoriaValidation>())
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SubCategoriaValidation>());
-        }
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoriaValidation>());
+            }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ControlFoodContext context)
         {

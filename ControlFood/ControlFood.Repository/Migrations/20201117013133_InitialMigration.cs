@@ -24,6 +24,26 @@ namespace ControlFood.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cliente",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
+                    DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
+                    Nome = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Cpf = table.Column<string>(type: "varchar(14)", nullable: true),
+                    TelefoneFixo = table.Column<string>(type: "varchar(14)", nullable: true),
+                    TelefoneCelular = table.Column<string>(type: "varchar(14)", nullable: true),
+                    Email = table.Column<string>(type: "varchar(200)", nullable: true),
+                    DataNascimento = table.Column<DateTime>(type: "date", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("Pk_cliente_id", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubCategoria",
                 columns: table => new
                 {
@@ -43,6 +63,35 @@ namespace ControlFood.Repository.Migrations
                         name: "SubCategoria_Categoria",
                         column: x => x.CategoriaId,
                         principalTable: "Categoria",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Endereco",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
+                    DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
+                    IndetificadorUnicoCliente = table.Column<int>(nullable: false),
+                    Numero = table.Column<string>(type: "varchar(10)", nullable: true),
+                    Cep = table.Column<string>(type: "varchar(8)", nullable: true),
+                    Logradouro = table.Column<string>(type: "varchar(500)", nullable: true),
+                    Bairro = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Cidade = table.Column<string>(type: "varchar(20)", nullable: true),
+                    Estado = table.Column<string>(type: "varchar(2)", nullable: true),
+                    InfoApartamentoCondominio = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Complemento = table.Column<string>(type: "varchar(250)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("Pk_endereco_id", x => x.Id);
+                    table.ForeignKey(
+                        name: "cliente_endereco",
+                        column: x => x.IndetificadorUnicoCliente,
+                        principalTable: "Cliente",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -97,6 +146,11 @@ namespace ControlFood.Repository.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Endereco_IndetificadorUnicoCliente",
+                table: "Endereco",
+                column: "IndetificadorUnicoCliente");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Estoque_IdProduto",
                 table: "Estoque",
                 column: "IdProduto");
@@ -115,7 +169,13 @@ namespace ControlFood.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Endereco");
+
+            migrationBuilder.DropTable(
                 name: "Estoque");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
 
             migrationBuilder.DropTable(
                 name: "Produto");

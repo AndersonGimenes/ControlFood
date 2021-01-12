@@ -16,17 +16,21 @@ namespace ControlFood.Repository.Configuration
                 .HasName("Pk_estoque_id");
 
             builder
+                .Property(x => x.DataCadastro)
+                .HasColumnType("date")
+                .IsRequired();
+
+            builder
+               .Property(x => x.DataAlteracao)
+               .HasColumnType("date");
+
+            builder
                 .Property(x => x.Quantidade)
                 .HasColumnType("integer")
                 .HasDefaultValue(0);
 
             builder
                 .Property(x => x.DataValidade)
-                .HasColumnType("date")
-                .IsRequired();
-
-            builder
-                .Property(x => x.DataCadastro)
                 .HasColumnType("date")
                 .IsRequired();
 
@@ -40,10 +44,6 @@ namespace ControlFood.Repository.Configuration
                 .Property(x => x.ValorCompraTotal)
                 .HasColumnType("decimal")
                 .IsRequired();
-            
-            builder
-               .Property(x => x.DataAlteracao)
-               .HasColumnType("date");
             
             builder
                 .HasOne(x => x.Produto)

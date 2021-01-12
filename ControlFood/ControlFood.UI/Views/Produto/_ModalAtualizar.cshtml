@@ -1,5 +1,5 @@
 ﻿<!-- The Modal -->
-<div class="modal" id="modal-atualizar">
+<div class="modal" id="produto-atualizar-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
@@ -12,30 +12,44 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="h4">Sub Categoria</label>
-                        <span id="span-sub-categoria-tipo-atualizar"></span>
+
+                        <!--renderizado via js-->
+                        <div id="div-sub-categoria-tipo-modal"></div>
+
                     </div>
                     <div class="form-group">
                         <label class="h4">Produto</label>
-                        <span id="span-produto-nome-atualizar"></span>
+
+                        <!--renderizado via js-->
+                        <div id="div-produto-nome-modal"></div>
+
                     </div>
 
                     <div class="form-group">
                         <label class="h4">Codigo Produto</label>
-                        <span id="span-produto-codigo-atualizar"></span>
+
+                        <!--renderizado via js-->
+                        <div id="div-produto-codigo-interno-modal"></div>
+
                     </div>
 
                     <div class="form-group">
                         <label class="h4">Valor venda</label>
-                        <span id="span-valor-venda-atualizar"></span>
+
+                        <!--renderizado via js-->
+                        <div id="div-produto-valor-venda-modal"></div>
+
                     </div>
 
                 </div>
-                <span id="span-identificador-unico"></span>
-                
+
+                <!--renderizado via js-->
+                <div id="div-produto-identificador-unico-modal"></div>
+
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-custom" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" id="btn-atualizar">Atualizar</button>
+                    <button type="button" class="btn btn-success" onclick="produto.atualizar(this);">Atualizar</button>
                 </div>
             </form>
         </div>

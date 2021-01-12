@@ -92,5 +92,50 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                 itemLoteCinco
             };
         }
+
+        public static Cliente MockCliente(string cpf = default, int identificadorUnico = default)
+        {
+            var cliente = new Cliente
+            {
+                IdentificadorUnico = identificadorUnico,
+                Nome = "Jose do teste",
+                Cpf = cpf,
+                DataNascimento = new DateTime(1983, 06, 14),
+                Email = "nd@nd.com",
+                TelefoneCelular = "19989898989"
+            };
+
+            cliente.Enderecos = new List<Endereco>
+            {
+                new Endereco
+                {
+                    Logradouro = "Rua hum",
+                    Numero = "1",
+                    Bairro = "Maria bonita",
+                    Cep = "13010020",
+                    Cidade = "Campinas",
+                    Estado = "SP"
+                },
+                new Endereco
+                {
+                    Logradouro = "Rua dois",
+                    Numero = "2",
+                    Bairro = "Maria bonita",
+                    Cep = "13010020",
+                    Cidade = "São José",
+                    Estado = "SP"
+                }
+            };
+            return cliente;
+        }
+
+        public static List<Cliente> MockListaCliente() =>
+            new List<Cliente>
+            {
+                MockCliente("12345678909", 1),
+                MockCliente("32123145646", 2),
+                MockCliente("12131332213", 3),
+                MockCliente("41745697789", 4)
+            };
     }
 }

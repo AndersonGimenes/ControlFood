@@ -1,5 +1,5 @@
 ﻿<!-- The Modal -->
-<div class="modal" id="modal-atualizar-estoque">
+<div class="modal" id="estoque-atualizar-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
@@ -12,40 +12,40 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="h6">Produto</label>
-                        <span id="span-produto-nome-atualiza-estoque"></span>
+                        <p id="produto-nome-modal-filho"></p>
                     </div>
 
                     <div class="form-group">
                         <label>Quantidade</label>
-                        <span id="span-valida-quantidade-atualiza"></span>
-                        <input type="text" class="form-control" id="quantidade-atualiza" placeholder="Digite a quantidade do produto">
+                        <span id="valida-estoque-quantidade-modal-filho"></span>
+                        <input type="text" class="form-control" id="estoque-quantidade-modal-filho" placeholder="Digite a quantidade do produto">
                     </div>
 
                     <div class="form-group">
                         <label>Valor de compra unitario</label>
-                        <span id="span-valida-valor-compra-unitario-atualiza"></span>
-                        <input type="text" class="form-control" id="valor-compra-unitario-atualiza" placeholder="Digite o valor da compra unitario">
+                        <span id="valida-estoque-valor-compra-unitario-modal-filho"></span>
+                        <input type="text" class="form-control" id="estoque-valor-compra-unitario-modal-filho" placeholder="Digite o valor da compra unitario">
                     </div>
 
                     <div class="form-group">
                         <label>Nome de compra total</label>
-                        <span id="span-valida-valor-compra-total-atualiza"></span>
-                        <input type="text" class="form-control" id="valor-compra-total-atualiza" placeholder="Digite o valor da compra total">
+                        <span id="valida-estoque-valor-compra-total-modal-filho"></span>
+                        <input type="text" class="form-control" id="estoque-valor-compra-total-modal-filho" placeholder="Digite o valor da compra total">
                     </div>
 
                     <div class="form-group">
                         <label>Data de validade</label>
-                        <span id="span-valida-data-validade-atualiza"></span>
-                        <input type="date" class="form-control" id="data-validade-atualiza">
+                        <span id="valida-estoque-data-validade-modal-filho"></span>
+                        <input type="date" class="form-control" id="estoque-data-validade-modal-filho">
                     </div>
 
                 </div>
-                <span id="span-estoque-identificador-unico-atualiza"></span>
+                <div id="div-estoque-identificador-unico-modal-filho"></div>
                                 
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-custom" id="btn-close" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-success" id="btn-atualiza-estoque">Atualizar</button>
+                    <button type="button" class="btn btn-success" onclick="produto.estoque.atualizar(this);">Atualizar</button>
                 </div>
             </form>
         </div>

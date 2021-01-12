@@ -23,16 +23,15 @@
                     @foreach (var produto in Model)
                     {
                         <tr>
-                            <td class="codigo-interno">@produto.CodigoInterno</td>
-                            <td class="nome">@produto.Nome</td>
-                            <td class="tipo-sub-categoria">@produto.SubCategoria.Tipo</td>
-                            <td class="valor-venda">R$@produto.ValorVenda</td>
-                            <td><button type="button" class="btn btn-success btn-cadastro-estoque">Cadastrar Estoque</button></td>
-                            <td><button type="button" class="btn btn-warning btn-consulta-estoque">Consultar Estoque</button></td>
-                            <td><button type="button" class="btn btn-primary btn-editar">Editar</button></td>
-                            <td><button type="button" class="btn btn-danger btn-deletar">Deletar</button></td>
-                            <input type="hidden" class="identificador-unico" value="@produto.IdentificadorUnico" />
-                            <input type="hidden" class="identificador-unico-sub-categoria" value="@produto.SubCategoria.IdentificadorUnico" />
+                            <td class="produto-codigo-interno">@produto.CodigoInterno</td>
+                            <td class="produto-nome">@produto.Nome</td>
+                            <td class="sub-categoria-tipo">@produto.SubCategoria.Tipo</td>
+                            <td class="produto-valor-venda">R$ @produto.ValorVenda</td>
+                            <td><button type="button" class="btn btn-success" onclick="produto.estoque.popularModalCadastro(this);">Cadastrar Estoque</button></td>
+                            <td><button type="button" class="btn btn-warning" onclick="produto.estoque.consultar(this);">Consultar Estoque</button></td>
+                            <td><button type="button" class="btn btn-primary" onclick="produto.popularModalAtualizar(this);">Editar</button></td>
+                            <td><button type="button" class="btn btn-danger" onclick="produto.deletar(this);">Deletar</button></td>
+                            <input type="hidden" class="produto-identificador-unico" value="@produto.IdentificadorUnico" />
                         </tr>
                     }
                 </tbody>
@@ -41,7 +40,7 @@
 
         <div class="form-group">
             <label>Selecione a sub-categoria</label>
-            <select class="form-control" id="identificador-unico-sub-categoria-nova">
+            <select class="form-control" id="sub-categoria-identificador-unico">
                 @foreach (var subCategoria in ViewBag.SubCategorias)
                 {
                     <option value="@subCategoria.IdentificadorUnico">@subCategoria.Tipo</option>
@@ -51,26 +50,26 @@
 
         <div class="form-group">
             <label>Nome do Produto</label>
-            <span id="span-valida-nome"></span>
-            <input type="text" class="form-control" id="nome" placeholder="Digite o novo produto">
+            <span id="valida-produto-nome"></span>
+            <input type="text" class="form-control" id="produto-nome" placeholder="Digite o novo produto">
         </div>
 
         <div class="form-group">
             <label>Codigo do Produto</label>
-            <span id="span-valida-codigo-interno"></span>
-            <input type="text" class="form-control" id="codigo-interno" placeholder="Digite o codigo do produto">
+            <span id="valida-produto-codigo-interno"></span>
+            <input type="text" class="form-control" id="produto-codigo-interno" placeholder="Digite o codigo do produto">
         </div>
 
         <div class="form-group">
             <label>Valor de venda</label>
-            <span id="span-valida-valor-venda"></span>
-            <input type="text" class="form-control" id="valor-venda" placeholder="Digite o valor de venda">
+            <span id="valida-produto-valor-venda"></span>
+            <input type="text" class="form-control" id="produto-valor-venda" placeholder="Digite o valor de venda">
         </div>
 
-        <button type="button" class="btn btn-success" id="btn-cadastrar">Cadastrar</button>
+        <button type="button" class="btn btn-success" onclick="produto.cadastrar(this);">Cadastrar</button>
     </form>
 
-    <partial name="_ModalCadastroEstoque" />
+    <partial name="_ModalCadastrarEstoque" />
     <partial name="_ModalAtualizar" />
     <partial name="_ModalConsultarEstoque" />
     <partial name="_ModalAtualizarEstoque" />
@@ -87,7 +86,15 @@ else
 }
 
 @section Scripts {
-    <script type="text/javascript" src="~/js/produto/produto.js"></script>
-    <script type="text/javascript" src="~/js/produto/estoqueProduto.js"></script>
-    <script type="text/javascript" src="~/js/comumHelper.js"></script>
+    <script type="text/javascript" src="~/js/model/CategoriaModel.js"></script>
+    <script type="text/javascript" src="~/js/model/SubCategoriaModel.js"></script>
+    <script type="text/javascript" src="~/js/model/ProdutoModel.js"></script>
+    <script type="text/javascript" src="~/js/model/EstoqueModel.js"></script>
+    <script type="text/javascript" src="~/js/subCategoria/SubCategoria.js"></script>        
+    <script type="text/javascript" src="~/js/produto/Produto.js"></script>
+    <script type="text/javascript" src="~/js/produto/Estoque.js"></script>
+    <script type="text/javascript" src="~/js/Helper.js"></script>
+    <script type="text/javascript">
+        let produto = new Produto();
+    </script>
 }

@@ -53,7 +53,7 @@ namespace ControlFood.Api
 
             // Configuração banco de dados
             var conn = Configuration.GetConnectionString("ControlFood");
-            
+
             services.AddDbContext<ControlFoodContext>(options =>
                 options.UseMySql(conn));
 

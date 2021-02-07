@@ -26,7 +26,7 @@ namespace ControlFood.Repository.Configuration
 
             builder
                 .Property(x => x.Quantidade)
-                .HasColumnType("integer")
+                .HasColumnType("int")
                 .HasDefaultValue(0);
 
             builder
@@ -36,13 +36,13 @@ namespace ControlFood.Repository.Configuration
 
             builder
                 .Property(x => x.ValorCompraUnidade)
-                .HasColumnType("decimal")
+                .HasColumnType("decimal(10,2)")
                 .HasDefaultValue(0)
                 .IsRequired();
 
             builder
                 .Property(x => x.ValorCompraTotal)
-                .HasColumnType("decimal")
+                .HasColumnType("decimal(10,2)")
                 .IsRequired();
             
             builder

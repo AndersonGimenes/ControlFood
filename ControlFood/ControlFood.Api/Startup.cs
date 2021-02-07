@@ -55,7 +55,7 @@ namespace ControlFood.Api
             var conn = Configuration.GetConnectionString("ControlFood");
             
             services.AddDbContext<ControlFoodContext>(options =>
-                options.UseNpgsql(conn));
+                options.UseMySql(conn));
 
             // Auto Mapper configuração
             var cfg = new MapperConfiguration(x =>

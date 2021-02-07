@@ -36,7 +36,7 @@ namespace ControlFood.Repository.Configuration
 
             builder
                 .Property(x => x.ValorVenda)
-                .HasColumnType("decimal")
+                .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
             builder

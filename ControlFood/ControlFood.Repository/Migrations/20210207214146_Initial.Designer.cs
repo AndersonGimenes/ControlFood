@@ -5,31 +5,28 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ControlFood.Repository.Migrations
 {
     [DbContext(typeof(ControlFoodContext))]
-    [Migration("20201117013133_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210207214146_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ControlFood.Repository.Entidades.Categoria", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("date");
@@ -48,8 +45,7 @@ namespace ControlFood.Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Cpf")
                         .HasColumnType("varchar(14)");
@@ -86,8 +82,7 @@ namespace ControlFood.Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Bairro")
                         .HasColumnType("varchar(50)");
@@ -111,7 +106,7 @@ namespace ControlFood.Repository.Migrations
                         .HasColumnType("varchar(2)");
 
                     b.Property<int>("IndetificadorUnicoCliente")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<string>("InfoApartamentoCondominio")
                         .HasColumnType("varchar(100)");
@@ -134,8 +129,7 @@ namespace ControlFood.Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("date");
@@ -147,19 +141,19 @@ namespace ControlFood.Repository.Migrations
                         .HasColumnType("date");
 
                     b.Property<int>("IdProduto")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantidade")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasDefaultValue(0);
 
                     b.Property<decimal>("ValorCompraTotal")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("ValorCompraUnidade")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal")
+                        .HasColumnType("decimal(10,2)")
                         .HasDefaultValue(0m);
 
                     b.HasKey("Id")
@@ -174,8 +168,7 @@ namespace ControlFood.Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("CodigoInterno")
                         .IsRequired()
@@ -192,10 +185,10 @@ namespace ControlFood.Repository.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.Property<int>("SubCategoriaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("ValorVenda")
-                        .HasColumnType("decimal");
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id")
                         .HasName("Pk_produto_id");
@@ -209,11 +202,10 @@ namespace ControlFood.Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("CategoriaId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("date");

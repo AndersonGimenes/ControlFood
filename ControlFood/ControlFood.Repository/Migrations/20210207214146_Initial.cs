@@ -1,10 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ControlFood.Repository.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace ControlFood.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     Tipo = table.Column<string>(type: "varchar(200)", nullable: false)
@@ -28,7 +28,7 @@ namespace ControlFood.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
@@ -48,7 +48,7 @@ namespace ControlFood.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     Tipo = table.Column<string>(type: "Varchar(200)", nullable: false),
@@ -72,7 +72,7 @@ namespace ControlFood.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     IndetificadorUnicoCliente = table.Column<int>(nullable: false),
@@ -101,12 +101,12 @@ namespace ControlFood.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
                     CodigoInterno = table.Column<string>(type: "varchar(50)", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
-                    ValorVenda = table.Column<decimal>(type: "decimal", nullable: false),
+                    ValorVenda = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     SubCategoriaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -125,13 +125,13 @@ namespace ControlFood.Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataAlteracao = table.Column<DateTime>(type: "date", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "date", nullable: false),
-                    Quantidade = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    Quantidade = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     DataValidade = table.Column<DateTime>(type: "date", nullable: false),
-                    ValorCompraUnidade = table.Column<decimal>(type: "decimal", nullable: false, defaultValue: 0m),
-                    ValorCompraTotal = table.Column<decimal>(type: "decimal", nullable: false),
+                    ValorCompraUnidade = table.Column<decimal>(type: "decimal(10,2)", nullable: false, defaultValue: 0m),
+                    ValorCompraTotal = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     IdProduto = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

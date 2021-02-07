@@ -8,6 +8,8 @@ using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Api.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class CategoriaController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -20,7 +22,7 @@ namespace ControlFood.Api.Controllers
             _cadastroCategoriaUseCase = cadastroCategoriaUseCase;
             _categoriaHelper = categoriaHelper;
         }
-
+        
         [HttpGet]
         public IActionResult Cadastrar()
         {

@@ -24,10 +24,18 @@ namespace ControlFood.Api.Controllers
         }
         
         [HttpGet]
-        public IActionResult Cadastrar()
+        public IActionResult ObterTodos()
         {
-            var categorias = _categoriaHelper.CacheCategorias();
-            return Ok(categorias);
+            try
+            {
+                var categorias = _categoriaHelper.CacheCategorias();
+                return Ok(categorias);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
         }
 
         [HttpPost]
@@ -61,9 +69,7 @@ namespace ControlFood.Api.Controllers
                 _cadastroCategoriaUseCase.Deletar(categoriaDominio);
                 _categoriaHelper.CacheCategorias(renovaCache: true);
 
-                categoria.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
-
-                return Ok(categoria);
+                return NoContent();
             }
             catch (Exception ex)
             {

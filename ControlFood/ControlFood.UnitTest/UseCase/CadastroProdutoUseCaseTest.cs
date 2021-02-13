@@ -16,7 +16,6 @@ namespace ControlFood.UnitTest.UseCase
     public class CadastroProdutoUseCaseTest
     {
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
-        private readonly Mock<IEstoqueRepository> _mockEstoqueRepository;
         private readonly ICadastroProdutoUseCase _cadastroProduto;
         private int listaProdutoDepois;
         private List<Produto> produtosPersistidos;
@@ -24,17 +23,12 @@ namespace ControlFood.UnitTest.UseCase
         public CadastroProdutoUseCaseTest()
         {
             _mockProdutoRepository = new Mock<IProdutoRepository>();
-            _mockEstoqueRepository = new Mock<IEstoqueRepository>();
 
             //_cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object, _mockSubCategoriaRepository.Object, _mockEstoqueRepository.Object);
 
             _mockProdutoRepository
                 .Setup(x => x.BuscarTodos())
                 .Returns(HelperMock.MockListaProdutosPersistidos());
-
-            _mockEstoqueRepository
-                .Setup(x => x.BuscarTodos())
-                .Returns(HelperMock.MockListaEstoque());
         }
 
         [Fact]
@@ -62,10 +56,10 @@ namespace ControlFood.UnitTest.UseCase
         [InlineData("O produto com nome Coca-cola lata 350ml ja existe no sistema", "cc350", "Coca-cola lata 350ml")]
         public void DeveLancarUmaExceptionCasoOProdutoSejaDuplicadoOuPorNomeOuPorCodigo(string result, string codigo, string nome)
         {
-        //    var produto = HelperMock.MockProduto(codigo, nome);
+            //    var produto = HelperMock.MockProduto(codigo, nome);
 
-        //    var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
-        //    Assert.Equal(result, ex.Message);
+            //    var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
+            //    Assert.Equal(result, ex.Message);
         }
 
         [Fact]

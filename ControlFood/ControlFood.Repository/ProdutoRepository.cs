@@ -25,7 +25,7 @@ namespace ControlFood.Repository
         {
             var produtosPersistido = _context.Produto
                                             .AsNoTracking()
-                                            .Include(x => x.SubCategoria)
+                                            .Include(x => x.CategoriaId)
                                             .First(x => x.Id == id);
 
             return MapearRepositoryParaDominio(produtosPersistido);
@@ -35,7 +35,7 @@ namespace ControlFood.Repository
         {
             var produtosPersistidos = _context.Produto
                                             .AsNoTracking()
-                                            .Include(x => x.SubCategoria)
+                                            .Include(x => x.Categoria)
                                             .ToList();
 
             return _mapper.Map<List<Dominio.Produto>>(produtosPersistidos);

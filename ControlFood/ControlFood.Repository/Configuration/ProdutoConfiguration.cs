@@ -40,10 +40,19 @@ namespace ControlFood.Repository.Configuration
                 .IsRequired();
 
             builder
-                .HasOne(x => x.SubCategoria)
+                .Property(x => x.ValorCompra)
+                .HasColumnType("decimal(10,2)")
+                .IsRequired();
+
+            builder
+                .Property(x => x.DataValidade)
+                .HasColumnType("date");
+                
+            builder
+                .HasOne(x => x.Categoria)
                 .WithMany(x => x.Produtos)
-                .HasForeignKey(x => x.SubCategoriaId)
-                .HasConstraintName("Produto_SubCategoria")
+                .HasForeignKey(x => x.CategoriaId)
+                .HasConstraintName("Produto_Categoria")
                 .OnDelete(DeleteBehavior.Restrict);
 
         }

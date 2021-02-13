@@ -12,11 +12,9 @@ namespace ControlFood.Repository.Context
         }
 
         public virtual DbSet<Repositorio.Categoria> Categoria { get; set; }
-        public virtual DbSet<Repositorio.SubCategoria> SubCategoria { get; set; }
         public virtual DbSet<Repositorio.Produto> Produto { get; set; }
-        public virtual DbSet<Repositorio.Estoque> Estoque { get; set; }
-        public virtual DbSet<Repositorio.Cliente> Cliente { get; set; }
-        public virtual DbSet<Repositorio.Endereco> Endereco { get; set; }
+        //public virtual DbSet<Repositorio.Cliente> Cliente { get; set; }
+        //public virtual DbSet<Repositorio.Endereco> Endereco { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

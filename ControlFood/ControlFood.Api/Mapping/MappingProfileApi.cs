@@ -12,15 +12,11 @@ namespace ControlFood.Api.Mapping
 
             CreateMap<Models.Produto, Dominio.Produto>();
 
-            CreateMap<Models.Estoque, Dominio.Estoque>();
-
             CreateMap<Models.Cliente, Dominio.Cliente>();
             CreateMap<Models.Endereco, Dominio.Endereco>();
 
             // mapper dominio para modelo
-            CreateMap<Dominio.Categoria, Models.Categoria>();            
-
-            CreateMap<Dominio.Estoque, Models.Estoque>();
+            CreateMap<Dominio.Categoria, Models.Categoria>();
 
             CreateMap<Dominio.Produto, Models.Produto>();
 

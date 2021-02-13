@@ -26,18 +26,18 @@ namespace ControlFood.UseCase.Validation
             //    .VerificarVinculoInserir(produto.SubCategoria, subCategorias, nameof(produto.SubCategoria.IdentificadorUnico), () => throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.SubCategoriaNaoVinculadaAoProduto));
         }
 
-        internal static void ValidarRegrasParaDeletar(Produto produto, List<Estoque> estoques)
-        {
-            // Verfica se existe algum estoque vinculadoao produto a ser deletado
-            VerificarEstoqueVinculado(produto, estoques);
-        }
+        //internal static void ValidarRegrasParaDeletar(Produto produto, List<Estoque> estoques)
+        //{
+        //    // Verfica se existe algum estoque vinculadoao produto a ser deletado
+        //    VerificarEstoqueVinculado(produto, estoques);
+        //}
 
         #region[ PRIVADOS ]
-        private static void VerificarEstoqueVinculado(Produto produto, List<Estoque> estoques)
-        {
-            if (estoques.Any(e => e.IdentificadorUnicoProduto == produto.IdentificadorUnico))
-                throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.EstoqueVinculado, produto.Nome));
-        }        
+        //private static void VerificarEstoqueVinculado(Produto produto, List<Estoque> estoques)
+        //{
+        //    if (estoques.Any(e => e.IdentificadorUnicoProduto == produto.IdentificadorUnico))
+        //        throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.EstoqueVinculado, produto.Nome));
+        //}        
         #endregion
     }
 }

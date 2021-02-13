@@ -63,16 +63,6 @@ namespace ControlFood.UnitTest.UseCase
             Assert.Equal("A categoria Alimento ja existe no sistema", ex.Message);
 
         }
-
-        [Fact]
-        public void DeveBuscarTodasAsCategoriasCadastradas()
-        {
-            var retorno = _cadastroCategoria.BuscarTodos();
-
-            Assert.NotNull(retorno);
-            Assert.True(retorno.Count > 0);
-        }
-
         [Fact]
         public void DeveDeletarUmaCategoriaExistente()
         {

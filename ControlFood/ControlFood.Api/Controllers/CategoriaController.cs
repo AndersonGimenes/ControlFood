@@ -28,7 +28,7 @@ namespace ControlFood.Api.Controllers
         {
             try
             {
-                var categorias = _categoriaHelper.CacheCategorias();
+                var categorias = _categoriaHelper.CacheCategorias(renovaCache: false);
                 return Ok(categorias);
             }
             catch(Exception ex)

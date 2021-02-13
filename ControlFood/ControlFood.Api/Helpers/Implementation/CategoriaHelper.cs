@@ -20,7 +20,7 @@ namespace ControlFood.Api.Helpers.Implementation
             _mapper = mapper;
         }
 
-        public List<Categoria> CacheCategorias(bool renovaCache = false) => _mapper.Map<List<Categoria>>(base.ListarCache(CACHE_NAME, renovaCache));
+        public IEnumerable<Categoria> CacheCategorias(bool renovaCache) => _mapper.Map<IEnumerable<Categoria>>(base.ListarCache(CACHE_NAME, renovaCache));
         
     }
 }

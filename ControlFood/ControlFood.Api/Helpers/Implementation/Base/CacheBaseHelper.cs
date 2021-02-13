@@ -16,7 +16,7 @@ namespace ControlFood.Api.Helpers.Implementation.Base
             _genericCadastroUseCase = genericCadastroUseCase;
         }
 
-        protected List<T> ListarCache(string cacheName, bool renovaCache)
+        protected IEnumerable<T> ListarCache(string cacheName, bool renovaCache)
         {
             if (renovaCache || !_cache.TryGetValue(cacheName, out _))
             {
@@ -25,7 +25,7 @@ namespace ControlFood.Api.Helpers.Implementation.Base
                 this.SetarListaCache(cacheName, listaRetorno);
             }
 
-            return _cache.Get(cacheName) as List<T>;
+            return _cache.Get(cacheName) as IEnumerable<T>;
         }
 
         private void SetarListaCache(string cacheName, List<T> listaGenerica)

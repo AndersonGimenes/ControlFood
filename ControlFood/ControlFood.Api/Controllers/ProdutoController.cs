@@ -8,7 +8,9 @@ using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Api.Controllers
 {
-    public class ProdutoController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProdutoController : ControllerBase
     {
         private readonly IProdutoHelper _produtoHelper;
         private readonly IMapper _mapper;
@@ -27,11 +29,11 @@ namespace ControlFood.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Cadastrar()
+        public IActionResult ObterTodos()
         {
-            var produtos = _produtoHelper.CacheProdutos();
+            var produtos = _produtoHelper.CacheProdutos(renovaCache: false);
 
-            return View(produtos);
+            return Ok(produtos);
         }
 
         [HttpPost]
@@ -45,7 +47,7 @@ namespace ControlFood.Api.Controllers
 
                 var produtosPersistidos = _produtoHelper.CacheProdutos(renovaCache: true);
 
-                return View(produtosPersistidos);
+                return Ok(produtosPersistidos);
 
             }
             catch (Exception ex)
@@ -66,7 +68,7 @@ namespace ControlFood.Api.Controllers
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
                 produto.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
-                return Json(produto);
+                return Ok(produto);
             }
             catch (Exception ex)
             {
@@ -85,7 +87,7 @@ namespace ControlFood.Api.Controllers
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
                 produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
-                return Json(produto);
+                return Ok(produto);
             }
             catch (Exception ex)
             {

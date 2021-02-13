@@ -4,6 +4,6 @@ namespace ControlFood.Api.Helpers.Interface
 {
     public interface IProdutoHelper
     {
-        List<Models.Produto> CacheProdutos(bool renovaCache = false);
+        IEnumerable<Models.Produto> CacheProdutos(bool renovaCache);
     }
 }

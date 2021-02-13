@@ -24,7 +24,7 @@ namespace ControlFood.UnitTest.UseCase
         {
             _mockProdutoRepository = new Mock<IProdutoRepository>();
 
-            //_cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object, _mockSubCategoriaRepository.Object, _mockEstoqueRepository.Object);
+            _cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object);
 
             _mockProdutoRepository
                 .Setup(x => x.BuscarTodos())
@@ -69,15 +69,6 @@ namespace ControlFood.UnitTest.UseCase
 
             //var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
             //Assert.Equal("Produto precisa estar vinculada a uma sub-categoria", ex.Message);
-        }
-
-        [Fact]
-        public void DeveBuscaTodososProdutosPersistidosNoBanco()
-        {
-            var produtos = _cadastroProduto.BuscarTodos();
-
-            Assert.NotNull(produtos);
-            Assert.True(produtos.Count > 0);
         }
 
         [Fact]

@@ -9,10 +9,9 @@ namespace ControlFood.UnitTest.UseCase.Helpers
         public static List<Categoria> MockListaCategoriasPersistidas() =>
             new List<Categoria>
             {
-               new Categoria{IdentificadorUnico = 1, Tipo = "Alimento"},
-               new Categoria{IdentificadorUnico = 2, Tipo = "Bebida"},
-               new Categoria{IdentificadorUnico = 3, Tipo = "Sobremesa"},
-               new Categoria{IdentificadorUnico = 4, Tipo = "CategoriaTeste"}
+               new Categoria{IdentificadorUnico = 1, Tipo = "Lanches"},
+               new Categoria{IdentificadorUnico = 2, Tipo = "Cervejas"},
+               new Categoria{IdentificadorUnico = 3, Tipo = "Porções"}
             };
 
         public static List<Produto> MockListaProdutosPersistidos() =>

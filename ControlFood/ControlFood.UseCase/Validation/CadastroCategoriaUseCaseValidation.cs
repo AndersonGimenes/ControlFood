@@ -17,15 +17,13 @@ namespace ControlFood.UseCase.Validation
                 .VerificarDuplicidade(categoria, categorias, nameof(categoria.Tipo), () => throw new CategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Categoria.CategoriaDuplicada, categoria.Tipo)));
         }
 
-        //internal static void ValidarRegrasParaDeletar(Categoria categoria, List<SubCategoria> subCategorias)
-        //{
-        //    var subCategoriasCast = subCategorias
-        //                                .Cast<object>()
-        //                                .ToList();
+        internal static void ValidarRegrasParaDeletar(Categoria categoria, IEnumerable<Produto> produtos)
+        {
+            var produtosCast = produtos.Cast<object>().ToList();
 
-        //    // Verfica se existe alguma sub-categoria vinculada a categoria a ser deletada
-        //    ComumValidation<Categoria>
-        //        .VerificarVinculoDeletar(categoria, subCategoriasCast, nameof(SubCategoria.Categoria), nameof(categoria.IdentificadorUnico), () => throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaVinculadaASubCategoria, categoria.Tipo)));
-        //}
+            // Verfica se existe algum produto vinculado a categoria a ser deletada
+            ComumValidation<Categoria>
+                .VerificarVinculoDeletar(categoria, produtosCast, nameof(Produto.Categoria), nameof(categoria.IdentificadorUnico), () => throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaVinculadaASubCategoria, categoria.Tipo)));
+        }
     }
 }

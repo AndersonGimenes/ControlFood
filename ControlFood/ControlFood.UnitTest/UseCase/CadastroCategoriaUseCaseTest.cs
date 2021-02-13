@@ -16,14 +16,15 @@ namespace ControlFood.UnitTest.UseCase
     public class CadastroCategoriaUseCaseTest
     {
         private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
+        private readonly Mock<IProdutoRepository> _mockProdutoRepository;
         private readonly ICadastroCategoriaUseCase _cadastroCategoria;
         private int categoriasPersistidasDepois;
 
         public CadastroCategoriaUseCaseTest()
         {
             _mockCategoriaRepository = new Mock<ICategoriaRepository>();
-            //_mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
-            //_cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object, _mockSubCategoriaRepository.Object);
+            _mockProdutoRepository = new Mock<IProdutoRepository>();
+            _cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object, _mockProdutoRepository.Object);
 
             _mockCategoriaRepository
                .Setup(x => x.BuscarTodos())
@@ -38,7 +39,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveInserirUmaCategoriaNoSistemaComSucesso()
         {
-            var categoria = new Categoria { Tipo = "Fritas" };
+            var categoria = new Categoria { Tipo = "Refrigerantes" };
 
             _mockCategoriaRepository
                 .Setup(x => x.Inserir(It.IsAny<Categoria>()))
@@ -57,10 +58,10 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveLancarUmaExceptionCasoACategoriaSejaDuplicada()
         {
-            var categoriaRequest = new Categoria { Tipo = "Alimento", IdentificadorUnico = 0 };
+            var categoriaRequest = new Categoria { Tipo = "Lanches", IdentificadorUnico = 0 };
 
             var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Inserir(categoriaRequest));
-            Assert.Equal("A categoria Alimento ja existe no sistema", ex.Message);
+            Assert.Equal("A categoria Lanches ja existe no sistema", ex.Message);
 
         }
         [Fact]

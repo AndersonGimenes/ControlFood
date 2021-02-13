@@ -16,8 +16,7 @@ namespace ControlFood.UnitTest.UseCase
         private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
         private readonly ICadastroCategoriaUseCase _cadastroCategoria;
-        private int categoriasPersistidasDepois;
-
+       
         public CadastroCategoriaUseCaseTest()
         {
             _mockCategoriaRepository = new Mock<ICategoriaRepository>();
@@ -68,7 +67,7 @@ namespace ControlFood.UnitTest.UseCase
             var categoria = new Categoria { Tipo = "Cervejas", IdentificadorUnico = 2 };
             var categorias = HelperMock.MockListaCategoriasPersistidas();
             var categoriasPersistidasAntes = categorias.Count;
-
+            int categoriasPersistidasDepois = default;
 
             _mockCategoriaRepository
                 .Setup(x => x.Deletar(It.IsAny<Categoria>()))
@@ -77,7 +76,6 @@ namespace ControlFood.UnitTest.UseCase
             _cadastroCategoria.Deletar(categoria);
 
             Assert.True(categoriasPersistidasAntes > categoriasPersistidasDepois);
-
         }
 
         [Fact]

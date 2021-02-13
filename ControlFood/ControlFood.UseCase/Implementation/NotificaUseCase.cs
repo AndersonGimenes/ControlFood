@@ -21,7 +21,7 @@ namespace ControlFood.UseCase.Implementation
             pedido.StatusPedido = StatusPedido.EmPreparo;
             _genericRepository.Atualizar(pedido, null);
 
-            this.SepararPedido(pedido);
+            //this.SepararPedido(pedido);
         }
 
         public void NotificarPedidoPronto(Pedido pedido)
@@ -41,26 +41,26 @@ namespace ControlFood.UseCase.Implementation
 
         #region [ METODOS PRIVADOS ]
 
-        private void SepararPedido(Pedido pedido)
-        {
-            var pedidoCozinha = new List<Produto>();
-            var pedidoBar = new List<Produto>();
+        //private void SepararPedido(Pedido pedido)
+        //{
+        //    var pedidoCozinha = new List<Produto>();
+        //    var pedidoBar = new List<Produto>();
             
-            pedido.Itens.ForEach(item =>
-            {
-            if (item.SubCategoria.IndicadorItemCozinha)
-            {
-                pedidoCozinha.Add(item);
-            }
-            else if (item.SubCategoria.IndicadorItemBar)
-                {
-                    pedidoBar.Add(item);
-                }
-            });
+        //    pedido.Itens.ForEach(item =>
+        //    {
+        //    if (item.SubCategoria.IndicadorItemCozinha)
+        //    {
+        //        pedidoCozinha.Add(item);
+        //    }
+        //    else if (item.SubCategoria.IndicadorItemBar)
+        //        {
+        //            pedidoBar.Add(item);
+        //        }
+        //    });
 
-            this.NotificarCozinha(pedido.IdentificadorUnico, pedidoCozinha);
-            this.NotificarBar(pedido.IdentificadorUnico, pedidoBar);
-        }
+        //    this.NotificarCozinha(pedido.IdentificadorUnico, pedidoCozinha);
+        //    this.NotificarBar(pedido.IdentificadorUnico, pedidoBar);
+        //}
 
         private void NotificarCozinha(int numero, List<Produto> items)
         {

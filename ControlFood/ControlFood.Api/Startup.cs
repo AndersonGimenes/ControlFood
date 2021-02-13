@@ -31,21 +31,18 @@ namespace ControlFood.Api
             services.AddControllers();
 
             services.AddTransient<ICadastroCategoriaUseCase, CadastroCategoriaUseCase>();
-            services.AddTransient<ICadastroSubCategoriaUseCase, CadastroSubCategoriaUseCase>();
             services.AddTransient<ICadastroProdutoUseCase, CadastroProdutoUseCase>();
             services.AddTransient<ICadastroEstoqueUseCase, CadastroEstoqueUseCase>();
             services.AddTransient<ICadastroClienteUseCase, CadastroClienteUseCase>();
 
             // Repository
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
-            services.AddTransient<ISubCategoriaRepository, SubCategoriaRepository>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IEstoqueRepository, EstoqueRepository>();
             services.AddTransient<IClienteRepository, ClienteRepository>();
 
             // Api
             services.AddScoped<ICategoriaHelper, CategoriaHelper>();
-            services.AddScoped<ISubCategoriaHelper, SubcategoriaHelper>();
             services.AddScoped<IProdutoHelper, ProdutoHelper>();
             services.AddScoped<IClienteHelper, ClienteHelper>();
 

@@ -15,7 +15,6 @@ namespace ControlFood.UnitTest.UseCase
 {
     public class CadastroProdutoUseCaseTest
     {
-        private readonly Mock<ISubCategoriaRepository> _mockSubCategoriaRepository;
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
         private readonly Mock<IEstoqueRepository> _mockEstoqueRepository;
         private readonly ICadastroProdutoUseCase _cadastroProduto;
@@ -24,15 +23,10 @@ namespace ControlFood.UnitTest.UseCase
 
         public CadastroProdutoUseCaseTest()
         {
-            _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
             _mockProdutoRepository = new Mock<IProdutoRepository>();
             _mockEstoqueRepository = new Mock<IEstoqueRepository>();
 
-            _cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object, _mockSubCategoriaRepository.Object, _mockEstoqueRepository.Object);
-
-            _mockSubCategoriaRepository
-                .Setup(x => x.BuscarTodos())
-                .Returns(HelperMock.MockListaSubCategoriasPersistidas());
+            //_cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object, _mockSubCategoriaRepository.Object, _mockEstoqueRepository.Object);
 
             _mockProdutoRepository
                 .Setup(x => x.BuscarTodos())

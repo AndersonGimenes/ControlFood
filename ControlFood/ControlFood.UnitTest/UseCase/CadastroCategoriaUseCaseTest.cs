@@ -16,23 +16,23 @@ namespace ControlFood.UnitTest.UseCase
     public class CadastroCategoriaUseCaseTest
     {
         private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
-        private readonly Mock<ISubCategoriaRepository> _mockSubCategoriaRepository;
         private readonly ICadastroCategoriaUseCase _cadastroCategoria;
         private int categoriasPersistidasDepois;
 
         public CadastroCategoriaUseCaseTest()
         {
             _mockCategoriaRepository = new Mock<ICategoriaRepository>();
-            _mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
-            _cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object, _mockSubCategoriaRepository.Object);
+            //_mockSubCategoriaRepository = new Mock<ISubCategoriaRepository>();
+            //_cadastroCategoria = new CadastroCategoriaUseCase(_mockCategoriaRepository.Object, _mockSubCategoriaRepository.Object);
 
             _mockCategoriaRepository
                .Setup(x => x.BuscarTodos())
                .Returns(HelperMock.MockListaCategoriasPersistidas());
 
-            _mockSubCategoriaRepository
-                .Setup(x => x.BuscarTodos())
-                .Returns(HelperMock.MockListaSubCategoriasPersistidas());
+            // substituir por mock de categorias
+            //_mockSubCategoriaRepository
+            //    .Setup(x => x.BuscarTodos())
+            //    .Returns(HelperMock.MockListaSubCategoriasPersistidas());
         }
 
         [Fact]

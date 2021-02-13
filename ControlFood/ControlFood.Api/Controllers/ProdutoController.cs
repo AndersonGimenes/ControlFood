@@ -11,7 +11,6 @@ namespace ControlFood.Api.Controllers
 {
     public class ProdutoController : Controller
     {
-        private readonly ISubCategoriaHelper _subcategoriaHelper;
         private readonly IProdutoHelper _produtoHelper;
         private readonly IMapper _mapper;
         private readonly ICadastroProdutoUseCase _cadastroProdutoUseCase;
@@ -19,14 +18,12 @@ namespace ControlFood.Api.Controllers
 
         public ProdutoController
         (
-            ISubCategoriaHelper subcategoriaHelper,
             IProdutoHelper produtoHelper,
             IMapper mapper,
             ICadastroProdutoUseCase cadastroProdutoUseCase,
             ICadastroEstoqueUseCase cadastroEstoqueUseCase
         )
         {
-            _subcategoriaHelper = subcategoriaHelper;
             _produtoHelper = produtoHelper;
             _mapper = mapper;
             _cadastroProdutoUseCase = cadastroProdutoUseCase;
@@ -36,7 +33,6 @@ namespace ControlFood.Api.Controllers
         [HttpGet]
         public IActionResult Cadastrar()
         {
-            ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
             var produtos = _produtoHelper.CacheProdutos();
 
             return View(produtos);
@@ -51,7 +47,6 @@ namespace ControlFood.Api.Controllers
 
                 _cadastroProdutoUseCase.Inserir(produtoDominio);
 
-                ViewBag.SubCategorias = _subcategoriaHelper.CacheSubCategorias();
                 var produtosPersistidos = _produtoHelper.CacheProdutos(renovaCache: true);
 
                 return View(produtosPersistidos);

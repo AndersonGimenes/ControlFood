@@ -8,12 +8,11 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroCategoriaUseCase : CadastroBaseUseCase<Categoria>, ICadastroCategoriaUseCase
     {
-        private readonly ISubCategoriaRepository _subCategoriaRepository;
-
-        public CadastroCategoriaUseCase(ICategoriaRepository categoriaRepository, ISubCategoriaRepository subCategoriaRepository)
+        public CadastroCategoriaUseCase(ICategoriaRepository categoriaRepository)
            : base(categoriaRepository)
         {
-            _subCategoriaRepository = subCategoriaRepository;
+            // substituir por produtos
+            //_subCategoriaRepository = subCategoriaRepository;
         }
 
         public override Categoria Inserir(Categoria categoria)
@@ -27,9 +26,10 @@ namespace ControlFood.UseCase.Implementation
 
         public override void Deletar(Categoria categoria)
         {
-            var subCategorias = _subCategoriaRepository.BuscarTodos();
+            // substituir por produto
+            //var subCategorias = _subCategoriaRepository.BuscarTodos();
 
-            CadastroCategoriaUseCaseValidation.ValidarRegrasParaDeletar(categoria, subCategorias);
+            //CadastroCategoriaUseCaseValidation.ValidarRegrasParaDeletar(categoria, subCategorias);
 
             base.Deletar(categoria);
         }

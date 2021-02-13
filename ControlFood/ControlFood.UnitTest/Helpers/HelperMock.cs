@@ -15,31 +15,6 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                new Categoria{IdentificadorUnico = 4, Tipo = "CategoriaTeste"}
             };
 
-        public static List<SubCategoria> MockListaSubCategoriasPersistidas() =>
-            new List<SubCategoria>
-            {
-                 MockSubCategoria("Lanche", idCategoria: 1, idSubCategoria: 1),
-                 MockSubCategoria("Pastel", idCategoria: 1, idSubCategoria: 2),
-                 MockSubCategoria("Suco", idCategoria: 2, tipoCategoria: "Bebida", idSubCategoria: 3),
-                 MockSubCategoria("Refrigerantes", idCategoria: 2, tipoCategoria: "Bebida", idSubCategoria: 4),
-                 MockSubCategoria("Espetos", idCategoria: 1, idSubCategoria: 5),
-                 MockSubCategoria("Sobremesas", idCategoria: 3, idSubCategoria: 6)
-            };
-
-        public static SubCategoria MockSubCategoria(string tipo, int idCategoria, string tipoCategoria = "Alimento", int idSubCategoria = 0)
-        {
-            var subCategoria = new SubCategoria
-            {
-                IdentificadorUnico = idSubCategoria,
-                Tipo = tipo,
-                IndicadorItemCozinha = true
-            };
-
-            subCategoria.Categoria = new Categoria { Tipo = tipoCategoria, IdentificadorUnico = idCategoria };
-
-            return subCategoria;
-        }
-
         public static List<Produto> MockListaProdutosPersistidos() =>
             new List<Produto>
             {
@@ -61,7 +36,8 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                 ValorVenda = 5
             };
 
-            produto.SubCategoria = new SubCategoria { IdentificadorUnico = idSubCategoria };
+            // aqui substituir por categoria
+            //produto.SubCategoria = new SubCategoria { IdentificadorUnico = idSubCategoria };
 
             return produto;
         }

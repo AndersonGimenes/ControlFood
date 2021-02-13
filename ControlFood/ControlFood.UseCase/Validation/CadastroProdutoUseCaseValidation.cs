@@ -10,7 +10,7 @@ namespace ControlFood.UseCase.Validation
 {
     internal static class CadastroProdutoUseCaseValidation
     {
-        internal static void ValidarRegrasParaInserir(Produto produto, List<Produto> produtos, List<SubCategoria> subCategorias)
+        internal static void ValidarRegrasParaInserir(Produto produto, List<Produto> produtos)
         {
             // Verifica se existe outro produto cadastrado com mesmo nome
             ComumValidation<Produto>
@@ -21,8 +21,9 @@ namespace ControlFood.UseCase.Validation
                 .VerificarDuplicidade(produto, produtos, nameof(produto.CodigoInterno), () => throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.ProdutoDuplicadoPorCodigo, produto.CodigoInterno)));
 
             // Verifica se existe sub-categoria vinculada para inserir o produto
-            ComumValidation<SubCategoria>
-                .VerificarVinculoInserir(produto.SubCategoria, subCategorias, nameof(produto.SubCategoria.IdentificadorUnico), () => throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.SubCategoriaNaoVinculadaAoProduto));
+            // Refatorar = verificar se existe alguma categoria vinculada para inserir o produto no banco
+            //ComumValidation<SubCategoria>
+            //    .VerificarVinculoInserir(produto.SubCategoria, subCategorias, nameof(produto.SubCategoria.IdentificadorUnico), () => throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.SubCategoriaNaoVinculadaAoProduto));
         }
 
         internal static void ValidarRegrasParaDeletar(Produto produto, List<Estoque> estoques)

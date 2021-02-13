@@ -19,52 +19,52 @@ namespace ControlFood.UnitTest.UseCase
             _notificaUseCase = new NotificaUseCase(_genericRepository.Object);
         }
 
-        [Fact]
-        public void DeveColocarOStatusDoPedidoEmPreparo()
-        {
-            var pedido = new Pedido
-            {
-                IdentificadorUnico = 10,
-                Valor = 50,
-                StatusPedido = StatusPedido.SemStatus,
-                Desconto = 0
-            };
-            ItensMock(pedido);
+        //[Fact]
+        //public void DeveColocarOStatusDoPedidoEmPreparo()
+        //{
+        //    var pedido = new Pedido
+        //    {
+        //        IdentificadorUnico = 10,
+        //        Valor = 50,
+        //        StatusPedido = StatusPedido.SemStatus,
+        //        Desconto = 0
+        //    };
+        //    ItensMock(pedido);
 
-            _notificaUseCase.NotificarPedidoPreparo(pedido);
+        //    _notificaUseCase.NotificarPedidoPreparo(pedido);
 
-            Assert.Equal(StatusPedido.EmPreparo, pedido.StatusPedido);
-        }
+        //    Assert.Equal(StatusPedido.EmPreparo, pedido.StatusPedido);
+        //}
 
-        private void ItensMock(Pedido pedido)
-        {
-            var xEgg = new Produto { Nome = "X-Egg", ValorVenda = 10 };
-            xEgg.SubCategoria = AdicionarSubCategoria("Lanche", indicadorCozinha: true);
-            pedido.Itens.Add(xEgg);
+        //private void ItensMock(Pedido pedido)
+        //{
+        //    var xEgg = new Produto { Nome = "X-Egg", ValorVenda = 10 };
+        //    xEgg.SubCategoria = AdicionarSubCategoria("Lanche", indicadorCozinha: true);
+        //    pedido.Itens.Add(xEgg);
 
-            var hotdog = new Produto { Nome = "Hot Morte", ValorVenda = 12 };
-            hotdog.SubCategoria = AdicionarSubCategoria("Cachorro quente", indicadorCozinha: true);
-            pedido.Itens.Add(hotdog);
+        //    var hotdog = new Produto { Nome = "Hot Morte", ValorVenda = 12 };
+        //    hotdog.SubCategoria = AdicionarSubCategoria("Cachorro quente", indicadorCozinha: true);
+        //    pedido.Itens.Add(hotdog);
 
-            var pastel = new Produto { Nome = "Pastel de carne", ValorVenda = 8 };
-            pastel.SubCategoria = AdicionarSubCategoria("Pastel", indicadorCozinha: true);
-            pedido.Itens.Add(pastel);
+        //    var pastel = new Produto { Nome = "Pastel de carne", ValorVenda = 8 };
+        //    pastel.SubCategoria = AdicionarSubCategoria("Pastel", indicadorCozinha: true);
+        //    pedido.Itens.Add(pastel);
 
-            var cocaCola = new Produto { Nome = "Coca cola 600ml", ValorVenda = 8 };
-            cocaCola.SubCategoria = AdicionarSubCategoria("Refrigerante", indicadorBar: true);
-            pedido.Itens.Add(cocaCola);
+        //    var cocaCola = new Produto { Nome = "Coca cola 600ml", ValorVenda = 8 };
+        //    cocaCola.SubCategoria = AdicionarSubCategoria("Refrigerante", indicadorBar: true);
+        //    pedido.Itens.Add(cocaCola);
 
-            var cerveja = new Produto { Nome = "Skol 350ml", ValorVenda = 5 };
-            cerveja.SubCategoria = AdicionarSubCategoria("Cerveja", indicadorBar: true);
-            pedido.Itens.Add(cerveja);
+        //    var cerveja = new Produto { Nome = "Skol 350ml", ValorVenda = 5 };
+        //    cerveja.SubCategoria = AdicionarSubCategoria("Cerveja", indicadorBar: true);
+        //    pedido.Itens.Add(cerveja);
             
-            var suco = new Produto { Nome = "Suco de Laranja 300ml", ValorVenda = 7 };
-            suco.SubCategoria = AdicionarSubCategoria("Suco", indicadorCozinha: true);
-            pedido.Itens.Add(suco);
+        //    var suco = new Produto { Nome = "Suco de Laranja 300ml", ValorVenda = 7 };
+        //    suco.SubCategoria = AdicionarSubCategoria("Suco", indicadorCozinha: true);
+        //    pedido.Itens.Add(suco);
 
-        }
+        //}
 
-        private SubCategoria AdicionarSubCategoria(string tipo, bool indicadorBar = false, bool indicadorCozinha = false)
-            => new SubCategoria { Tipo = tipo, IndicadorItemBar = indicadorBar, IndicadorItemCozinha = indicadorCozinha };
+        //private SubCategoria AdicionarSubCategoria(string tipo, bool indicadorBar = false, bool indicadorCozinha = false)
+        //    => new SubCategoria { Tipo = tipo, IndicadorItemBar = indicadorBar, IndicadorItemCozinha = indicadorCozinha };
     }
 }

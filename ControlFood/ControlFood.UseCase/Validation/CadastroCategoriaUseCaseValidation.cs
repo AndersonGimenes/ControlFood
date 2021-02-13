@@ -23,7 +23,13 @@ namespace ControlFood.UseCase.Validation
 
             // Verfica se existe algum produto vinculado a categoria a ser deletada
             ComumValidation<Categoria>
-                .VerificarVinculoDeletar(categoria, produtosCast, nameof(Produto.Categoria), nameof(categoria.IdentificadorUnico), () => throw new CategoriaIncorretaUseCaseException(string.Format(Domain.Constantes.Mensagem.Validacao.Categoria.CategoriaVinculadaASubCategoria, categoria.Tipo)));
+                .VerificarVinculoParaDeletar(
+                    categoria,
+                    produtosCast, 
+                    nameof(Produto.Categoria), 
+                    nameof(categoria.IdentificadorUnico), 
+                    () => throw new CategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Categoria.CategoriaVinculadaAProduto, categoria.Tipo))
+                );
         }
     }
 }

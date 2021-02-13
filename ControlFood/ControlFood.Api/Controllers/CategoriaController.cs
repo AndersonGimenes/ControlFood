@@ -46,7 +46,6 @@ namespace ControlFood.Api.Controllers
                 var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
 
                 _cadastroCategoriaUseCase.Inserir(categoriaDominio);
-
                 var categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
 
                 return Ok(categorias);

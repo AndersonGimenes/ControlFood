@@ -7,8 +7,6 @@ using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace ControlFood.UnitTest.UseCase
@@ -30,16 +28,15 @@ namespace ControlFood.UnitTest.UseCase
                .Setup(x => x.BuscarTodos())
                .Returns(HelperMock.MockListaCategoriasPersistidas());
 
-            // substituir por mock de categorias
-            //_mockSubCategoriaRepository
-            //    .Setup(x => x.BuscarTodos())
-            //    .Returns(HelperMock.MockListaSubCategoriasPersistidas());
+            _mockProdutoRepository
+                .Setup(x => x.BuscarTodos())
+                .Returns(HelperMock.MockListaProdutosPersistidos());
         }
 
         [Fact]
         public void DeveInserirUmaCategoriaNoSistemaComSucesso()
         {
-            var categoria = new Categoria { Tipo = "Refrigerantes" };
+            var categoria = new Categoria { Tipo = "Sorvetes" };
 
             _mockCategoriaRepository
                 .Setup(x => x.Inserir(It.IsAny<Categoria>()))
@@ -64,10 +61,11 @@ namespace ControlFood.UnitTest.UseCase
             Assert.Equal("A categoria Lanches ja existe no sistema", ex.Message);
 
         }
+
         [Fact]
         public void DeveDeletarUmaCategoriaExistente()
         {
-            var categoria = new Categoria { Tipo = "CategoriaTeste", IdentificadorUnico = 4 };
+            var categoria = new Categoria { Tipo = "Cervejas", IdentificadorUnico = 2 };
             var categorias = HelperMock.MockListaCategoriasPersistidas();
             var categoriasPersistidasAntes = categorias.Count;
 
@@ -83,12 +81,12 @@ namespace ControlFood.UnitTest.UseCase
         }
 
         [Fact]
-        public void DeveLancarExceptionAoTentarDeletarUmaCategoriaQueTenhaUmaSubCategoriaVinculadaAMesma()
+        public void DeveLancarExceptionAoTentarDeletarUmaCategoriaQueTenhaUmProdutoVinculado()
         {
-            var categoria = new Categoria { Tipo = "Alimento", IdentificadorUnico = 1 };
+            var categoria = new Categoria { Tipo = "Lanches", IdentificadorUnico = 1 };
 
             var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Deletar(categoria));
-            Assert.Equal("Existe Sub-categoria vinculada a Categoria Alimento.", ex.Message);
+            Assert.Equal("Existe produto(s) vinculado(s) a Categoria Lanches.", ex.Message);
         }
     }
 }

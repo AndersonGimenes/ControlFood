@@ -27,10 +27,9 @@ namespace ControlFood.UseCase.Implementation
 
         public override void Deletar(Categoria categoria)
         {
-            // substituir por produto
-            //var subCategorias = _subCategoriaRepository.BuscarTodos();
+             var produtos = _produtoRepository.BuscarTodos();
 
-            //CadastroCategoriaUseCaseValidation.ValidarRegrasParaDeletar(categoria, subCategorias);
+            CadastroCategoriaUseCaseValidation.ValidarRegrasParaDeletar(categoria, produtos);
 
             base.Deletar(categoria);
         }

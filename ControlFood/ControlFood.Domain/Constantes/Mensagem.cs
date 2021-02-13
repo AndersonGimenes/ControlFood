@@ -15,7 +15,7 @@
             {
                 public const string CategoriaDuplicada = "A categoria {0} ja existe no sistema";
 
-                public const string CategoriaVinculadaASubCategoria = "Existe Sub-categoria vinculada a Categoria {0}.";
+                public const string CategoriaVinculadaAProduto = "Existe produto(s) vinculado(s) a Categoria {0}.";
             }
 
             public static class SubCategoria

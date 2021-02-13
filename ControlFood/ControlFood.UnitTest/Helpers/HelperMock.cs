@@ -11,21 +11,21 @@ namespace ControlFood.UnitTest.UseCase.Helpers
             {
                new Categoria{IdentificadorUnico = 1, Tipo = "Lanches"},
                new Categoria{IdentificadorUnico = 2, Tipo = "Cervejas"},
-               new Categoria{IdentificadorUnico = 3, Tipo = "Porções"}
+               new Categoria{IdentificadorUnico = 3, Tipo = "Porções"},
+               new Categoria{IdentificadorUnico = 4, Tipo = "Refrigerantes"}
             };
 
         public static List<Produto> MockListaProdutosPersistidos() =>
             new List<Produto>
             {
-                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1),
-                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2),
-                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3),
-                MockProduto("XT001", "X-TUDO", idProduto: 4, idSubCategoria: 1),
-                MockProduto("SP001", "Sorverte de palito", idProduto: 5, idSubCategoria: 6)
+                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idCategoria: 4),
+                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2, idCategoria: 4),
+                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3, idCategoria: 4),
+                MockProduto("XT001", "X-TUDO", idProduto: 4, idCategoria: 1)
             };
 
 
-        public static Produto MockProduto(string codigo, string nome, int idProduto = 0, int idSubCategoria = 4)
+        public static Produto MockProduto(string codigo, string nome, int idProduto, int idCategoria)
         {
             var produto = new Produto
             {
@@ -35,8 +35,7 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                 ValorVenda = 5
             };
 
-            // aqui substituir por categoria
-            //produto.SubCategoria = new SubCategoria { IdentificadorUnico = idSubCategoria };
+            produto.Categoria = new Categoria { IdentificadorUnico = idCategoria };
 
             return produto;
         }

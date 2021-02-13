@@ -24,7 +24,7 @@ namespace ControlFood.UseCase.Validation.Comum
                 lancarException.Invoke();
         }
 
-        internal static void VerificarVinculoDeletar(T entidade, List<object> entidades, string className, string propertyName, Action lancarException)
+        internal static void VerificarVinculoParaDeletar(T entidade, List<object> entidades, string className, string propertyName, Action lancarException)
         {
             var propriedadeValor = (int)ObterValorReflection(entidade, propertyName);
 

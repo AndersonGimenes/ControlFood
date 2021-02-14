@@ -31,11 +31,9 @@ namespace ControlFood.UseCase.Implementation
 
         public override void Deletar(Produto produto)
         {
-            //var estoques = _estoqueRepository.BuscarTodos();
+            //[TODO]: Implementar regras para deleção do produto
 
-            //CadastroProdutoUseCaseValidation.ValidarRegrasParaDeletar(produto, estoques);
-
-            //base.Deletar(produto);
+            base.Deletar(produto);
         }
 
         public void AtualizarProduto(Produto produto)

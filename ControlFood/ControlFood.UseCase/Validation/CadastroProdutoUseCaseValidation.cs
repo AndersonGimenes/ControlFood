@@ -20,24 +20,9 @@ namespace ControlFood.UseCase.Validation
             ComumValidation<Produto>
                 .VerificarDuplicidade(produto, produtos, nameof(produto.CodigoInterno), () => throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.ProdutoDuplicadoPorCodigo, produto.CodigoInterno)));
 
-            // Verifica se existe sub-categoria vinculada para inserir o produto
-            // Refatorar = verificar se existe alguma categoria vinculada para inserir o produto no banco
+            // Verifica se existe categoria vinculada para inserir o produto
             ComumValidation<Categoria>
                 .VerificarVinculoInserir(produto.Categoria, categorias, nameof(produto.Categoria.IdentificadorUnico), () => throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.CategoriaNaoVinculadaAoProduto));
         }
-
-        //internal static void ValidarRegrasParaDeletar(Produto produto, List<Estoque> estoques)
-        //{
-        //    // Verfica se existe algum estoque vinculadoao produto a ser deletado
-        //    VerificarEstoqueVinculado(produto, estoques);
-        //}
-
-        #region[ PRIVADOS ]
-        //private static void VerificarEstoqueVinculado(Produto produto, List<Estoque> estoques)
-        //{
-        //    if (estoques.Any(e => e.IdentificadorUnicoProduto == produto.IdentificadorUnico))
-        //        throw new ProdutoIncorretoUseCaseException(string.Format(Mensagem.Validacao.Produto.EstoqueVinculado, produto.Nome));
-        //}        
-        #endregion
     }
 }

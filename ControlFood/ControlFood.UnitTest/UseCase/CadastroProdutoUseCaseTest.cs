@@ -15,7 +15,7 @@ namespace ControlFood.UnitTest.UseCase
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
         private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
         private readonly ICadastroProdutoUseCase _cadastroProduto;
-        
+       
         public CadastroProdutoUseCaseTest()
         {
             _mockProdutoRepository = new Mock<IProdutoRepository>();

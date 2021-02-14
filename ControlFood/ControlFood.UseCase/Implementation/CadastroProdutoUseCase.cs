@@ -38,7 +38,7 @@ namespace ControlFood.UseCase.Implementation
 
         public void AtualizarProduto(Produto produto)
         {
-            base.Atualizar(produto, new List<string> { nameof(produto.ValorVenda) });
+            base.Atualizar(produto, new List<string> { nameof(produto.ValorVenda), nameof(produto.Descricao) });
         }
     }
 }

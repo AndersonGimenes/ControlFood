@@ -44,10 +44,9 @@ namespace ControlFood.Api.Controllers
                 var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
                 _cadastroProdutoUseCase.Inserir(produtoDominio);
+                var produtos = _produtoHelper.CacheProdutos(renovaCache: true);
 
-                var produtosPersistidos = _produtoHelper.CacheProdutos(renovaCache: true);
-
-                return Ok(produtosPersistidos);
+                return Ok(produtos);
 
             }
             catch (Exception ex)
@@ -67,7 +66,6 @@ namespace ControlFood.Api.Controllers
                 _cadastroProdutoUseCase.Deletar(produtoDominio);
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
-                produto.Mensagem = Constantes.Mensagem.Comum.ItemDeletado;
                 return Ok(produto);
             }
             catch (Exception ex)
@@ -86,7 +84,6 @@ namespace ControlFood.Api.Controllers
                 _cadastroProdutoUseCase.AtualizarProduto(produtoDominio);
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
-                produto.Mensagem = Constantes.Mensagem.Comum.ItemAtualizado;
                 return Ok(produto);
             }
             catch (Exception ex)

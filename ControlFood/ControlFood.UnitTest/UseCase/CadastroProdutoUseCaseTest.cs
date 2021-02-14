@@ -16,6 +16,7 @@ namespace ControlFood.UnitTest.UseCase
     public class CadastroProdutoUseCaseTest
     {
         private readonly Mock<IProdutoRepository> _mockProdutoRepository;
+        private readonly Mock<ICategoriaRepository> _mockCategoriaRepository;
         private readonly ICadastroProdutoUseCase _cadastroProduto;
         private int listaProdutoDepois;
         private List<Produto> produtosPersistidos;
@@ -23,31 +24,36 @@ namespace ControlFood.UnitTest.UseCase
         public CadastroProdutoUseCaseTest()
         {
             _mockProdutoRepository = new Mock<IProdutoRepository>();
+            _mockCategoriaRepository = new Mock<ICategoriaRepository>();
 
-            _cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object);
+            _cadastroProduto = new CadastroProdutoUseCase(_mockProdutoRepository.Object, _mockCategoriaRepository.Object);
 
             _mockProdutoRepository
                 .Setup(x => x.BuscarTodos())
                 .Returns(HelperMock.MockListaProdutosPersistidos());
+
+            _mockCategoriaRepository
+                .Setup(x => x.BuscarTodos())
+                .Returns(HelperMock.MockListaCategoriasPersistidas());
         }
 
         [Fact]
         public void DeveInserirUmProdutoNoSistemaComSucesso()
         {
-            //var produto = HelperMock.MockProduto("gra350", "Guarana antarica lata 350ml");
+            var produto = HelperMock.MockProduto("gra350", "Guarana antarctica lata 350ml", idProduto: 0, idCategoria: 4);
 
-            //_mockProdutoRepository
-            //    .Setup(x => x.Inserir(It.IsAny<Produto>()))
-            //    .Returns(() =>
-            //    {
-            //        produto.IdentificadorUnico = 4;
-            //        return produto;
-            //    });
+            _mockProdutoRepository
+                .Setup(x => x.Inserir(It.IsAny<Produto>()))
+                .Returns(() =>
+                {
+                    produto.IdentificadorUnico = 5;
+                    return produto;
+                });
 
-            //_cadastroProduto.Inserir(produto);
+            _cadastroProduto.Inserir(produto);
 
-            //Assert.Equal(4, produto.IdentificadorUnico);
-            //Assert.True(produto.DataCadastro > DateTime.MinValue && produto.DataCadastro < DateTime.Now);
+            Assert.Equal(5, produto.IdentificadorUnico);
+            Assert.True(produto.DataCadastro > DateTime.MinValue && produto.DataCadastro < DateTime.Now);
         }
 
         [Theory]
@@ -56,19 +62,19 @@ namespace ControlFood.UnitTest.UseCase
         [InlineData("O produto com nome Coca-cola lata 350ml ja existe no sistema", "cc350", "Coca-cola lata 350ml")]
         public void DeveLancarUmaExceptionCasoOProdutoSejaDuplicadoOuPorNomeOuPorCodigo(string result, string codigo, string nome)
         {
-            //    var produto = HelperMock.MockProduto(codigo, nome);
+            var produto = HelperMock.MockProduto(codigo, nome, idProduto: 0, idCategoria: 4);
 
-            //    var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
-            //    Assert.Equal(result, ex.Message);
+            var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
+            Assert.Equal(result, ex.Message);
         }
 
         [Fact]
-        public void CasoNaoExistaUmaSubCategoriaVinculadaAoProdutoDeveSerLancadaUmaException()
+        public void CasoNaoExistaUmaCategoriaVinculadaAoProdutoDeveSerLancadaUmaException()
         {
-            //var produto = HelperMock.MockProduto("xpto", "Xtapa", idSubCategoria: 99);
+            var produto = HelperMock.MockProduto("xpto", "Xtapa", idProduto: 0, idCategoria: 99);
 
-            //var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
-            //Assert.Equal("Produto precisa estar vinculada a uma sub-categoria", ex.Message);
+            var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
+            Assert.Equal("Produto precisa estar vinculada a uma categoria", ex.Message);
         }
 
         [Fact]

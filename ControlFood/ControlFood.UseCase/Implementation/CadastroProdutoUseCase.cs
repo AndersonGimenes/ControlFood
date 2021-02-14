@@ -9,17 +9,22 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroProdutoUseCase : CadastroBaseUseCase<Produto>, ICadastroProdutoUseCase
     {
-        public CadastroProdutoUseCase(IProdutoRepository produtoRepository)
+        private readonly IProdutoRepository _produtoRepository;
+        private readonly ICategoriaRepository _categoriaRepository;
+
+        public CadastroProdutoUseCase(IProdutoRepository produtoRepository, ICategoriaRepository categoriaRepository)
             : base(produtoRepository)
         {
-            //_subCategoriaRepository = subCategoriaRepository;
+            _produtoRepository = produtoRepository;
+            _categoriaRepository = categoriaRepository;
         }
+
         public override Produto Inserir(Produto produto)
         {
             var produtos = base.BuscarTodos();
-            //var subCategorias = _subCategoriaRepository.BuscarTodos();
+            var categorias = _categoriaRepository.BuscarTodos();
 
-            //CadastroProdutoUseCaseValidation.ValidarRegrasParaInserir(produto, produtos, subCategorias);
+            CadastroProdutoUseCaseValidation.ValidarRegrasParaInserir(produto, produtos, categorias);
 
             return base.Inserir(produto);
         }

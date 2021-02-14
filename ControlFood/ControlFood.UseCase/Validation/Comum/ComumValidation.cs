@@ -6,7 +6,7 @@ namespace ControlFood.UseCase.Validation.Comum
 {
     internal static class ComumValidation<T> where T : class
     {
-        internal static void VerificarDuplicidade(T entidade, List<T> entidades, string propertyName, Action lancarException)
+        internal static void VerificarDuplicidade(T entidade, IEnumerable<T> entidades, string propertyName, Action lancarException)
         {
             var propriedadeValor = ObterValorReflection(entidade, propertyName).ToString().ToUpper();
 
@@ -14,7 +14,7 @@ namespace ControlFood.UseCase.Validation.Comum
                 lancarException.Invoke();
         }
 
-        internal static void VerificarVinculoInserir(T entidade, List<T> entidades, string propertyName, Action lancarException)
+        internal static void VerificarVinculoInserir(T entidade, IEnumerable<T> entidades, string propertyName, Action lancarException)
         {
             var propriedadeValor = (int)ObterValorReflection(entidade, propertyName);
 

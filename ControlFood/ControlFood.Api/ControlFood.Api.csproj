@@ -18,8 +18,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ControlFood.UI\ControlFood.UI.csproj" />
-	  <ProjectReference Include="..\ControlFood.UseCase\ControlFood.UseCase.csproj" />
+		<ProjectReference Include="..\ControlFood.Repository\ControlFood.Repository.csproj" />
+		<ProjectReference Include="..\ControlFood.UseCase\ControlFood.UseCase.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -4,18 +4,13 @@ using System.Collections.Generic;
 namespace ControlFood.Domain.Entidades
 {
     public class Pedido : Comum
-    {
-        public Pedido()
-        {
-            this.Itens = new List<Produto>();
-        }
-        // numero do pedido
+    {        
         public decimal Valor { get; set; }
         public decimal Desconto { get; set; }
         public bool PedidoPago { get; set; }
         public StatusPedido StatusPedido { get; set; }
         public FormaPagamento FormaPagamento { get; set; }
-        public List<Produto> Itens { get; set; }
+        public List<ProdutoPedido> Itens { get; set; }
         
     }
 }

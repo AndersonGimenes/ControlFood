@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ControlFood.Domain.Entidades
 {
@@ -10,6 +11,7 @@ namespace ControlFood.Domain.Entidades
         public decimal ValorCompra { get; set; }
         public decimal ValorVenda { get; set; }
         public DateTime? DataValidade { get; set; }
-        public Categoria Categoria { get; set; }        
+        public Categoria Categoria { get; set; }
+        public List<Adicional> Adicionais { get; set; }
     }
 }

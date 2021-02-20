@@ -35,7 +35,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveInserirUmProdutoNoSistemaComSucesso()
         {
-            var produto = HelperMock.MockProduto("gra350", "Guarana antarctica lata 350ml", idProduto: 0, idCategoria: 4);
+            var produto = HelperMock.MockProduto("gra350", "Guarana antarctica lata 350ml", idProduto: 0, idCategoria: 4, adicionais: null);
 
             _mockProdutoRepository
                 .Setup(x => x.Inserir(It.IsAny<Produto>()))
@@ -54,10 +54,9 @@ namespace ControlFood.UnitTest.UseCase
         [Theory]
         [InlineData("O produto com codigo cc350 ja existe no sistema", "cc350", "Coca-cola")]
         [InlineData("O produto com nome Coca-cola lata 350ml ja existe no sistema", "cc001", "Coca-cola lata 350ml")]
-        [InlineData("O produto com nome Coca-cola lata 350ml ja existe no sistema", "cc350", "Coca-cola lata 350ml")]
         public void DeveLancarUmaExceptionCasoOProdutoSejaDuplicadoOuPorNomeOuPorCodigo(string result, string codigo, string nome)
         {
-            var produto = HelperMock.MockProduto(codigo, nome, idProduto: 0, idCategoria: 4);
+            var produto = HelperMock.MockProduto(codigo, nome, idProduto: 0, idCategoria: 4, adicionais: null);
 
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
             Assert.Equal(result, ex.Message);
@@ -66,7 +65,7 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void CasoNaoExistaUmaCategoriaVinculadaAoProdutoDeveSerLancadaUmaException()
         {
-            var produto = HelperMock.MockProduto("xpto", "Xtapa", idProduto: 0, idCategoria: 99);
+            var produto = HelperMock.MockProduto("xpto", "Xtapa", idProduto: 0, idCategoria: 99, adicionais:null);
 
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
             Assert.Equal("Produto precisa estar vinculada a uma categoria", ex.Message);

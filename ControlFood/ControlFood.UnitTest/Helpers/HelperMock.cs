@@ -18,14 +18,13 @@ namespace ControlFood.UnitTest.UseCase.Helpers
         public static List<Produto> MockListaProdutosPersistidos() =>
             new List<Produto>
             {
-                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idCategoria: 4),
-                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2, idCategoria: 4),
-                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3, idCategoria: 4),
-                MockProduto("XT001", "X-TUDO", idProduto: 4, idCategoria: 1)
+                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idCategoria: 4, adicionais: null),
+                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2, idCategoria: 4, adicionais: null),
+                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3, idCategoria: 4, adicionais: null),
+                MockProduto("XT001", "X-TUDO", idProduto: 4, idCategoria: 1, ListaMockAdicionaisPersistidos())
             };
 
-
-        public static Produto MockProduto(string codigo, string nome, int idProduto, int idCategoria)
+        public static Produto MockProduto(string codigo, string nome, int idProduto, int idCategoria, List<Adicional> adicionais)
         {
             var produto = new Produto
             {
@@ -36,53 +35,36 @@ namespace ControlFood.UnitTest.UseCase.Helpers
             };
 
             produto.Categoria = new Categoria { IdentificadorUnico = idCategoria };
+            if (!(adicionais is null))
+            {
+                produto.Adicionais = new List<Adicional>();
+                adicionais.AddRange(adicionais);
+            }
 
             return produto;
         }
 
-        public static Cliente MockCliente(string cpf = default, int identificadorUnico = default)
-        {
-            var cliente = new Cliente
+        private static List<Adicional> ListaMockAdicionaisPersistidos() =>
+            new List<Adicional>
             {
-                IdentificadorUnico = identificadorUnico,
-                Nome = "Jose do teste",
-                Cpf = cpf,
-                DataNascimento = new DateTime(1983, 06, 14),
-                Email = "nd@nd.com",
-                TelefoneCelular = "19989898989"
-            };
-
-            cliente.Enderecos = new List<Endereco>
-            {
-                new Endereco
+                new Adicional
                 {
-                    Logradouro = "Rua hum",
-                    Numero = "1",
-                    Bairro = "Maria bonita",
-                    Cep = "13010020",
-                    Cidade = "Campinas",
-                    Estado = "SP"
+                    IdentificadorUnico = 1,
+                    Tipo = "Bacon",
+                    Valor = 2.00m
                 },
-                new Endereco
+                new Adicional
                 {
-                    Logradouro = "Rua dois",
-                    Numero = "2",
-                    Bairro = "Maria bonita",
-                    Cep = "13010020",
-                    Cidade = "São José",
-                    Estado = "SP"
+                    IdentificadorUnico = 2,
+                    Tipo = "Hamburguer",
+                    Valor = 7.00m
+                },
+                new Adicional
+                {
+                    IdentificadorUnico = 3,
+                    Tipo = "Mussarela",
+                    Valor = 2.00m
                 }
-            };
-            return cliente;
-        }
-
-        public static List<Cliente> MockListaCliente() =>
-            new List<Cliente>
-            {
-                MockCliente("12345678909", 1),
-                MockCliente("32123145646", 2),
-                MockCliente("12131332213", 3),
-                MockCliente("41745697789", 4)
             };
     }
 }

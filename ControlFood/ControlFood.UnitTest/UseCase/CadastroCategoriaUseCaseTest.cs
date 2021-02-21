@@ -58,7 +58,6 @@ namespace ControlFood.UnitTest.UseCase
 
             var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Inserir(categoriaRequest));
             Assert.Equal("A categoria Lanches ja existe no sistema", ex.Message);
-
         }
 
         [Fact]

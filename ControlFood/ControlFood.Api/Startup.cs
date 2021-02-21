@@ -33,13 +33,13 @@ namespace ControlFood.Api
             services.AddTransient<ICadastroCategoriaUseCase, CadastroCategoriaUseCase>();
             services.AddTransient<ICadastroProdutoUseCase, CadastroProdutoUseCase>();
             services.AddTransient<ICadastroClienteUseCase, CadastroClienteUseCase>();
+            services.AddTransient<ICadastroAdicionalUseCase, CadastroAdicionalUseCase>();
 
-            // Repository
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IClienteRepository, ClienteRepository>();
+            services.AddTransient<IAdicionalRepository, AdicionalRepository>();
 
-            // Api
             services.AddScoped<ICategoriaHelper, CategoriaHelper>();
             services.AddScoped<IProdutoHelper, ProdutoHelper>();
             services.AddScoped<IClienteHelper, ClienteHelper>();
@@ -64,7 +64,6 @@ namespace ControlFood.Api
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ControlFoodContext context)
         {
             // Atualiza/Cria a estrutura definada no migration ao subir o projeto
@@ -79,7 +78,7 @@ namespace ControlFood.Api
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

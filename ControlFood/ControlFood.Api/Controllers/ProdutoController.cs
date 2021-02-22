@@ -84,7 +84,7 @@ namespace ControlFood.Api.Controllers
                 _cadastroProdutoUseCase.AtualizarProduto(produtoDominio);
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
-                return Ok(produto);
+                return Ok();
             }
             catch (Exception ex)
             {

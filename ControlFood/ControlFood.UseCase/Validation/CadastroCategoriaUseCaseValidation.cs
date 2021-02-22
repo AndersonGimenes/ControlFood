@@ -10,7 +10,7 @@ namespace ControlFood.UseCase.Validation
     internal static class CadastroCategoriaUseCaseValidation
     {
        
-        internal static void ValidarRegrasParaInserir(Categoria categoria, List<Categoria> categorias)
+        internal static void ValidarRegrasParaInserir(Categoria categoria, IEnumerable<Categoria> categorias)
         {
             // Verifica se existe outra categoria cadastrada com mesmo nome
             ComumValidation<Categoria>

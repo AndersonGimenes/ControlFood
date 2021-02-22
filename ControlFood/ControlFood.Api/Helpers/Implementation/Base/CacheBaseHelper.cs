@@ -28,7 +28,7 @@ namespace ControlFood.Api.Helpers.Implementation.Base
             return _cache.Get(cacheName) as IEnumerable<T>;
         }
 
-        private void SetarListaCache(string cacheName, List<T> listaGenerica)
+        private void SetarListaCache(string cacheName, IEnumerable<T> listaGenerica)
         {
             var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(3600));
 

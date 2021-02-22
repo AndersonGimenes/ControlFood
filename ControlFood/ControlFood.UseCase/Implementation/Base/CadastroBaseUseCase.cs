@@ -35,7 +35,7 @@ namespace ControlFood.UseCase.Implementation.Base
             return _genericRepository.BuscarPorId(valor);
         }
 
-        public List<T> BuscarTodos() => _genericRepository.BuscarTodos();
+        public IEnumerable<T> BuscarTodos() => _genericRepository.BuscarTodos();
 
         public virtual void Deletar(T entidade)
         {

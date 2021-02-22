@@ -66,7 +66,7 @@ namespace ControlFood.Api.Controllers
                 _cadastroProdutoUseCase.Deletar(produtoDominio);
                 _produtoHelper.CacheProdutos(renovaCache: true);
 
-                return Ok(produto);
+                return NoContent();
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ControlFood.Repository.Entidades
 {
@@ -12,5 +13,6 @@ namespace ControlFood.Repository.Entidades
         public DateTime? DataValidade { get; set; }
         public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }
+        public List<ProdutoAdicional> Adicionais { get; set; }
     }
 }

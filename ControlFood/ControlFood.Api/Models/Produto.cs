@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ControlFood.Api.Models
 {
@@ -12,5 +13,6 @@ namespace ControlFood.Api.Models
         public string Descricao { get; set; }
         public DateTime? DataValidade { get; set; }
         public Categoria Categoria { get; set; }
+        public List<Adicional> Adicionais { get; set; }
     }
 }

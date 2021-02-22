@@ -3,6 +3,7 @@ using ControlFood.Api.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Api.Controllers
@@ -25,7 +26,7 @@ namespace ControlFood.Api.Controllers
         {
             try
             {
-                var adicionais = _mapper.Map<Adicional>(_cadastroAdicionalUseCase.BuscarTodos());
+                var adicionais = _mapper.Map<List<Adicional>>(_cadastroAdicionalUseCase.BuscarTodos());
                 return Ok(adicionais);
             }
             catch (Exception ex)
@@ -40,10 +41,11 @@ namespace ControlFood.Api.Controllers
             try
             {
                 var adicionalDominio = _mapper.Map<Dominio.Adicional>(adiconal);
+                _cadastroAdicionalUseCase.Inserir(adicionalDominio);
 
-                // cadastrar adicional
+                var adicionais = _mapper.Map<List<Adicional>>(_cadastroAdicionalUseCase.BuscarTodos());
 
-                return Ok();
+                return Ok(adicionais);
 
             }
             catch (Exception ex)

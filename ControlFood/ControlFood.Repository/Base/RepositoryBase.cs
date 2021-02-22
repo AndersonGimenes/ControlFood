@@ -40,7 +40,7 @@ namespace ControlFood.Repository.Base
             _context.SaveChanges();
         }
 
-        public TEntity Inserir(TEntity entity)
+        public virtual TEntity Inserir(TEntity entity)
         {
             var objetoPersistencia = this.MapearDominioParaRepository(entity);
 

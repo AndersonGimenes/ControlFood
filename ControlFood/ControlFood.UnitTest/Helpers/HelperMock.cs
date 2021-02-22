@@ -18,9 +18,9 @@ namespace ControlFood.UnitTest.UseCase.Helpers
         public static List<Produto> MockListaProdutosPersistidos() =>
             new List<Produto>
             {
-                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idCategoria: 4, adicionais: null),
-                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2, idCategoria: 4, adicionais: null),
-                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3, idCategoria: 4, adicionais: null),
+                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idCategoria: 4, adicionais: new List<Adicional>()),
+                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2, idCategoria: 4, adicionais: new List<Adicional>()),
+                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3, idCategoria: 4, adicionais: new List<Adicional>()),
                 MockProduto("XT001", "X-TUDO", idProduto: 4, idCategoria: 1, ListaMockAdicionaisPersistidos())
             };
 
@@ -35,16 +35,14 @@ namespace ControlFood.UnitTest.UseCase.Helpers
             };
 
             produto.Categoria = new Categoria { IdentificadorUnico = idCategoria };
-            if (!(adicionais is null))
-            {
-                produto.Adicionais = new List<Adicional>();
-                adicionais.AddRange(adicionais);
-            }
+
+            produto.Adicionais = new List<Adicional>();
+            produto.Adicionais.AddRange(adicionais);
 
             return produto;
         }
 
-        private static List<Adicional> ListaMockAdicionaisPersistidos() =>
+        public static List<Adicional> ListaMockAdicionaisPersistidos() =>
             new List<Adicional>
             {
                 new Adicional

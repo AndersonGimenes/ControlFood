@@ -13,6 +13,9 @@ namespace ControlFood.Repository.Context
 
         public virtual DbSet<Repositorio.Categoria> Categoria { get; set; }
         public virtual DbSet<Repositorio.Produto> Produto { get; set; }
+        public virtual DbSet<Repositorio.Adicional> Adicional { get; set; }
+        public virtual DbSet<Repositorio.ProdutoAdicional> ProdutoAdicional { get; set; }
+
         //public virtual DbSet<Repositorio.Cliente> Cliente { get; set; }
         //public virtual DbSet<Repositorio.Endereco> Endereco { get; set; }
 

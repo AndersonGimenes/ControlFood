@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using ControlFood.Repository.Entidades;
-using System.Collections.Generic;
 using System.Linq;
 using Dominio = ControlFood.Domain.Entidades;
 
@@ -26,7 +24,8 @@ namespace ControlFood.Repository.Mapping
             CreateMap<Dominio.Cliente, Entidades.Cliente>()
                 .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.IdentificadorUnico));
 
-            CreateMap<Dominio.Endereco, Entidades.Endereco>();
+            CreateMap<Dominio.Endereco, Entidades.Endereco>()
+                .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.IdentificadorUnico));
             #endregion
 
             #region[ Mapper repository para dominio ]
@@ -43,7 +42,8 @@ namespace ControlFood.Repository.Mapping
             CreateMap<Entidades.Cliente, Dominio.Cliente>()
               .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id));
 
-            CreateMap<Entidades.Endereco, Dominio.Endereco>();
+            CreateMap<Entidades.Endereco, Dominio.Endereco>()
+                .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id));
             #endregion
         }
 

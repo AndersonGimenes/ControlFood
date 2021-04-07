@@ -6,6 +6,7 @@ namespace ControlFood.UseCase.Interface.UseCase.Base
     {
         T Inserir(T entidade);
         void Atualizar(T entidade, List<string> propertiesName);
+        void Atualizar(T entidade);
         T BuscarPorIdentificacao(T entidade, string propertyName);
         IEnumerable<T> BuscarTodos();
         void Deletar(T entidade);

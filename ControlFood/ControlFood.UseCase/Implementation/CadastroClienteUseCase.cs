@@ -10,17 +10,18 @@ namespace ControlFood.UseCase.Implementation
 {
     public class CadastroClienteUseCase : CadastroBaseUseCase<Cliente>, ICadastroClienteUseCase
     {
+        private readonly ICadastroEnderecoUseCase _cadastroEnderecoUseCase;
 
-        public CadastroClienteUseCase(IClienteRepository clienteRepository)
+        public CadastroClienteUseCase(IClienteRepository clienteRepository, ICadastroEnderecoUseCase cadastroEnderecoUseCase)
            : base(clienteRepository)
         {
+            _cadastroEnderecoUseCase = cadastroEnderecoUseCase;
         }
 
         public void AtualizarCliente(Cliente cliente)
         {
             var camposAtualizacao = new List<string>
             {
-                nameof(cliente.Cpf),
                 nameof(cliente.DataNascimento),
                 nameof(cliente.Email),
                 nameof(cliente.Nome),
@@ -28,9 +29,10 @@ namespace ControlFood.UseCase.Implementation
                 nameof(cliente.TelefoneFixo),
             };
 
-            CadastroPessoaUseCaseValidation.ValidarRegrasParaAtualizar(cliente);
+            // CadastroPessoaUseCaseValidation.ValidarRegrasParaAtualizar(cliente);
 
             base.Atualizar(cliente, camposAtualizacao);
+            cliente.Enderecos.ForEach(x => _cadastroEnderecoUseCase.Atualizar(x));
         }
 
         public Cliente BuscarPorIdentificacao(Cliente cliente) =>
@@ -38,21 +40,15 @@ namespace ControlFood.UseCase.Implementation
 
         public override Cliente Inserir(Cliente cliente)
         {
-            var clientes = base.BuscarTodos();
+            var clientes = base.BuscarTodos()
+                               .Cast<Pessoa>()
+                               .Where(x => x.Cpf != null)
+                               .ToList();
 
-            var clientesCast = clientes
-                                .Cast<Pessoa>()
-                                .Where(x => x.Cpf != null)
-                                .ToList();
-
-            CadastroPessoaUseCaseValidation.ValidarRegrasParaInserir(cliente, clientesCast);
+            CadastroPessoaUseCaseValidation.ValidarRegrasParaInserir(cliente, clientes);
 
             cliente.AtribuirMensagemCamposNaoInformado();
-            cliente.Enderecos.ForEach(e =>
-                {
-                    e.AtribuirDataCadastro();
-                    e.AtribuirMensagemCamposNaoInformado();
-                });
+            cliente.Enderecos.ForEach(x => x.AtribuirMensagemCamposNaoInformado());
 
             return base.Inserir(cliente);
         }

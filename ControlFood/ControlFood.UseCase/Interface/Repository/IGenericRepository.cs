@@ -6,6 +6,7 @@ namespace ControlFood.UseCase.Interface.Repository
     {
         TEntity Inserir(TEntity entity);
         TEntity Atualizar(TEntity entity, List<string> propertiesName);
+        TEntity Atualizar(TEntity entity);
         void Deletar(TEntity entity);
         TEntity BuscarPorId(int id);
         List<TEntity> BuscarTodos();

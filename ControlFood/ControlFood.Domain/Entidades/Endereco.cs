@@ -13,11 +13,6 @@ namespace ControlFood.Domain.Entidades
         public string InfoApartamentoCondominio { get; set; }
         public string Complemento { get; set; }
 
-        public void AtribuirDataCadastro()
-        {
-            DataCadastro = DateTime.Now;
-        }
-
         public void AtribuirMensagemCamposNaoInformado()
         {
             if (string.IsNullOrEmpty(Numero))

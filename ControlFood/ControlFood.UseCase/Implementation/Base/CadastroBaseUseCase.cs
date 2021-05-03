@@ -17,25 +17,31 @@ namespace ControlFood.UseCase.Implementation.Base
 
         public virtual T Inserir(T entidade)
         {
-            entidade.GetType().GetProperties().First(p => p.Name == nameof(Comum.DataCadastro)).SetValue(entidade, DateTime.Now);
-            return _genericRepository.Inserir(entidade); 
+            entidade.GetType().GetProperty(nameof(Comum.DataCadastro)).SetValue(entidade, DateTime.Now);
+            return _genericRepository.Inserir(entidade);
         }
 
         public void Atualizar(T entidade, List<string> propertiesName)
         {
-            entidade.GetType().GetProperties().First(p => p.Name == nameof(Comum.DataAlteracao)).SetValue(entidade, DateTime.Now);
+            entidade.GetType().GetProperty(nameof(Comum.DataAlteracao)).SetValue(entidade, DateTime.Now);
 
             _genericRepository.Atualizar(entidade, propertiesName);
         }
 
+        public void Atualizar(T entidade)
+        {
+            entidade.GetType().GetProperty(nameof(Comum.DataAlteracao)).SetValue(entidade, DateTime.Now);
+            _genericRepository.Atualizar(entidade);
+        }
+
         public T BuscarPorIdentificacao(T entidade, string propertyName)
         {
-            var valor = (int)entidade.GetType().GetProperties().First(p => p.Name == propertyName).GetValue(entidade);
+            var valor = (int)entidade.GetType().GetProperty(propertyName).GetValue(entidade);
 
             return _genericRepository.BuscarPorId(valor);
         }
 
-        public List<T> BuscarTodos() => _genericRepository.BuscarTodos();
+        public IEnumerable<T> BuscarTodos() => _genericRepository.BuscarTodos();
 
         public virtual void Deletar(T entidade)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ControlFood.Api.Models
 {
@@ -11,5 +12,6 @@ namespace ControlFood.Api.Models
         public string TelefoneCelular { get; set; }
         public string Email { get; set; }
         public DateTime? DataNascimento { get; set; }
+        public List<Endereco> Enderecos { get; set; }
     }
 }

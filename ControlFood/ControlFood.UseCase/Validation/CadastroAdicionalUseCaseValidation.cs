@@ -10,7 +10,7 @@ namespace ControlFood.UseCase.Validation
 {
     internal class CadastroAdicionalUseCaseValidation
     {
-        internal static void ValidarRegrasParaInserir(Adicional adicional, List<Adicional> adicionais)
+        internal static void ValidarRegrasParaInserir(Adicional adicional, IEnumerable<Adicional> adicionais)
         {
             // Verifica se existe outro adicional cadastrado com mesmo nome
             ComumValidation<Adicional>

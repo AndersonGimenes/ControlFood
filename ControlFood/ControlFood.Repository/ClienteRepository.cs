@@ -25,45 +25,26 @@ namespace ControlFood.Repository
 
         public override Dominio.Cliente BuscarPorId(int id)
         {
-            throw new NotImplementedException();
+            var clientePersistido = _context.Cliente
+                                                .AsNoTracking()
+                                                .Include(x => x.Enderecos)
+                                                .First(x => x.Id == id);
+
+            return MapearRepositoryParaDominio(clientePersistido);
         }
 
         public override List<Dominio.Cliente> BuscarTodos()
         {
-            throw new NotImplementedException();
+            var clientesPersistidos = _context.Cliente
+                                                .AsNoTracking()
+                                                .Include(x => x.Enderecos)
+                                                .ToList();
+
+            return _mapper.Map<List<Dominio.Cliente>>(clientesPersistidos);
         }
 
-        protected override object MapearDominioParaRepository(Dominio.Cliente entity)
-        {
-            throw new NotImplementedException();
-        }
+        protected override object MapearDominioParaRepository(Dominio.Cliente cliente) => _mapper.Map<Cliente>(cliente);
 
-        protected override Dominio.Cliente MapearRepositoryParaDominio(object objeto)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public override Dominio.Cliente BuscarPorId(int id)
-        //{
-        //    var clientePersistido = _context.Cliente
-        //                                        .AsNoTracking()
-        //                                        .Include(x => x.Enderecos)
-        //                                        .First(x => x.Id == id);
-
-        //    return MapearRepositoryParaDominio(clientePersistido);
-        //}
-
-        //public override List<Dominio.Cliente> BuscarTodos()
-        //{
-        //    var clientesPersistidos = _context.Cliente
-        //                                        .AsNoTracking()
-        //                                        .ToList();
-
-        //    return _mapper.Map<List<Dominio.Cliente>>(clientesPersistidos);
-        //}
-
-        //protected override object MapearDominioParaRepository(Dominio.Cliente cliente) => _mapper.Map<Cliente>(cliente);
-
-        //protected override Dominio.Cliente MapearRepositoryParaDominio(object cliente) => _mapper.Map<Dominio.Cliente>(cliente);
+        protected override Dominio.Cliente MapearRepositoryParaDominio(object cliente) => _mapper.Map<Dominio.Cliente>(cliente);
     }
 }

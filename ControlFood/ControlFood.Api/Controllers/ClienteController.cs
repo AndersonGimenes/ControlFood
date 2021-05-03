@@ -4,12 +4,13 @@ using ControlFood.Api.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Api.Controllers
 {
-    public class ClienteController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ClienteController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ICadastroClienteUseCase _cadastroClienteUseCase;
@@ -23,10 +24,17 @@ namespace ControlFood.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Cadastrar()
+        public IActionResult ObterTodos()
         {
-            var clientes = _clienteHelper.CacheClientes();
-            return View(clientes);
+            try
+            {
+                var clientes = _clienteHelper.CacheClientes();
+                return Ok(clientes);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost]
@@ -35,10 +43,9 @@ namespace ControlFood.Api.Controllers
             try
             {
                 var clienteDominio = _mapper.Map<Dominio.Cliente>(cliente);
-
                 _cadastroClienteUseCase.Inserir(clienteDominio);
 
-                return View(_clienteHelper.CacheClientes(renovaCache: true));
+                return Ok(_clienteHelper.CacheClientes(renovaCache: true));
             }
             catch (Exception ex)
             {
@@ -46,14 +53,22 @@ namespace ControlFood.Api.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult BuscarEndereco(Cliente cliente)
+        [HttpPut]
+        public IActionResult Atualizar(Cliente cliente)
         {
-            var clienteDominio = _mapper.Map<Dominio.Cliente>(cliente);
+            try
+            {
+                var clienteDominio = _mapper.Map<Dominio.Cliente>(cliente);
 
-            var clienteResponse = _cadastroClienteUseCase.BuscarPorIdentificacao(clienteDominio);
+                _cadastroClienteUseCase.AtualizarCliente(clienteDominio);
+                _clienteHelper.CacheClientes(renovaCache: true);
 
-            return Json(_mapper.Map<Cliente>(clienteResponse));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

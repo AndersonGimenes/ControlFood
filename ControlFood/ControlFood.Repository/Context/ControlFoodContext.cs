@@ -15,14 +15,17 @@ namespace ControlFood.Repository.Context
         public virtual DbSet<Repositorio.Produto> Produto { get; set; }
         public virtual DbSet<Repositorio.Adicional> Adicional { get; set; }
         public virtual DbSet<Repositorio.ProdutoAdicional> ProdutoAdicional { get; set; }
-
-        //public virtual DbSet<Repositorio.Cliente> Cliente { get; set; }
-        //public virtual DbSet<Repositorio.Endereco> Endereco { get; set; }
+        public virtual DbSet<Repositorio.Cliente> Cliente { get; set; }
+        public virtual DbSet<Repositorio.Endereco> Endereco { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
+        {
+            dbContextOptionsBuilder.EnableSensitiveDataLogging();
         }
 
     }

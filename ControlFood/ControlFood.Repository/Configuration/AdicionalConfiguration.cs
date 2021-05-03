@@ -10,16 +10,16 @@ namespace ControlFood.Repository.Configuration
         public void Configure(EntityTypeBuilder<Adicional> builder)
         {
             builder
-               .ToTable("Adicional");
+                .ToTable("Adicional");
 
             builder
-               .HasKey(x => x.Id)
-               .HasName("Pk_adicional_id");
+                .HasKey(x => x.Id)
+                .HasName("Pk_adicional_id");
 
             builder
-               .Property(x => x.Tipo)
-               .HasColumnType("varchar(200)")
-               .IsRequired();
+                .Property(x => x.Tipo)
+                .HasColumnType("varchar(200)")
+                .IsRequired();
 
             builder
                 .Property(x => x.DataCadastro)

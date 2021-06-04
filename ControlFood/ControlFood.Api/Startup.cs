@@ -48,13 +48,13 @@ namespace ControlFood.Api
 
             services.AddMemoryCache();
 
-            // Configuração banco de dados
+            // ConfiguraÃ§Ã£o banco de dados
             var conn = Configuration.GetConnectionString("ControlFood");
 
             services.AddDbContext<ControlFoodContext>(options =>
                 options.UseMySql(conn));
 
-            // Auto Mapper configuração
+            // Auto Mapper configuraÃ§Ã£o
             var cfg = new MapperConfiguration(x =>
             {
                 x.AddProfile(new MappingProfileApi());

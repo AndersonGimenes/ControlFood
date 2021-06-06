@@ -63,16 +63,16 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveDeletarUmaCategoriaExistente()
         {
-            var categoria = new Categoria { Tipo = "Cervejas", IdentificadorUnico = 2 };
+            var idCategoria = 2;
             var categorias = HelperMock.MockListaCategoriasPersistidas();
             var categoriasPersistidasAntes = categorias.Count;
             int categoriasPersistidasDepois = default;
 
             _mockCategoriaRepository
                 .Setup(x => x.Deletar(It.IsAny<Categoria>()))
-                .Callback(() => categoriasPersistidasDepois = HelperComum<Categoria>.DeletarRegistro(categoria, categorias, nameof(categoria.IdentificadorUnico)));
+                .Callback(() => categoriasPersistidasDepois = HelperComum<Categoria>.DeletarRegistro(idCategoria, categorias, nameof(Categoria.IdentificadorUnico)));
 
-            _cadastroCategoria.Deletar(categoria);
+            _cadastroCategoria.DeletarCategoria(idCategoria);
 
             Assert.True(categoriasPersistidasAntes > categoriasPersistidasDepois);
         }
@@ -80,10 +80,10 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void DeveLancarExceptionAoTentarDeletarUmaCategoriaQueTenhaUmProdutoVinculado()
         {
-            var categoria = new Categoria { Tipo = "Lanches", IdentificadorUnico = 1 };
+            var idCategoria = 1;
 
-            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.Deletar(categoria));
-            Assert.Equal("Existe produto(s) vinculado(s) a Categoria Lanches.", ex.Message);
+            var ex = Assert.Throws<CategoriaIncorretaUseCaseException>(() => _cadastroCategoria.DeletarCategoria(idCategoria));
+            Assert.Equal("Existe produto(s) vinculado(s) a Categoria selecionada.", ex.Message);
         }
     }
 }

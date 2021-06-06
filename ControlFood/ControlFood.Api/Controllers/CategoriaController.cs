@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using ControlFood.Api.Helpers.Interface;
-using ControlFood.Api.Models;
+using ControlFood.Api.Models.Categoria;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using Dominio = ControlFood.Domain.Entidades;
+using ControlFood.Domain.Entidades;
 
 namespace ControlFood.Api.Controllers
 {
@@ -39,11 +39,11 @@ namespace ControlFood.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar(Categoria categoria)
+        public IActionResult Cadastrar(CategoriaRequest categoria)
         {
             try
             {
-                var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
+                var categoriaDominio = _mapper.Map<Categoria>(categoria);
 
                 _cadastroCategoriaUseCase.Inserir(categoriaDominio);
                 var categorias = _categoriaHelper.CacheCategorias(renovaCache: true);
@@ -58,14 +58,12 @@ namespace ControlFood.Api.Controllers
 
         }
 
-        [HttpDelete]
-        public IActionResult Deletar(Categoria categoria)
+        [HttpDelete("{id:int}")]
+        public IActionResult Deletar(int id)
         {
             try
             {
-                var categoriaDominio = _mapper.Map<Dominio.Categoria>(categoria);
-
-                _cadastroCategoriaUseCase.Deletar(categoriaDominio);
+                _cadastroCategoriaUseCase.DeletarCategoria(id);
                 _categoriaHelper.CacheCategorias(renovaCache: true);
 
                 return NoContent();

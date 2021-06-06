@@ -102,7 +102,10 @@ namespace ControlFood.UnitTest.UseCase
         [Fact]
         public void CasoNaoExistaUmAdicionalCadastradoNoSistemaDeveSerLancadaUmaException()
         {
-            var produto = HelperMock.MockProduto("XS-001", "X-Salada", idProduto: 0, idCategoria: 1, new List<Adicional> { new Adicional { IdentificadorUnico = 99, Tipo = "Queijo", Valor = 2.00m } });
+            var produto = HelperMock.MockProduto("XS-001", "X-Salada", idProduto: 0, idCategoria: 1, new List<Adicional> { 
+                new Adicional { IdentificadorUnico = 99, Tipo = "Queijo", Valor = 2.00m }, 
+                new Adicional { IdentificadorUnico = 1, Tipo = "Bacon", Valor = 7.00m }
+                });
 
             var ex = Assert.Throws<ProdutoIncorretoUseCaseException>(() => _cadastroProduto.Inserir(produto));
             Assert.Equal("Um dos adicionais especificados não esta cadastrado no sistema", ex.Message);

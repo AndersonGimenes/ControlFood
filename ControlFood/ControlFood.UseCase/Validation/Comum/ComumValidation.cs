@@ -24,16 +24,14 @@ namespace ControlFood.UseCase.Validation.Comum
                 lancarException.Invoke();
         }
 
-        internal static void VerificarVinculoParaDeletar(T entidade, List<object> entidades, string className, string propertyName, Action lancarException)
+        internal static void VerificarVinculoParaDeletar(int id, List<object> entidades, string className, string propertyName, Action lancarException)
         {
-            var propriedadeValor = (int)ObterValorReflection(entidade, propertyName);
-
             entidades.ForEach(e =>
             {
                 var objeto = ObterValorReflection(e, className);
                 var valor = (int)ObterValorReflection(objeto, propertyName);
 
-                if (valor == propriedadeValor)
+                if (valor == id)
                     lancarException.Invoke();
             });
 

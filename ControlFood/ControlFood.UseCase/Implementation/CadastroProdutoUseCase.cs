@@ -30,12 +30,12 @@ namespace ControlFood.UseCase.Implementation
             return base.Inserir(produto);
         }
 
-        public override void Deletar(Produto produto)
-        {
-            //[TODO]: Implementar regras para deleção do produto
+        // public override void Deletar(Produto produto)
+        // {
+        //     //[TODO]: Implementar regras para deleção do produto
 
-            base.Deletar(produto);
-        }
+        //     //base.Deletar(produto);
+        // }
 
         public void AtualizarProduto(Produto produto)
         {

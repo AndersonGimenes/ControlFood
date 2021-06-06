@@ -61,10 +61,10 @@ namespace ControlFood.Api.Controllers
         {
             try
             {
-                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+                // var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
 
-                _cadastroProdutoUseCase.Deletar(produtoDominio);
-                _produtoHelper.CacheProdutos(renovaCache: true);
+                // _cadastroProdutoUseCase.Deletar(produtoDominio);
+                // _produtoHelper.CacheProdutos(renovaCache: true);
 
                 return NoContent();
             }

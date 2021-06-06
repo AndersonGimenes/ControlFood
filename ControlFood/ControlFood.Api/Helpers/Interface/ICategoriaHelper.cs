@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using ControlFood.Api.Models.Categoria;
 
 namespace ControlFood.Api.Helpers.Interface
 {
     public interface ICategoriaHelper
     {
-        IEnumerable<Models.Categoria> CacheCategorias(bool renovaCache);
+        IEnumerable<CategoriaResponse> CacheCategorias(bool renovaCache);
     }
 }

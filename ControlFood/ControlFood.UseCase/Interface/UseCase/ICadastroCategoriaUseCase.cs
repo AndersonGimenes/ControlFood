@@ -5,5 +5,6 @@ namespace ControlFood.UseCase.Interface.UseCase
 {
     public interface ICadastroCategoriaUseCase : IGenericCadastroUseCase<Categoria>
     {
+        void DeletarCategoria(int idCategoria);
     }
 }

@@ -12,7 +12,7 @@ namespace ControlFood.Api.Models
         public decimal ValorCompra { get; set; }
         public string Descricao { get; set; }
         public DateTime? DataValidade { get; set; }
-        public Categoria Categoria { get; set; }
+        //public Categoria Categoria { get; set; }
         public List<Adicional> Adicionais { get; set; }
     }
 }

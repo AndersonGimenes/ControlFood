@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ControlFood.Api.Helpers.Implementation.Base;
 using ControlFood.Api.Helpers.Interface;
 using ControlFood.Api.Models;
+using ControlFood.Api.Models.Categoria;
 
 namespace ControlFood.Api.Helpers.Implementation
 {
@@ -20,7 +21,7 @@ namespace ControlFood.Api.Helpers.Implementation
             _mapper = mapper;
         }
 
-        public IEnumerable<Categoria> CacheCategorias(bool renovaCache) => _mapper.Map<IEnumerable<Categoria>>(base.ListarCache(CACHE_NAME, renovaCache));
+        public IEnumerable<CategoriaResponse> CacheCategorias(bool renovaCache) => _mapper.Map<IEnumerable<CategoriaResponse>>(base.ListarCache(CACHE_NAME, renovaCache));
         
     }
 }

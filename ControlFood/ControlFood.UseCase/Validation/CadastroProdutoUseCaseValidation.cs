@@ -24,7 +24,7 @@ namespace ControlFood.UseCase.Validation
             ComumValidation<Categoria>
                 .VerificarVinculoInserir(produto.Categoria, categorias, nameof(produto.Categoria.IdentificadorUnico), () => throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.CategoriaNaoVinculadaAoProduto));
 
-            if(produto.Adicionais.Count != 0 && !produto.Adicionais.TrueForAll(z => adcionais.Any(x => x.IdentificadorUnico == z.IdentificadorUnico)))
+            if(produto.Adicionais.Count > 0 && !produto.Adicionais.TrueForAll(p => adcionais.Any(a => a.IdentificadorUnico == p.IdentificadorUnico)))
                 throw new ProdutoIncorretoUseCaseException(Mensagem.Validacao.Produto.ProdutoSemAdicional);
         }
     }

@@ -5,22 +5,17 @@ namespace ControlFood.UnitTest.Helpers
 {
     internal static class HelperComum<T> where T : class
     {
-        internal static int DeletarRegistro(T entidade, List<T> listaEntidades, string propertyName)
+        internal static int DeletarRegistro(int id, List<T> listaEntidades, string propertyName)
         {
             int indice;
-            var propriedadeValor = (int)entidade
-                                        .GetType()
-                                        .GetProperties()
-                                        .First(p => p.Name == propertyName)
-                                        .GetValue(entidade);
-
+            
             indice = listaEntidades
                         .FindIndex((x) => 
                             (int)x
                                 .GetType()
                                 .GetProperties()
                                 .First(p => p.Name == propertyName)
-                                .GetValue(x) == propriedadeValor
+                                .GetValue(x) == id
                         );
 
             listaEntidades.RemoveAt(indice);

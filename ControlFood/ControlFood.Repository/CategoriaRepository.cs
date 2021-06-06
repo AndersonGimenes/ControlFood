@@ -22,10 +22,8 @@ namespace ControlFood.Repository
             _mapper = mapper;
         }
 
-        public override Categoria BuscarPorId(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override Categoria BuscarPorId(int id) => 
+            MapearRepositoryParaDominio(_context.Categoria.AsNoTracking().FirstOrDefault( x => x.Id == id));
 
         public override List<Dominio.Categoria> BuscarTodos()
         {

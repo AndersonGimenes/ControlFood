@@ -17,18 +17,18 @@ namespace ControlFood.UseCase.Validation
                 .VerificarDuplicidade(categoria, categorias, nameof(categoria.Tipo), () => throw new CategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Categoria.CategoriaDuplicada, categoria.Tipo)));
         }
 
-        internal static void ValidarRegrasParaDeletar(Categoria categoria, IEnumerable<Produto> produtos)
+        internal static void ValidarRegrasParaDeletar(int idCategoria, IEnumerable<Produto> produtos)
         {
             var produtosCast = produtos.Cast<object>().ToList();
 
             // Verfica se existe algum produto vinculado a categoria a ser deletada
             ComumValidation<Categoria>
                 .VerificarVinculoParaDeletar(
-                    categoria,
+                    idCategoria,
                     produtosCast, 
                     nameof(Produto.Categoria), 
-                    nameof(categoria.IdentificadorUnico), 
-                    () => throw new CategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Categoria.CategoriaVinculadaAProduto, categoria.Tipo))
+                    nameof(Categoria.IdentificadorUnico), 
+                    () => throw new CategoriaIncorretaUseCaseException(Mensagem.Validacao.Categoria.CategoriaVinculadaAProduto)
                 );
         }
     }

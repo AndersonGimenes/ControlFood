@@ -148,7 +148,22 @@ namespace ControlFood.Repository.Migrations
                     b.ToTable("Endereco");
                 });
 
-            modelBuilder.Entity("ControlFood.Repository.Entidades.Produto", b =>
+            modelBuilder.Entity("ControlFood.Repository.Entidades.ProdutoAdicional", b =>
+                {
+                    b.Property<int>("AdicionalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdicionalId", "ProdutoId");
+
+                    b.HasIndex("ProdutoId");
+
+                    b.ToTable("ProdutoAdicional");
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Models.ProdutoVenda", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -167,18 +182,12 @@ namespace ControlFood.Repository.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("date");
 
-                    b.Property<DateTime?>("DataValidade")
-                        .HasColumnType("date");
-
                     b.Property<string>("Descricao")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
-
-                    b.Property<decimal>("ValorCompra")
-                        .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("ValorVenda")
                         .HasColumnType("decimal(10,2)");
@@ -188,22 +197,7 @@ namespace ControlFood.Repository.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("Produto");
-                });
-
-            modelBuilder.Entity("ControlFood.Repository.Entidades.ProdutoAdicional", b =>
-                {
-                    b.Property<int>("AdicionalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AdicionalId", "ProdutoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("ProdutoAdicional");
+                    b.ToTable("ProdutoVenda");
                 });
 
             modelBuilder.Entity("ControlFood.Repository.Entidades.Endereco", b =>
@@ -212,16 +206,6 @@ namespace ControlFood.Repository.Migrations
                         .WithMany("Enderecos")
                         .HasForeignKey("IndetificadorUnicoCliente")
                         .HasConstraintName("cliente_endereco")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ControlFood.Repository.Entidades.Produto", b =>
-                {
-                    b.HasOne("ControlFood.Repository.Entidades.Categoria", "Categoria")
-                        .WithMany("Produtos")
-                        .HasForeignKey("CategoriaId")
-                        .HasConstraintName("Produto_Categoria")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -235,11 +219,21 @@ namespace ControlFood.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ControlFood.Repository.Entidades.Produto", "Produto")
+                    b.HasOne("ControlFood.Repository.Models.ProdutoVenda", "Produto")
                         .WithMany("Adicionais")
                         .HasForeignKey("ProdutoId")
                         .HasConstraintName("Produto_Adicional")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ControlFood.Repository.Models.ProdutoVenda", b =>
+                {
+                    b.HasOne("ControlFood.Repository.Entidades.Categoria", "Categoria")
+                        .WithMany("Produtos")
+                        .HasForeignKey("CategoriaId")
+                        .HasConstraintName("Produto_Categoria")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

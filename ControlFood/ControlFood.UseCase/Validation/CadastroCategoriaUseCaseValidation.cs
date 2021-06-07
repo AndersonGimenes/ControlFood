@@ -1,5 +1,6 @@
 ﻿using ControlFood.Domain.Constantes;
 using ControlFood.Domain.Entidades;
+using ControlFood.Domain.Entidades.Produto;
 using ControlFood.UseCase.Exceptions;
 using ControlFood.UseCase.Validation.Comum;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace ControlFood.UseCase.Validation
                 .VerificarDuplicidade(categoria, categorias, nameof(categoria.Tipo), () => throw new CategoriaIncorretaUseCaseException(string.Format(Mensagem.Validacao.Categoria.CategoriaDuplicada, categoria.Tipo)));
         }
 
-        internal static void ValidarRegrasParaDeletar(int idCategoria, IEnumerable<Produto> produtos)
+        internal static void ValidarRegrasParaDeletar(int idCategoria, IEnumerable<ProdutoVenda> produtos)
         {
             var produtosCast = produtos.Cast<object>().ToList();
 
@@ -26,8 +27,7 @@ namespace ControlFood.UseCase.Validation
                 .VerificarVinculoParaDeletar(
                     idCategoria,
                     produtosCast, 
-                    nameof(Produto.Categoria), 
-                    nameof(Categoria.IdentificadorUnico), 
+                    nameof(ProdutoVenda.CategoriaIdentificadorUnico), 
                     () => throw new CategoriaIncorretaUseCaseException(Mensagem.Validacao.Categoria.CategoriaVinculadaAProduto)
                 );
         }

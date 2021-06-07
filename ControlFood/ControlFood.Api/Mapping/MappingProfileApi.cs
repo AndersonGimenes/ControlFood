@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ControlFood.Api.Models.Categoria;
+using ControlFood.Api.Models.Produto;
 using ControlFood.Domain.Entidades;
+using ControlFood.Domain.Entidades.Produto;
 
 namespace ControlFood.Api.Mapping
 {
@@ -10,7 +12,7 @@ namespace ControlFood.Api.Mapping
         {
             #region[ Mapper modelo para dominio ]
             CreateMap<CategoriaRequest, Categoria>();
-            CreateMap<Models.Produto, Produto>();
+            CreateMap<ProdutoRequest, ProdutoVenda>();
             CreateMap<Models.Adicional, Adicional>();
             CreateMap<Models.Cliente, Cliente>();
             CreateMap<Models.Endereco, Endereco>();
@@ -18,7 +20,7 @@ namespace ControlFood.Api.Mapping
 
             #region[ Mapper dominio para modelo ]
             CreateMap<Categoria, CategoriaResponse>();
-            CreateMap<Produto, Models.Produto>();
+            CreateMap<ProdutoVenda, ProdutoResponse>();
             CreateMap<Adicional, Models.Adicional>();
             CreateMap<Cliente, Models.Cliente>();
             CreateMap<Endereco, Models.Endereco>();

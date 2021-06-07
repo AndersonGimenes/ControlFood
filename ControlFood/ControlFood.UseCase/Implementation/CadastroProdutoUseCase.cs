@@ -1,4 +1,4 @@
-﻿using ControlFood.Domain.Entidades;
+﻿using ControlFood.Domain.Entidades.Produto;
 using ControlFood.UseCase.Implementation.Base;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace ControlFood.UseCase.Implementation
 {
-    public class CadastroProdutoUseCase : CadastroBaseUseCase<Produto>, ICadastroProdutoUseCase
+    public class CadastroProdutoUseCase : CadastroBaseUseCase<ProdutoVenda>, ICadastroProdutoUseCase
     {
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IAdicionalRepository _adicionalRepository;
@@ -19,7 +19,7 @@ namespace ControlFood.UseCase.Implementation
             _adicionalRepository = adicionalRepository;
         }
 
-        public override Produto Inserir(Produto produto)
+        public override ProdutoVenda Inserir(ProdutoVenda produto)
         {
             var produtos = base.BuscarTodos();
             var categorias = _categoriaRepository.BuscarTodos();
@@ -37,9 +37,9 @@ namespace ControlFood.UseCase.Implementation
         //     //base.Deletar(produto);
         // }
 
-        public void AtualizarProduto(Produto produto)
+        public void AtualizarProduto(ProdutoVenda produto)
         {
-            base.Atualizar(produto, new List<string> { nameof(produto.ValorVenda), nameof(produto.Descricao) });
+            base.Atualizar(produto, new List<string> { nameof(produto.ValorVenda), nameof(produto.Descricao)});
         }
     }
 }

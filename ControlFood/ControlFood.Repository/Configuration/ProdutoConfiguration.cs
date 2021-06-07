@@ -1,15 +1,15 @@
-﻿using ControlFood.Repository.Entidades;
+﻿using ControlFood.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ControlFood.Repository.Configuration
 {
-    public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
+    public class ProdutoConfiguration : IEntityTypeConfiguration<ProdutoVenda>
     {
-        public void Configure(EntityTypeBuilder<Produto> builder)
+        public void Configure(EntityTypeBuilder<ProdutoVenda> builder)
         {
             builder
-                .ToTable("Produto");
+                .ToTable("ProdutoVenda");
 
             builder
                 .HasKey(x => x.Id)
@@ -38,15 +38,6 @@ namespace ControlFood.Repository.Configuration
                 .Property(x => x.ValorVenda)
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
-
-            builder
-                .Property(x => x.ValorCompra)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
-
-            builder
-                .Property(x => x.DataValidade)
-                .HasColumnType("date");
 
             builder
                 .HasOne(x => x.Categoria)

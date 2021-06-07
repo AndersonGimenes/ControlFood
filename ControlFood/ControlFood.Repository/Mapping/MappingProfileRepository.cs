@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ControlFood.Domain.Entidades.Produto;
 using System.Linq;
 using Dominio = ControlFood.Domain.Entidades;
 
@@ -12,9 +13,9 @@ namespace ControlFood.Repository.Mapping
             CreateMap<Dominio.Categoria, Entidades.Categoria>()
                 .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.IdentificadorUnico));
 
-            CreateMap<Dominio.Produto, Entidades.Produto>()
+            CreateMap<ProdutoVenda, Models.ProdutoVenda>()
                 .ForMember(dest => dest.Id, opts => opts.MapFrom(x => x.IdentificadorUnico))
-                .ForMember(dest => dest.CategoriaId, opts => opts.MapFrom(x => x.Categoria.IdentificadorUnico))
+                .ForMember(dest => dest.CategoriaId, opts => opts.MapFrom(x => x.CategoriaIdentificadorUnico))
                 .ForMember(dest => dest.Categoria, opts => opts.MapFrom(x => SetarNulo()))
                 .ForMember(dest => dest.Adicionais, opts => opts.MapFrom(x => SetarNulo()));
 
@@ -32,7 +33,7 @@ namespace ControlFood.Repository.Mapping
             CreateMap<Entidades.Categoria, Dominio.Categoria>()
                .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id));
 
-            CreateMap<Entidades.Produto, Dominio.Produto>()
+            CreateMap<Models.ProdutoVenda, ProdutoVenda>()
                 .ForMember(dest => dest.IdentificadorUnico, opts => opts.MapFrom(x => x.Id))
                 .ForMember(dest => dest.Adicionais, opts => opts.MapFrom(x => x.Adicionais.Select(x => x.Adicional).ToList()));
 

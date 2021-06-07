@@ -14,22 +14,19 @@ namespace ControlFood.UseCase.Validation.Comum
                 lancarException.Invoke();
         }
 
-        internal static void VerificarVinculoInserir(T entidade, IEnumerable<T> entidades, string propertyName, Action lancarException)
+        internal static void VerificarVinculoInserir(int id, IEnumerable<T> entidades, string propertyName, Action lancarException)
         {
-            var propriedadeValor = (int)ObterValorReflection(entidade, propertyName);
-
-            var existeVinculo = entidades.Any(e => (int)ObterValorReflection(e, propertyName) == propriedadeValor);
+            var existeVinculo = entidades.Any(e => (int)ObterValorReflection(e, propertyName) == id);
 
             if (!existeVinculo)
                 lancarException.Invoke();
         }
 
-        internal static void VerificarVinculoParaDeletar(int id, List<object> entidades, string className, string propertyName, Action lancarException)
+        internal static void VerificarVinculoParaDeletar(int id, List<object> entidades, string propertyName, Action lancarException)
         {
             entidades.ForEach(e =>
             {
-                var objeto = ObterValorReflection(e, className);
-                var valor = (int)ObterValorReflection(objeto, propertyName);
+                var valor = (int)ObterValorReflection(e, propertyName);
 
                 if (valor == id)
                     lancarException.Invoke();
@@ -40,8 +37,7 @@ namespace ControlFood.UseCase.Validation.Comum
         #region[ PRIVADOS ]
         private static object ObterValorReflection(object entidade, string propertyName) => entidade
                                                                                                 .GetType()
-                                                                                                .GetProperties()
-                                                                                                .First(p => p.Name == propertyName)
+                                                                                                .GetProperty(propertyName)
                                                                                                 .GetValue(entidade);
                                                                                                 
         #endregion

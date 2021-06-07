@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using ControlFood.Api.Models.Produto;
 
 namespace ControlFood.Api.Helpers.Interface
 {
     public interface IProdutoHelper
     {
-        IEnumerable<Models.Produto> CacheProdutos(bool renovaCache);
+        IEnumerable<ProdutoResponse> CacheProdutos(bool renovaCache);
     }
 }

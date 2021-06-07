@@ -2,7 +2,6 @@
 using ControlFood.UseCase.Interface.Repository;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ControlFood.UseCase.Implementation.Base
 {

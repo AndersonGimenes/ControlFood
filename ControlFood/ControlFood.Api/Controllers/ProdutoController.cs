@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using ControlFood.Api.Helpers.Interface;
-using ControlFood.Api.Models;
 using ControlFood.UseCase.Interface.UseCase;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using Dominio = ControlFood.Domain.Entidades;
+using ControlFood.Api.Models.Produto;
+using ControlFood.Domain.Entidades.Produto;
 
 namespace ControlFood.Api.Controllers
 {
@@ -27,21 +27,26 @@ namespace ControlFood.Api.Controllers
             _mapper = mapper;
             _cadastroProdutoUseCase = cadastroProdutoUseCase;
         }
-
-        [HttpGet]
         public IActionResult ObterTodos()
-        {
-            var produtos = _produtoHelper.CacheProdutos(renovaCache: false);
-
-            return Ok(produtos);
-        }
-
-        [HttpPost]
-        public IActionResult Cadastrar(Produto produto)
         {
             try
             {
-                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+                var produtos = _produtoHelper.CacheProdutos(renovaCache: false);
+                return Ok(produtos);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
+        }
+
+        [HttpPost]
+        public IActionResult Cadastrar(ProdutoRequest produto)
+        {
+            try
+            {
+                var produtoDominio = _mapper.Map<ProdutoVenda>(produto);
 
                 _cadastroProdutoUseCase.Inserir(produtoDominio);
                 var produtos = _produtoHelper.CacheProdutos(renovaCache: true);
@@ -57,7 +62,7 @@ namespace ControlFood.Api.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Deletar(Produto produto)
+        public IActionResult Deletar(ProdutoRequest produto)
         {
             try
             {
@@ -75,11 +80,11 @@ namespace ControlFood.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Atualizar(Produto produto)
+        public IActionResult Atualizar(ProdutoRequest produto)
         {
             try
             {
-                var produtoDominio = _mapper.Map<Dominio.Produto>(produto);
+                var produtoDominio = _mapper.Map<ProdutoVenda>(produto);
 
                 _cadastroProdutoUseCase.AtualizarProduto(produtoDominio);
                 _produtoHelper.CacheProdutos(renovaCache: true);

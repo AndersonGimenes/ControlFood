@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ControlFood.Domain.Entidades.Produto;
 using ControlFood.Repository.Base;
 using ControlFood.Repository.Context;
 using ControlFood.Repository.Entidades;
@@ -6,11 +7,10 @@ using ControlFood.UseCase.Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Dominio = ControlFood.Domain.Entidades;
 
 namespace ControlFood.Repository
 {
-    public class ProdutoRepository : RepositoryBase<Dominio.Produto>, IProdutoRepository
+    public class ProdutoRepository : RepositoryBase<ProdutoVenda>, IProdutoRepository
     {
         private readonly IMapper _mapper;
         private readonly ControlFoodContext _context;
@@ -22,7 +22,7 @@ namespace ControlFood.Repository
             _mapper = mapper;
         }
 
-        public override Dominio.Produto BuscarPorId(int id)
+        public override ProdutoVenda BuscarPorId(int id)
         {
             var produtosPersistido = _context.Produto
                                             .AsNoTracking()
@@ -34,13 +34,13 @@ namespace ControlFood.Repository
             return MapearRepositoryParaDominio(produtosPersistido);
         }
 
-        public override Dominio.Produto Inserir(Dominio.Produto produto)
+        public override ProdutoVenda Inserir(ProdutoVenda produto)
         {
             var produtoPersistido = base.Inserir(produto);
-            return AdicionarAdicionaisParaProduto(produto.Adicionais, produtoPersistido.IdentificadorUnico);
+            return AdicionarAdicionaisParaProduto(produto.AdicionaisIdentificadoresUnico.ToList(), produtoPersistido.IdentificadorUnico);
         }
 
-        public override List<Dominio.Produto> BuscarTodos()
+        public override List<ProdutoVenda> BuscarTodos()
         {
             var produtosPersistidos = _context.Produto
                                             .AsNoTracking()
@@ -49,20 +49,20 @@ namespace ControlFood.Repository
                                             .ThenInclude(x => x.Adicional)
                                             .ToList();
 
-            return _mapper.Map<List<Dominio.Produto>>(produtosPersistidos);
+            return _mapper.Map<List<ProdutoVenda>>(produtosPersistidos);
         }
 
-        protected override object MapearDominioParaRepository(Dominio.Produto produto) => _mapper.Map<Entidades.Produto>(produto);
+        protected override object MapearDominioParaRepository(ProdutoVenda produto) => _mapper.Map<Models.ProdutoVenda>(produto);
 
-        protected override Dominio.Produto MapearRepositoryParaDominio(object produtoPersistido) => _mapper.Map<Dominio.Produto>(produtoPersistido);
+        protected override ProdutoVenda MapearRepositoryParaDominio(object produtoPersistido) => _mapper.Map<ProdutoVenda>(produtoPersistido);
 
-        private Dominio.Produto AdicionarAdicionaisParaProduto(List<Dominio.Adicional> adicionais, int idProduto)
+        private ProdutoVenda AdicionarAdicionaisParaProduto(List<int> adicionaisIdentificadores, int idProduto)
         {
-            adicionais.ForEach(a =>
+            adicionaisIdentificadores.ForEach(id =>
             {
                 var produtoAdicional = new ProdutoAdicional
                 {
-                    AdicionalId = a.IdentificadorUnico,
+                    AdicionalId = id,
                     ProdutoId = idProduto
                 };
 

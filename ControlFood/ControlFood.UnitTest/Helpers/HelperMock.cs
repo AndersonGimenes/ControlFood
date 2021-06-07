@@ -1,4 +1,5 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.Domain.Entidades.Produto;
 using System;
 using System.Collections.Generic;
 
@@ -15,18 +16,18 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                new Categoria{IdentificadorUnico = 4, Tipo = "Refrigerantes"}
             };
 
-        public static List<Produto> MockListaProdutosPersistidos() =>
-            new List<Produto>
+        public static List<ProdutoVenda> MockListaProdutosPersistidos() =>
+            new List<ProdutoVenda>
             {
-                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idCategoria: 4, adicionais: new List<Adicional>()),
-                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2, idCategoria: 4, adicionais: new List<Adicional>()),
-                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3, idCategoria: 4, adicionais: new List<Adicional>()),
-                MockProduto("XT001", "X-TUDO", idProduto: 4, idCategoria: 1, ListaMockAdicionaisPersistidos())
+                MockProduto("cc350", "Coca-cola lata 350ml", idProduto: 1, idCategoria: 4, adicionais: new List<Adicional>(), idsAdicionais: new List<int>()),
+                MockProduto("cc1L", "Coca-cola 1 litro", idProduto: 2, idCategoria: 4, adicionais: new List<Adicional>(), idsAdicionais: new List<int>()),
+                MockProduto("spt2L", "Sprite 2 litros", idProduto: 3, idCategoria: 4, adicionais: new List<Adicional>(), idsAdicionais: new List<int>()),
+                MockProduto("XT001", "X-TUDO", idProduto: 4, idCategoria: 1, ListaMockAdicionaisPersistidos(), idsAdicionais: new List<int>())
             };
 
-        public static Produto MockProduto(string codigo, string nome, int idProduto, int idCategoria, List<Adicional> adicionais)
+        public static ProdutoVenda MockProduto(string codigo, string nome, int idProduto, int idCategoria, List<Adicional> adicionais, List<int> idsAdicionais)
         {
-            var produto = new Produto
+            var produto = new ProdutoVenda
             {
                 CodigoInterno = codigo,
                 IdentificadorUnico = idProduto,
@@ -34,10 +35,13 @@ namespace ControlFood.UnitTest.UseCase.Helpers
                 ValorVenda = 5
             };
 
-            produto.Categoria = new Categoria { IdentificadorUnico = idCategoria };
+            produto.CategoriaIdentificadorUnico = idCategoria;
 
             produto.Adicionais = new List<Adicional>();
             produto.Adicionais.AddRange(adicionais);
+
+            produto.AdicionaisIdentificadoresUnico = new List<int>();
+            produto.AdicionaisIdentificadoresUnico.AddRange(idsAdicionais);
 
             return produto;
         }

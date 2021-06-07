@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ControlFood.Repository.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitialDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,7 +60,7 @@ namespace ControlFood.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Produto",
+                name: "ProdutoVenda",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -70,9 +70,7 @@ namespace ControlFood.Repository.Migrations
                     CodigoInterno = table.Column<string>(type: "varchar(50)", nullable: false),
                     Nome = table.Column<string>(type: "varchar(200)", nullable: false),
                     Descricao = table.Column<string>(nullable: true),
-                    ValorCompra = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     ValorVenda = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    DataValidade = table.Column<DateTime>(type: "date", nullable: true),
                     CategoriaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -134,7 +132,7 @@ namespace ControlFood.Repository.Migrations
                     table.ForeignKey(
                         name: "Produto_Adicional",
                         column: x => x.ProdutoId,
-                        principalTable: "Produto",
+                        principalTable: "ProdutoVenda",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -145,14 +143,14 @@ namespace ControlFood.Repository.Migrations
                 column: "IndetificadorUnicoCliente");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Produto_CategoriaId",
-                table: "Produto",
-                column: "CategoriaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProdutoAdicional_ProdutoId",
                 table: "ProdutoAdicional",
                 column: "ProdutoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProdutoVenda_CategoriaId",
+                table: "ProdutoVenda",
+                column: "CategoriaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -170,7 +168,7 @@ namespace ControlFood.Repository.Migrations
                 name: "Adicional");
 
             migrationBuilder.DropTable(
-                name: "Produto");
+                name: "ProdutoVenda");
 
             migrationBuilder.DropTable(
                 name: "Categoria");

@@ -6,13 +6,13 @@ namespace ControlFood.Repository.Context
 {
     public class ControlFoodContext : DbContext
     {
-        public ControlFoodContext(DbContextOptions options)
+        public ControlFoodContext(DbContextOptions<ControlFoodContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Repositorio.Categoria> Categoria { get; set; }
-        public virtual DbSet<Repositorio.Produto> Produto { get; set; }
+        public virtual DbSet<Models.ProdutoVenda> Produto { get; set; }
         public virtual DbSet<Repositorio.Adicional> Adicional { get; set; }
         public virtual DbSet<Repositorio.ProdutoAdicional> ProdutoAdicional { get; set; }
         public virtual DbSet<Repositorio.Cliente> Cliente { get; set; }

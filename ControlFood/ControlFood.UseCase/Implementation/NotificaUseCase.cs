@@ -1,4 +1,5 @@
 ﻿using ControlFood.Domain.Entidades;
+using ControlFood.Domain.Entidades.Produto;
 using ControlFood.Domain.Enuns;
 using ControlFood.UseCase.Interface.Repository;
 using ControlFood.UseCase.Interface.UseCase;
@@ -62,13 +63,13 @@ namespace ControlFood.UseCase.Implementation
         //    this.NotificarBar(pedido.IdentificadorUnico, pedidoBar);
         //}
 
-        private void NotificarCozinha(int numero, List<Produto> items)
+        private void NotificarCozinha(int numero, List<ProdutoVenda> items)
         {
             // imprime ou mostra em tela 
             
         }
 
-        private void NotificarBar(int numero, List<Produto> items)
+        private void NotificarBar(int numero, List<ProdutoVenda> items)
         {
             // imprime ou mostra em tela 
         }

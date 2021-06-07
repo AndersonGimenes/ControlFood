@@ -22,7 +22,7 @@
             {
                 public const string ProdutoDuplicadoPorNome = "O produto com nome {0} ja existe no sistema";
 
-                public const string CategoriaNaoVinculadaAoProduto = "Produto precisa estar vinculada a uma categoria";
+                public const string CategoriaNaoVinculadaAoProduto = "Produto precisa estar vinculada a uma categoria.";
 
                 public const string ProdutoDuplicadoPorCodigo = "O produto com codigo {0} ja existe no sistema";
                 
